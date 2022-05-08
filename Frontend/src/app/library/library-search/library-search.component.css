@@ -8,16 +8,15 @@ i {
 }
 
 .input {
-    padding: 0.2rem;
-    width: fit-content;
+    padding: 0.2rem;  
     height: fit-content;
     background-color: rgb(2, 52, 55);
 }
 
-.input input {
+.input input {  
     background-color: rgb(4, 68, 72);
     border: none;
-    color: antiquewhite;
+    color: antiquewhite;  
 }
 
 .input input:focus {

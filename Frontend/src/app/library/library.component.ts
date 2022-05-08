@@ -7,8 +7,9 @@ import { Game } from '../game.model';
   styleUrls: ['./library.component.css']
 })
 export class LibraryComponent implements OnInit {
+  
   innerHeight!: number;
-  headerHeight:number =164;
+  headerHeight:number =155;
   games: Game[] = [
     { "id": 1, "img": "https://cdn.cloudflare.steamstatic.com/steam/apps/1091500/header.jpg", "title": "Cyberpunk 2077" },
     { "id": 2, "img": "https://cdn.cloudflare.steamstatic.com/steam/apps/1551360/header.jpg", "title": "Forza Horizon 5" },
