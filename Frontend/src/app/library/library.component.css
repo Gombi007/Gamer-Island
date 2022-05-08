@@ -1,3 +1,37 @@
-.library{
-  background-color: darkblue;
+.library {
+    background-color: rgba(11, 161, 206, 0.1);
+    overflow: hidden;
 }
+
+.library:hover {
+    overflow: auto;
+}
+
+.game-object-img {
+    object-fit: cover;
+    height: 1.5rem;
+    width: 1.5rem;
+
+}
+
+/*custom scrollbar*/
+::-webkit-scrollbar {
+    width: 7px;
+}
+
+::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px grey;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: grey;
+    border-radius: 10px;
+}
+
+@-moz-document url-prefix() {
+    .scroller {
+      scrollbar-width: thin;
+      scrollbar-color: grey;
+    }
+  }

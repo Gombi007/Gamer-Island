@@ -1,4 +1,5 @@
 body {
+    overflow: hidden;
     background-image: url("../src/assets/img/background.jpg");
     background-repeat: no-repeat;
     background-size: cover;

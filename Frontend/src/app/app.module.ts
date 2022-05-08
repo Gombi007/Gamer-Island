@@ -6,6 +6,7 @@ import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
 import { LibraryComponent } from './library/library.component';
 import { DetailsComponent } from './details/details.component';
+import { NgStyle } from '@angular/common';
 
 @NgModule({
   declarations: [
