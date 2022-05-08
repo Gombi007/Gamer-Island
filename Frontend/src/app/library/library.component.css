@@ -1,6 +1,6 @@
 .library {
     background-color: rgba(11, 161, 206, 0.1);
-    overflow: hidden;
+    overflow: hidden;    
 }
 
 .library:hover {
@@ -21,17 +21,21 @@
 
 ::-webkit-scrollbar-track {
     box-shadow: inset 0 0 5px grey;
-    border-radius: 10px;
+    border-radius: 5px;
 }
 
 ::-webkit-scrollbar-thumb {
     background: grey;
-    border-radius: 10px;
+    border-radius: 5px;
 }
 
 @-moz-document url-prefix() {
     .scroller {
-      scrollbar-width: thin;
-      scrollbar-color: grey;
+        scrollbar-width: thin;
+        scrollbar-color: grey;
     }
-  }
+}
+
+.search-form{
+    background-color: brown;
+}

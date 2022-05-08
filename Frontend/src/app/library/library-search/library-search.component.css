@@ -1,0 +1,27 @@
+.library-search {
+    background-color: rgba(11, 161, 206, 0.15);
+}
+
+i {
+    font-size: 1.4rem;    
+
+}
+
+.input {
+    padding: 0.2rem;
+    width: fit-content;
+    height: fit-content;
+    background-color: rgb(2, 52, 55);
+}
+
+.input input {
+    background-color: rgb(4, 68, 72);
+    border: none;
+    color: antiquewhite;
+}
+
+.input input:focus {
+   outline: 0;
+}
+
+

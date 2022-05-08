@@ -1,7 +1,6 @@
-<div class="library scroller">
-    <div class="library-header text-center">
-        <h2>Library works</h2>
-    </div>
+<app-library-search></app-library-search>
+
+<div class="library scroller pt-2"> 
     <div class="library-games" [ngStyle]="{'height.px': innerHeight}">
         <ng-container class="d-flex flex-row" *ngFor="let game of games">
             <div class="d-flex flex-row gap-3 mb-2 ms-3">
