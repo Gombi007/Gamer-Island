@@ -1,9 +1,11 @@
-html{   
+body {
     background-image: url("../src/assets/img/background.jpg");
     background-repeat: no-repeat;
     background-size: cover;
     background-attachment: fixed;
+    color: antiquewhite;
 }
-i{
+
+i {
     font-size: 2.5rem;
 }
