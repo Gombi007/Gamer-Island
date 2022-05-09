@@ -8,6 +8,8 @@ import { LibraryComponent } from './library/library.component';
 import { DetailsComponent } from './details/details.component';
 import { NgStyle } from '@angular/common';
 import { LibrarySearchComponent } from './library/library-search/library-search.component';
+import { HttpClientModule } from '@angular/common/http';
+
 
 @NgModule({
   declarations: [
@@ -19,7 +21,9 @@ import { LibrarySearchComponent } from './library/library-search/library-search.
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    HttpClientModule
+   
   ],
   providers: [],
   bootstrap: [AppComponent]

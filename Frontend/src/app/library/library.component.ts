@@ -1,6 +1,8 @@
 import { getLocaleDayNames } from '@angular/common';
 import { Component, HostListener, Input, OnInit } from '@angular/core';
 import { Game } from '../game.model';
+import { HttpClient } from '@angular/common/http';
+import { Subject, switchMap, tap } from 'rxjs';
 
 @Component({
   selector: 'app-library',
@@ -55,12 +57,24 @@ export class LibraryComponent implements OnInit {
     { "id": 33, "img": "https://cdn.cloudflare.steamstatic.com/steam/apps/1172380/header.jpg", "title": "STAR WARS Jedi: Fallen Order™" },
   ]
 
-  constructor() { }
+  constructor(private http: HttpClient) { }
 
   ngOnInit(): void {
     this.innerHeight = window.innerHeight - this.headerHeight;
     this.gamesClone = this.games;
   }
+/*
+  steamAllgame$ = new Subject().pipe(
+      switchMap(() =>
+        this.http.get("https://api.steampowered.com/ISteamApps/GetAppList/v2/")
+      ),
+      tap((result: any) => {
+        console.log(result.applist.apps);
+      })
+    );
+  */
+
+
 
   // update value when resize
   @HostListener('window:resize', ['$event'])
@@ -75,10 +89,8 @@ export class LibraryComponent implements OnInit {
       return game.title.toLowerCase().includes(searching);
     });
 
-    this.gamesClone = filteredResult;
+    this.gamesClone = filteredResult;   
 
-   // console.log(this.gamesClone);
-  
   }
 
 }
