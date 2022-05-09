@@ -1,4 +1,5 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { getLocaleDayNames } from '@angular/common';
+import { Component, HostListener, Input, OnInit } from '@angular/core';
 import { Game } from '../game.model';
 
 @Component({
@@ -7,14 +8,15 @@ import { Game } from '../game.model';
   styleUrls: ['./library.component.css']
 })
 export class LibraryComponent implements OnInit {
-  
+
   innerHeight!: number;
-  headerHeight:number =155;
+  headerHeight: number = 155;
+  gamesClone: Game[] = []
   games: Game[] = [
     { "id": 1, "img": "https://cdn.cloudflare.steamstatic.com/steam/apps/1091500/header.jpg", "title": "Cyberpunk 2077" },
     { "id": 2, "img": "https://cdn.cloudflare.steamstatic.com/steam/apps/1551360/header.jpg", "title": "Forza Horizon 5" },
     { "id": 3, "img": "https://cdn.cloudflare.steamstatic.com/steam/apps/534380/capsule_sm_120.jpg", "title": "Dying Light 2 Stay Human" },
-    { "id": 4, "img": "https://cdn.cloudflare.steamstatic.com/steam/apps/1172470/header.jpg", "title": "Apex Legends™" },
+    { "id": 4, "img": "https://cdn.cloudflare.steamstatic.com/steam/apps/1172470/header.jpg", "title": "Grend Legends™" },
     { "id": 5, "img": "https://cdn.cloudflare.steamstatic.com/steam/apps/271590/header.jpg", "title": "Grand Theft Auto V" },
     { "id": 6, "img": "https://cdn.cloudflare.steamstatic.com/steam/apps/1172620/header.jpg", "title": "Sea of Thieves" },
     { "id": 7, "img": "https://cdn.cloudflare.steamstatic.com/steam/apps/1172380/header.jpg", "title": "STAR WARS Jedi: Fallen Order™" },
@@ -56,13 +58,27 @@ export class LibraryComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    this.innerHeight = window.innerHeight-this.headerHeight;   
+    this.innerHeight = window.innerHeight - this.headerHeight;
+    this.gamesClone = this.games;
   }
 
-// update value when resize
+  // update value when resize
   @HostListener('window:resize', ['$event'])
   onResize() {
-    this.innerHeight = window.innerHeight-this.headerHeight;
+    this.innerHeight = window.innerHeight - this.headerHeight;
+  }
+
+  searching(searching: string) {
+    this.gamesClone = this.games;
+
+    let filteredResult = this.gamesClone.filter(game => {
+      return game.title.toLowerCase().includes(searching);
+    });
+
+    this.gamesClone = filteredResult;
+
+   // console.log(this.gamesClone);
+  
   }
 
 }
