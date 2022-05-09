@@ -59,4 +59,8 @@ export class LibraryComponent implements OnInit {
 
   }
 
+  getGameNameForShowing(gameAppid:number){
+    console.log(gameAppid);
+  }
+
 }

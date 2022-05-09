@@ -1,17 +1,17 @@
 .library {
     background-color: rgba(11, 161, 206, 0.1);
-    overflow: hidden;    
-}
+    overflow: hidden;  
+ }
 
 .library:hover {
     overflow: auto;
 }
 
+
 .game-object-img {
     object-fit: cover;
     height: 1.5rem;
     width: 1.5rem;
-
 }
 
 /*custom scrollbar*/
@@ -36,6 +36,16 @@
     }
 }
 
-.search-form{
-    background-color: brown;
+
+.game-detail{
+   cursor: pointer;
+    text-overflow: clip; 
+    white-space:nowrap;
+    overflow:hidden;   
+}
+
+.game-detail:hover{    
+    background-color: rgba(255, 255, 255, 0.1);      
+ 
+
 }

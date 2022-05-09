@@ -34,7 +34,9 @@ public class SteamApiService {
         int i = 1000;
         while (iterator.hasNext() && i > 0) {
             SteamDto dto = new Gson().fromJson(iterator.next(), SteamDto.class);
-            gameResult.add(new GameDto(dto.getAppid(), dto.getAppid(), dto.getName()));
+            if (!dto.getName().isEmpty() && !dto.getName().isBlank()) {
+                gameResult.add(new GameDto(dto.getAppid(), dto.getAppid(), dto.getName()));
+            }
             i--;
         }
 
