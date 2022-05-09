@@ -20,6 +20,7 @@ public class SteamApiDetailService {
 
         JsonObject body = JsonParser.parseString(Objects.requireNonNull(response.getBody())).getAsJsonObject();
         JsonObject gameAppId = body.getAsJsonObject(appid.toString());
+        //todo success false
         JsonObject data = gameAppId.getAsJsonObject("data");
 
         SteamGameDetailsDto dto = new Gson().fromJson(data.getAsJsonObject(), SteamGameDetailsDto.class);
@@ -28,8 +29,9 @@ public class SteamApiDetailService {
         JsonArray screenshots = gameAppId.getAsJsonObject("data").getAsJsonArray("screenshots");
         Iterator<JsonElement> iterator = screenshots.iterator();
         while (iterator.hasNext()) {
-            String urlPath = iterator.next().getAsJsonObject().get("path_full").getAsString();
-            Long pictureId = iterator.next().getAsJsonObject().get("id").getAsLong();
+            JsonElement temp = iterator.next();
+            String urlPath = temp.getAsJsonObject().get("path_full").getAsString();
+            Long pictureId = temp.getAsJsonObject().get("id").getAsLong();
             dto.getPictures().put(pictureId, urlPath);
         }
         System.out.println(dto);

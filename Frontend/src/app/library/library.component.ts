@@ -3,6 +3,7 @@ import { Component, HostListener, Input, OnInit } from '@angular/core';
 import { Game } from '../game.model';
 import { HttpClient } from '@angular/common/http';
 import { fromEvent, map, of, Subject, switchMap, tap } from 'rxjs';
+import { GameDetails } from '../game-details.model';
 
 @Component({
   selector: 'app-library',
@@ -16,13 +17,15 @@ export class LibraryComponent implements OnInit {
   games: Game[] = [];
   gamesClone: Game[] = [];
   isPending: Boolean = false;
+  gameDetailsByAppId!:GameDetails;
 
 
   constructor(private http: HttpClient) { }
 
-  ngOnInit(): void {  
+  ngOnInit(): void {
     this.innerHeight = window.innerHeight - this.headerHeight;
     this.librayGame$.subscribe();
+
     //@ts-ignore
     this.librayGame$.next();
 
@@ -36,7 +39,7 @@ export class LibraryComponent implements OnInit {
     tap((data: any) => {
       this.isPending = false;
       this.games = data;
-      this.gamesClone = this.games;     
+      this.gamesClone = this.games;
     })
   );
 
@@ -59,8 +62,25 @@ export class LibraryComponent implements OnInit {
 
   }
 
-  getGameNameForShowing(gameAppid:number){
-    console.log(gameAppid);
+
+
+  getGameNameForShowing(gameAppid: number) {
+    let gameDetails = new GameDetails();
+    let detail$ = this.http.get("http://localhost:8081/api/library/games/" + gameAppid).pipe(
+      tap((data: any) => {
+        gameDetails.$name = data.name;
+        gameDetails.$steam_appid = data.steam_appid;
+        gameDetails.$required_age = data.required_age;
+        gameDetails.$short_description = data.short_description;
+        gameDetails.$pictures = data.pictures;      
+      }),
+      tap(() => {this.gameDetailsByAppId = gameDetails}),      
+      tap(()=> {console.log(this.gameDetailsByAppId)})
+
+      ).subscribe();
+
   }
+
+
 
 }

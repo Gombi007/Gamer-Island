@@ -31,7 +31,7 @@ public class SteamApiService {
         JsonElement apps = applist.get("apps");
 
         Iterator<JsonElement> iterator = apps.getAsJsonArray().iterator();
-        int i = 1000;
+        int i = 100;
         while (iterator.hasNext() && i > 0) {
             SteamDto dto = new Gson().fromJson(iterator.next(), SteamDto.class);
             if (!dto.getName().isEmpty() && !dto.getName().isBlank()) {
