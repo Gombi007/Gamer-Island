@@ -9,8 +9,7 @@ import java.util.ArrayList;
 public class GameLibraryServiceImpl implements GameLibraryService {
     @Override
     public ArrayList<GameDto> getAllGames() {
-        ArrayList<GameDto> gameDto = new ArrayList<>();
-        gameDto.add(new GameDto(1L, 1234L, "Cyberpunk 2077", "https://cdn.akamai.steamstatic.com/steam/apps/1091500/header.jpg"));
-        return gameDto;
+        SteamApiService data = new SteamApiService();
+        return data.getAllGameFromSteam();
     }
 }

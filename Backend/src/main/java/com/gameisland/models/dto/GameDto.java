@@ -4,14 +4,14 @@ public class GameDto {
     private Long id;
     private Long appid;
     private String name;
-    private String headerImg;
+    private String headerImg = "https://cdn.akamai.steamstatic.com/steam/apps/";
 
 
-    public GameDto(Long id, Long appid, String name, String headerImg) {
+    public GameDto(Long id, Long appid, String name) {
         this.id = id;
         this.appid = appid;
         this.name = name;
-        this.headerImg = headerImg;
+        this.headerImg += appid.toString()+"/header.jpg";
     }
 
     public Long getId() {

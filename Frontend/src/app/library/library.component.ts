@@ -36,8 +36,7 @@ export class LibraryComponent implements OnInit {
     tap((data: any) => {
       this.isPending = false;
       this.games = data;
-      this.gamesClone = this.games;
-      console.log(this.games);
+      this.gamesClone = this.games;     
     })
   );
 
