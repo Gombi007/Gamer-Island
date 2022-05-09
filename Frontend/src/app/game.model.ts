@@ -1,11 +1,13 @@
 export class Game {
     id: number;
-    img: string;
-    title: string;
+    appid: number;
+    name: string;
+    headerImg: string;
 
-    constructor(id: number, img: string, title: string) {
+    constructor(id: number, appid:number, name: string, headerImg: string) {
         this.id = id;
-        this.img = img;
-        this.title = title;
+        this.appid = appid;
+        this.name = name;
+        this.headerImg = headerImg;
     }
 }

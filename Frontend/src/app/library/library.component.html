@@ -4,8 +4,8 @@
     <div class="library-games" [ngStyle]="{'height.px': innerHeight}">
         <ng-container *ngFor="let game of gamesClone">
             <div class="d-flex flex-row gap-3 mb-2 ms-3">
-                <img class="game-object-img" src={{game.img}} alt={{game.title}}>
-                <h6>{{game.title}}</h6>
+                <img class="game-object-img" src={{game.headerImg}} alt={{game.name}}>
+                <h6>{{game.name}}</h6>
             </div>
         </ng-container>
     </div>
