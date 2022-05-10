@@ -9,13 +9,13 @@ import java.util.ArrayList;
 @Service
 public class GameLibraryServiceImpl implements GameLibraryService {
     @Override
-    public ArrayList<GameDto> getAllGames() {
-        SteamApiService data = new SteamApiService();
+    public ArrayList<GameDto> getAllGamesFromSteam() {
+        SteamApiAllProductsService data = new SteamApiAllProductsService();
         return data.getAllGameFromSteam();
     }
 
     @Override
-    public SteamGameDetailsDto getGameDetailsByAppId(Long appId) {
+    public SteamGameDetailsDto getGameDetailsByAppIdFromSteam(Long appId) {
         SteamApiDetailService data = new SteamApiDetailService();
         return data.getGameDetailsByAppId(appId);
     }

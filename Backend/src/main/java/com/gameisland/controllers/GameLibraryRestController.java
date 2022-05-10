@@ -19,14 +19,14 @@ public class GameLibraryRestController {
     }
 
     @GetMapping("/games")
-    public ResponseEntity<Object> getAllGame() {
-        return ResponseEntity.status(HttpStatus.OK).body(gameLibraryService.getAllGames());
+    public ResponseEntity<Object> getAllGameFromSteam() {
+        return ResponseEntity.status(HttpStatus.OK).body(gameLibraryService.getAllGamesFromSteam());
     }
 
     @GetMapping("/games/{id}")
-    public ResponseEntity<Object> getGameDetailsByAppId(@PathVariable String id) {
+    public ResponseEntity<Object> getGameDetailsByAppIdFromSteam(@PathVariable String id) {
         Long appId = Long.parseLong(id);
-        return ResponseEntity.status(HttpStatus.OK).body(gameLibraryService.getGameDetailsByAppId(appId));
+        return ResponseEntity.status(HttpStatus.OK).body(gameLibraryService.getGameDetailsByAppIdFromSteam(appId));
     }
 
 }

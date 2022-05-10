@@ -2,16 +2,18 @@ package com.gameisland.models.dto;
 
 public class GameDto {
     private Long id;
-    private Long appid;
+    private Long appId;
     private String name;
-    private String headerImg = "https://cdn.akamai.steamstatic.com/steam/apps/";
+    private String headerImg;
 
+    public GameDto() {
+    }
 
-    public GameDto(Long id, Long appid, String name) {
+    public GameDto(Long id, Long appId, String name, String headerImg) {
         this.id = id;
-        this.appid = appid;
+        this.appId = appId;
         this.name = name;
-        this.headerImg += appid.toString()+"/header.jpg";
+        this.headerImg = headerImg;
     }
 
     public Long getId() {
@@ -22,12 +24,12 @@ public class GameDto {
         this.id = id;
     }
 
-    public Long getAppid() {
-        return appid;
+    public Long getAppId() {
+        return appId;
     }
 
-    public void setAppid(Long appid) {
-        this.appid = appid;
+    public void setAppId(Long appId) {
+        this.appId = appId;
     }
 
     public String getName() {
@@ -44,5 +46,15 @@ public class GameDto {
 
     public void setHeaderImg(String headerImg) {
         this.headerImg = headerImg;
+    }
+
+    @Override
+    public String toString() {
+        return "GameDto{" +
+                "id=" + id +
+                ", appId=" + appId +
+                ", name='" + name + '\'' +
+                ", headerImg='" + headerImg + '\'' +
+                '}';
     }
 }
