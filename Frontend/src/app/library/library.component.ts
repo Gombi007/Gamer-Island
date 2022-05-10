@@ -64,7 +64,7 @@ export class LibraryComponent implements OnInit {
 
 
 
-  getGameNameForShowing(gameAppid: number) {
+  getGameNameForShowing(gameAppid: number) {  
     let gameDetails = new GameDetails();
     let detail$ = this.http.get("http://localhost:8081/api/library/games/" + gameAppid).pipe(
       tap((data: any) => {
@@ -76,7 +76,6 @@ export class LibraryComponent implements OnInit {
       }),
       tap(() => {this.gameDetailsByAppId = gameDetails}),      
       tap(()=> {console.log(this.gameDetailsByAppId)})
-
       ).subscribe();
 
   }

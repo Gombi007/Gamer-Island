@@ -2,16 +2,16 @@ package com.gameisland.models.dto;
 
 public class GameDto {
     private Long id;
-    private Long appId;
+    private Long appid;
     private String name;
     private String headerImg;
 
     public GameDto() {
     }
 
-    public GameDto(Long id, Long appId, String name, String headerImg) {
+    public GameDto(Long id, Long appid, String name, String headerImg) {
         this.id = id;
-        this.appId = appId;
+        this.appid = appid;
         this.name = name;
         this.headerImg = headerImg;
     }
@@ -24,12 +24,12 @@ public class GameDto {
         this.id = id;
     }
 
-    public Long getAppId() {
-        return appId;
+    public Long getAppid() {
+        return appid;
     }
 
-    public void setAppId(Long appId) {
-        this.appId = appId;
+    public void setAppid(Long appid) {
+        this.appid = appid;
     }
 
     public String getName() {
@@ -52,7 +52,7 @@ public class GameDto {
     public String toString() {
         return "GameDto{" +
                 "id=" + id +
-                ", appId=" + appId +
+                ", appid=" + appid +
                 ", name='" + name + '\'' +
                 ", headerImg='" + headerImg + '\'' +
                 '}';
