@@ -1,24 +1,51 @@
 <div class="details text-center" [ngStyle]="{'height.px':innerHeight}">
     <h2>Details work</h2>
 
-<div class="row m-0 p-0 d-flex justify-content-center">
-    <ng-container *ngIf="isSelectedGame">
-        
-        <div class="card">
-            <div class="row g-3">
-                <div class="col-md-8 game-gallery">
-                    <img src="{{firstScreenshot}}" alt="image 1" class="preview-img">
-                </div>
-                <div class="col-md-4 game-details p-0">
-                    <img class="header-img" src="{{game.$header_image}}" alt="">
-                    <p class="card-title text-start">{{game.$name}}</p>
-                    <p class="card-text text-start">{{game.$short_description}}</p>
+    <div class="row m-0 p-0 d-flex justify-content-center">
+        <ng-container *ngIf="isSelectedGame">
+
+            <div class="card">
+                <div class="row g-3">
+                    <div class="col-md-8 game-gallery">
+
+                        <div class="row">
+                            <div class="col-12 ps-0">
+
+                                <img src="{{firstScreenshot}}" alt="image 1" class="preview-img">
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-12 navigation d-flex justify-content-between">
+                                <button (click)="prevPic()">VISSZA</button>
+                                <button (click)="nextPic()">ELŐRE</button>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12 ps-0 thumbnails" id="thumbs">
+                                <ng-container *ngFor="let imgSource of screenshots; let i = index;">
+                                    <div class="img-slide"
+                                        [ngClass]="firstScreenshot === imgSource.path_full ? 'opacity-100':'opacity-25'">
+
+                                        <img src={{imgSource.path_full}} alt="" (click)="changePic(i)" id="{{i}}"
+                                            [ngClass]="firstScreenshot === imgSource.path_full ? 'active':''">
+
+                                    </div>
+                                </ng-container>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-md-4 game-details p-0">
+                        <img class="header-img" src="{{game.$header_image}}" alt="">
+                        <p class="card-title text-start">{{game.$name}}</p>
+                        <p class="card-text text-start">{{game.$short_description}}</p>
+                    </div>
                 </div>
             </div>
-        </div>      
 
-    </ng-container>
-</div>
+        </ng-container>
+    </div>
 
 
 </div>

@@ -10,8 +10,7 @@ export class AppComponent {
   title = 'Game Island';
   game = new GameDetails();
 
-  getGame(gameFromLibrary:any){
-    console.log(gameFromLibrary);
+  getGame(gameFromLibrary:any){   
     this.game = gameFromLibrary;
 
   }
