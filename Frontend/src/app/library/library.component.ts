@@ -1,5 +1,5 @@
 import { getLocaleDayNames } from '@angular/common';
-import { Component, HostListener, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, HostListener, Input, OnInit, Output } from '@angular/core';
 import { Game } from '../game.model';
 import { HttpClient } from '@angular/common/http';
 import { fromEvent, map, of, Subject, switchMap, tap } from 'rxjs';
@@ -17,7 +17,9 @@ export class LibraryComponent implements OnInit {
   games: Game[] = [];
   gamesClone: Game[] = [];
   isPending: Boolean = false;
-  gameDetailsByAppId!:GameDetails;
+
+  @Output()
+  gameDetailsByAppId = new EventEmitter();
 
 
   constructor(private http: HttpClient) { }
@@ -64,7 +66,7 @@ export class LibraryComponent implements OnInit {
 
 
 
-  getGameNameForShowing(gameAppid: number) {  
+  getGameNameForShowing(gameAppid: number) {
     let gameDetails = new GameDetails();
     let detail$ = this.http.get("http://localhost:8081/api/library/games/" + gameAppid).pipe(
       tap((data: any) => {
@@ -72,11 +74,10 @@ export class LibraryComponent implements OnInit {
         gameDetails.$steam_appid = data.steam_appid;
         gameDetails.$required_age = data.required_age;
         gameDetails.$short_description = data.short_description;
-        gameDetails.$pictures = data.pictures;      
+        gameDetails.$pictures = data.pictures;
       }),
-      tap(() => {this.gameDetailsByAppId = gameDetails}),      
-      tap(()=> {console.log(this.gameDetailsByAppId)})
-      ).subscribe();
+      tap(() => { this.gameDetailsByAppId.emit(gameDetails) })
+    ).subscribe();
 
   }
 

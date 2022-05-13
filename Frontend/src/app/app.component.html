@@ -6,10 +6,10 @@
     </div>
     <div class="row">
       <div class="col-md-4 col-xl-3 col-xxl-2 ps-0 pe-1 ">
-        <app-library></app-library>
+        <app-library (gameDetailsByAppId)="getGame($event)"></app-library>
       </div>
       <div class="col-md-8 col-xl-9 col-xxl-10  ps-0 pe-0">
-        <app-details></app-details>   
+        <app-details [game]="game"></app-details>   
       </div>
     </div>
 </div>

@@ -1,3 +1,9 @@
-.details{
-    background-color: rgba(56, 65, 94, 0.3);  
-  }
+.details {
+  background-color: rgba(56, 65, 94, 0.3);
+
+}
+
+.card {
+  background-color: rgba(56, 65, 94, 0.3);
+  width: 20rem;
+}
