@@ -1,23 +1,25 @@
 package com.gameisland.models.dto;
 
-import java.util.HashMap;
-
 public class SteamGameDetailsDto {
     private String name;
     private Long steam_appid;
     private String required_age;
     private String short_description;
-    private HashMap<Long, String> pictures = new HashMap<>();
+    private String header_image;
+    private Object screenshots;
+    private Object release_date;
 
-    public SteamGameDetailsDto(String name, Long steam_appid, String required_age, String short_description, HashMap<Long, String> pictures) {
+    public SteamGameDetailsDto() {
+    }
+
+    public SteamGameDetailsDto(String name, Long steam_appid, String required_age, String short_description, String header_image, Object screenshots, Object release_date) {
         this.name = name;
         this.steam_appid = steam_appid;
         this.required_age = required_age;
         this.short_description = short_description;
-        this.pictures = pictures;
-    }
-
-    public SteamGameDetailsDto() {
+        this.header_image = header_image;
+        this.screenshots = screenshots;
+        this.release_date = release_date;
     }
 
     public String getName() {
@@ -52,22 +54,27 @@ public class SteamGameDetailsDto {
         this.short_description = short_description;
     }
 
-    public HashMap<Long, String> getPictures() {
-        return pictures;
+    public String getHeader_image() {
+        return header_image;
     }
 
-    public void setPictures(HashMap<Long, String> pictures) {
-        this.pictures = pictures;
+    public void setHeader_image(String header_image) {
+        this.header_image = header_image;
     }
 
-    @Override
-    public String toString() {
-        return "SteamGameDetailsDto{" +
-                "name='" + name + '\'' +
-                ", steam_appid=" + steam_appid +
-                ", required_age='" + required_age + '\'' +
-                ", short_description='" + short_description + '\'' +
-                ", pictures=" + pictures +
-                '}';
+    public Object getScreenshots() {
+        return screenshots;
+    }
+
+    public void setScreenshots(Object screenshots) {
+        this.screenshots = screenshots;
+    }
+
+    public Object getRelease_date() {
+        return release_date;
+    }
+
+    public void setRelease_date(Object release_date) {
+        this.release_date = release_date;
     }
 }

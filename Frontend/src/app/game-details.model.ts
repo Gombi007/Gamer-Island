@@ -5,7 +5,8 @@ export class GameDetails {
     private steam_appid: number=1;
     private required_age: string="";
     private short_description: string="";
-    private pictures:{} = {};
+    private header_image: string="";
+    private screenshots:{} = {};
 /*
 	constructor($name: string, $steam_appid: number, $required_age: string, $short_description: string, $pictures: Map<number, string> ) {
 		this.name = $name;
@@ -50,11 +51,19 @@ export class GameDetails {
 	}
 
     /**
-     * Getter $pictures
+     * Getter $header_image
+     * @return {string}
+     */
+	public get $header_image(): string {
+		return this.header_image;
+	}
+
+    /**
+     * Getter $screenshots
      * @return {{} }
      */
-	public get $pictures(): {}  {
-		return this.pictures;
+	public get $screenshots(): {}  {
+		return this.screenshots;
 	}
 
     /**
@@ -90,15 +99,20 @@ export class GameDetails {
 	}
 
     /**
-     * Setter $pictures
-     * @param {{} } value
+     * Setter $header_image
+     * @param {string} value
      */
-	public set $pictures(value: {} ) {
-		this.pictures = value;
+	public set $header_image(value: string) {
+		this.header_image = value;
 	}
 
-
-
+    /**
+     * Setter $screenshots
+     * @param {{} } value
+     */
+	public set $screenshots(value: {} ) {
+		this.screenshots = value;
+	}
 
 
 

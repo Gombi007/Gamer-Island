@@ -74,7 +74,8 @@ export class LibraryComponent implements OnInit {
         gameDetails.$steam_appid = data.steam_appid;
         gameDetails.$required_age = data.required_age;
         gameDetails.$short_description = data.short_description;
-        gameDetails.$pictures = data.pictures;
+        gameDetails.$header_image = data.header_image;
+        gameDetails.$screenshots = data.screenshots;
       }),
       tap(() => { this.gameDetailsByAppId.emit(gameDetails) })
     ).subscribe();
