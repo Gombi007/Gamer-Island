@@ -34,8 +34,12 @@ public class SteamApiAllProductsService {
         while (iterator.hasNext() && i > 0) {
             SteamGameNameAndIdDto dto = new Gson().fromJson(iterator.next(), SteamGameNameAndIdDto.class);
             if (!dto.getName().isEmpty() && !dto.getName().isBlank()) {
-                String headerImgUrl = StaticStrings.STEAM_HEADER_IMAGES_URL_START.getUrl().concat(String.valueOf(dto.getAppid())).concat(StaticStrings.STEAM_HEADER_IMAGES_URL_END.getUrl());
-                gameResult.add(new GameDto(dto.getAppid(), dto.getAppid(), dto.getName(), headerImgUrl));
+                SteamApiDetailService service = new SteamApiDetailService();
+                boolean gameIsSuccessOrNot = service.checkGameIsSuccessByAppId(dto.getAppid());
+                if (gameIsSuccessOrNot) {
+                    String headerImgUrl = StaticStrings.STEAM_HEADER_IMAGES_URL_START.getUrl().concat(String.valueOf(dto.getAppid())).concat(StaticStrings.STEAM_HEADER_IMAGES_URL_END.getUrl());
+                    gameResult.add(new GameDto(dto.getAppid(), dto.getAppid(), dto.getName(), headerImgUrl));
+                }
             }
             i--;
         }

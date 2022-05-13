@@ -2,12 +2,14 @@ package com.gameisland.services;
 
 import com.gameisland.enums.StaticStrings;
 import com.gameisland.models.dto.SteamGameDetailsDto;
-import com.google.gson.*;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.google.gson.JsonPrimitive;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.Iterator;
 import java.util.Objects;
 
 @Service
@@ -39,6 +41,20 @@ public class SteamApiDetailService {
         }
   */
         return dto;
+    }
+
+    protected boolean checkGameIsSuccessByAppId(Long appid) {
+        ResponseEntity<String> response = template.getForEntity(steamUrl.concat(appid.toString()), String.class);
+        JsonObject responseBody = JsonParser.parseString(Objects.requireNonNull(response.getBody())).getAsJsonObject();
+        JsonObject responseBodyGameAppIdObject = responseBody.getAsJsonObject(appid.toString());
+        JsonPrimitive gameIsSuccessOrNot = responseBodyGameAppIdObject.getAsJsonPrimitive("success");
+        boolean result;
+        if (gameIsSuccessOrNot.toString().equals("true")) {
+            result = true;
+        } else {
+            result = false;
+        }
+        return result;
     }
 }
 
