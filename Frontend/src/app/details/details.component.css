@@ -4,6 +4,33 @@
 }
 
 .card {
-  background-color: rgba(56, 65, 94, 0.3);
-  width: 20rem;
+  max-width: 1000px;   
+  min-width: 600px;   
+  background: none;
+  border: none;
+}
+
+.game-gallery{
+
+}
+
+.game-details{
+  background-color: rgba(36, 36, 36, 0.8);
+}
+
+.preview-img{
+  max-width: 100%;  
+}
+.header-img{
+  width: 100%;
+}
+
+.card-title{
+  font-size: 1.3rem;
+  padding: 0.8rem;
+}
+
+.card-text{
+  font-size: 0.9rem;
+  padding: 0.8rem;
 }

@@ -64,8 +64,6 @@ export class LibraryComponent implements OnInit {
 
   }
 
-
-
   getGameNameForShowing(gameAppid: number) {
     let gameDetails = new GameDetails();
     let detail$ = this.http.get("http://localhost:8081/api/library/games/" + gameAppid).pipe(

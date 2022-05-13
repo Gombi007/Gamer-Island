@@ -1,3 +1,4 @@
+
 export class GameDetails {
 
 
@@ -6,7 +7,7 @@ export class GameDetails {
     private required_age: string="";
     private short_description: string="";
     private header_image: string="";
-    private screenshots:{} = {};
+    private screenshots:Screenshot[] = [];
 /*
 	constructor($name: string, $steam_appid: number, $required_age: string, $short_description: string, $pictures: Map<number, string> ) {
 		this.name = $name;
@@ -60,9 +61,9 @@ export class GameDetails {
 
     /**
      * Getter $screenshots
-     * @return {{} }
+     * @return {Screenshot[] }
      */
-	public get $screenshots(): {}  {
+	public get $screenshots(): Screenshot[]  {
 		return this.screenshots;
 	}
 
@@ -108,12 +109,17 @@ export class GameDetails {
 
     /**
      * Setter $screenshots
-     * @param {{} } value
+     * @param {Screenshot[] } value
      */
-	public set $screenshots(value: {} ) {
+	public set $screenshots(value: Screenshot[] ) {
 		this.screenshots = value;
 	}
 
-
-
 }
+
+export interface Screenshot {
+    id: number,
+    path_thumbnail: string,
+    path_full: string
+  }
+  
