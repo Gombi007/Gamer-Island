@@ -9,4 +9,5 @@ public interface GameLibraryService {
     ArrayList<GameDto> getAllGamesFromSteam();
 
     SteamGameDetailsDto getGameDetailsByAppIdFromSteam(Long appId);
+     void test();
 }

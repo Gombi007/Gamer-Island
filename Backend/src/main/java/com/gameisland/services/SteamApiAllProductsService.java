@@ -3,10 +3,7 @@ package com.gameisland.services;
 import com.gameisland.enums.StaticStrings;
 import com.gameisland.models.dto.GameDto;
 import com.gameisland.models.dto.SteamGameNameAndIdDto;
-import com.google.gson.Gson;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
+import com.google.gson.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -44,6 +41,24 @@ public class SteamApiAllProductsService {
             i--;
         }
         return gameResult;
+    }
+
+    protected ArrayList<Long> getProducts() {
+        ArrayList<Long> appids = new ArrayList<>();
+        ResponseEntity<String> response = template.getForEntity(steamUrl, String.class);
+        JsonObject responseBody = JsonParser.parseString(Objects.requireNonNull(response.getBody())).getAsJsonObject();
+        JsonObject responseBodyAppListObject = responseBody.getAsJsonObject("applist");
+        JsonArray responseBodyAppsObjectWithinAppListObject = responseBodyAppListObject.get("apps").getAsJsonArray();
+
+        Iterator<JsonElement> iterator = responseBodyAppsObjectWithinAppListObject.iterator();
+        int i = Integer.parseInt(StaticStrings.PRODUCT_LIMIT.getUrl());
+        while (iterator.hasNext() && i > 0) {
+            appids.add(iterator.next().getAsJsonObject().get("appid").getAsLong());
+            i--;
+        }
+        return appids;
+
+
     }
 }
 
