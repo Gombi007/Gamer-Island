@@ -1,6 +1,5 @@
 package com.gameisland.services;
 
-import com.gameisland.models.dto.GameDto;
 import com.gameisland.models.dto.SteamGameDetailsDto;
 import com.gameisland.models.entities.Game;
 import com.gameisland.repositories.GamePriceRepository;
@@ -23,12 +22,6 @@ public class GameLibraryServiceImpl implements GameLibraryService {
 
 
     @Override
-    public ArrayList<GameDto> getAllGamesFromSteam() {
-        SteamApiAllProductsService data = new SteamApiAllProductsService();
-        return data.getAllGameFromSteam();
-    }
-
-    @Override
     public SteamGameDetailsDto getGameDetailsByAppIdFromSteam(Long appId) {
         return null;
     }
@@ -37,7 +30,16 @@ public class GameLibraryServiceImpl implements GameLibraryService {
     public void test() {
         SteamApiAllProductsService data = new SteamApiAllProductsService();
         SteamApiDetailService detail = new SteamApiDetailService();
-        ArrayList<Long> appids = data.getProducts();
+        ArrayList<Long> appids = data.getAllSteamProducts();
+        ArrayList<Long> existingAppIds = gameRepository.allExistingSteamAppId();
+        for (int i = 0; i < existingAppIds.size(); i++) {
+            if (appids.contains(existingAppIds.get(i))) {
+                appids.remove(existingAppIds.get(i));
+                System.out.println("SAME ID: " + existingAppIds.get(i));
+            }
+
+        }
+
         int counter = 0;
 
         for (int i = 0; i < appids.size(); i++) {

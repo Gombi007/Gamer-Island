@@ -7,7 +7,6 @@ import com.gameisland.models.entities.Game;
 import java.util.ArrayList;
 
 public interface GameLibraryService {
-    ArrayList<GameDto> getAllGamesFromSteam();
 
     SteamGameDetailsDto getGameDetailsByAppIdFromSteam(Long appId);
 

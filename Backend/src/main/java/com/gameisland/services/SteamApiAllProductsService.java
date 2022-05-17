@@ -1,10 +1,11 @@
 package com.gameisland.services;
 
 import com.gameisland.enums.StaticStrings;
-import com.gameisland.models.dto.GameDto;
-import com.gameisland.models.dto.SteamGameNameAndIdDto;
 import com.gameisland.repositories.FileDB;
-import com.google.gson.*;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -19,41 +20,19 @@ public class SteamApiAllProductsService {
     private String steamUrl = StaticStrings.STEAM_ALL_PRODUCTS_URL.getUrl();
     private RestTemplate template = new RestTemplate();
 
-    protected ArrayList<GameDto> getAllGameFromSteam() {
-        ArrayList<GameDto> gameResult = new ArrayList<>();
-        ResponseEntity<String> response = template.getForEntity(steamUrl, String.class);
-
-        JsonObject responseBody = JsonParser.parseString(Objects.requireNonNull(response.getBody())).getAsJsonObject();
-        JsonObject responseBodyAppListObject = responseBody.getAsJsonObject("applist");
-        JsonElement responseBodyAppsObjectWithinAppListObject = responseBodyAppListObject.get("apps");
-
-        Iterator<JsonElement> iterator = responseBodyAppsObjectWithinAppListObject.getAsJsonArray().iterator();
-        int i = Integer.parseInt(StaticStrings.PRODUCT_LIMIT.getUrl());
-        while (iterator.hasNext() && i > 0) {
-            SteamGameNameAndIdDto dto = new Gson().fromJson(iterator.next(), SteamGameNameAndIdDto.class);
-            if (!dto.getName().isEmpty() && !dto.getName().isBlank()) {
-                SteamApiDetailService service = new SteamApiDetailService();
-                boolean gameIsSuccessOrNot = service.checkGameIsSuccessByAppId(dto.getAppid());
-                if (gameIsSuccessOrNot) {
-                    String headerImgUrl = StaticStrings.STEAM_HEADER_IMAGES_URL_START.getUrl().concat(String.valueOf(dto.getAppid())).concat(StaticStrings.STEAM_HEADER_IMAGES_URL_END.getUrl());
-                    gameResult.add(new GameDto(dto.getAppid(), dto.getAppid(), dto.getName(), headerImgUrl));
-                }
-            }
-            i--;
-        }
-        return gameResult;
-    }
-
-    protected ArrayList<Long> getProducts() {
+    protected ArrayList<Long> getAllSteamProducts() {
         ArrayList<Long> appids = new ArrayList<>();
-        ResponseEntity<String> response = template.getForEntity(steamUrl, String.class);
-        JsonObject responseBody = JsonParser.parseString(Objects.requireNonNull(response.getBody())).getAsJsonObject();
-
         FileDB fileDB = new FileDB();
-        fileDB.writer(responseBody);
+        Boolean getSteamProductsFromTheSTeamAPI = false;
 
+        if (getSteamProductsFromTheSTeamAPI) {
+            ResponseEntity<String> response = template.getForEntity(steamUrl, String.class);
+            JsonObject responseBody = JsonParser.parseString(Objects.requireNonNull(response.getBody())).getAsJsonObject();
+            fileDB.writeAllSteamProductsIntoAFile(responseBody);
+        }
 
-        JsonObject responseBodyAppListObject = responseBody.getAsJsonObject("applist");
+        JsonObject steamAllProductsObjectFromFile = fileDB.getAllSteamProductsFromAFile();
+        JsonObject responseBodyAppListObject = steamAllProductsObjectFromFile.getAsJsonObject("applist");
         JsonArray responseBodyAppsObjectWithinAppListObject = responseBodyAppListObject.get("apps").getAsJsonArray();
 
         Iterator<JsonElement> iterator = responseBodyAppsObjectWithinAppListObject.iterator();
