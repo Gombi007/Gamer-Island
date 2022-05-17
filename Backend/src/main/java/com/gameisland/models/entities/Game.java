@@ -1,5 +1,7 @@
 package com.gameisland.models.entities;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import java.util.Set;
 
@@ -11,14 +13,19 @@ public class Game extends BusinessObject {
     private String name;
     private String requiredAge;
     private Boolean isFree;
-    @Column(length = 5000)
+
+    @Column(length = 10000)
     private String detailedDescription;
-    @Column(length = 5000)
+
+    @Column(length = 10000)
     private String aboutTheGame;
+
     @Column(length = 1000)
     private String shortDescription;
+
     @Column(length = 1000)
     private String supportedLanguages;
+
     private String headerImage;
     private String website;
     private String developers;
@@ -26,27 +33,13 @@ public class Game extends BusinessObject {
 
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinTable(name = "game_price_join",
-            joinColumns =
-                    {@JoinColumn(name = "game_id", referencedColumnName = "id")},
-            inverseJoinColumns =
-                    {@JoinColumn(name = "game_prices_id", referencedColumnName = "id")})
     private GamePrice gamePrice;
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinTable(name = "game_platform_join",
-            joinColumns =
-                    {@JoinColumn(name = "game_id", referencedColumnName = "id")},
-            inverseJoinColumns =
-                    {@JoinColumn(name = "game_platform_id", referencedColumnName = "id")})
     private GamePlatform gamePlatform;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinTable(name = "game_screenshot_join",
-            joinColumns =
-                    {@JoinColumn(name = "game_id", referencedColumnName = "id")},
-            inverseJoinColumns =
-                    {@JoinColumn(name = "game_screenshot_id", referencedColumnName = "id")})
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "game")
+    @JsonManagedReference
     private Set<GameScreenshot> gameScreenshots;
 
 
@@ -92,5 +85,133 @@ public class Game extends BusinessObject {
                 ", gamePlatform=" + gamePlatform +
                 ", gameScreenshots=" + gameScreenshots +
                 '}';
+    }
+
+    public Long getSteamAppId() {
+        return steamAppId;
+    }
+
+    public void setSteamAppId(Long steamAppId) {
+        this.steamAppId = steamAppId;
+    }
+
+    public Boolean getSuccess() {
+        return success;
+    }
+
+    public void setSuccess(Boolean success) {
+        this.success = success;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getRequiredAge() {
+        return requiredAge;
+    }
+
+    public void setRequiredAge(String requiredAge) {
+        this.requiredAge = requiredAge;
+    }
+
+    public Boolean getFree() {
+        return isFree;
+    }
+
+    public void setFree(Boolean free) {
+        isFree = free;
+    }
+
+    public String getDetailedDescription() {
+        return detailedDescription;
+    }
+
+    public void setDetailedDescription(String detailedDescription) {
+        this.detailedDescription = detailedDescription;
+    }
+
+    public String getAboutTheGame() {
+        return aboutTheGame;
+    }
+
+    public void setAboutTheGame(String aboutTheGame) {
+        this.aboutTheGame = aboutTheGame;
+    }
+
+    public String getShortDescription() {
+        return shortDescription;
+    }
+
+    public void setShortDescription(String shortDescription) {
+        this.shortDescription = shortDescription;
+    }
+
+    public String getSupportedLanguages() {
+        return supportedLanguages;
+    }
+
+    public void setSupportedLanguages(String supportedLanguages) {
+        this.supportedLanguages = supportedLanguages;
+    }
+
+    public String getHeaderImage() {
+        return headerImage;
+    }
+
+    public void setHeaderImage(String headerImage) {
+        this.headerImage = headerImage;
+    }
+
+    public String getWebsite() {
+        return website;
+    }
+
+    public void setWebsite(String website) {
+        this.website = website;
+    }
+
+    public String getDevelopers() {
+        return developers;
+    }
+
+    public void setDevelopers(String developers) {
+        this.developers = developers;
+    }
+
+    public String getPublishers() {
+        return publishers;
+    }
+
+    public void setPublishers(String publishers) {
+        this.publishers = publishers;
+    }
+
+    public GamePrice getGamePrice() {
+        return gamePrice;
+    }
+
+    public void setGamePrice(GamePrice gamePrice) {
+        this.gamePrice = gamePrice;
+    }
+
+    public GamePlatform getGamePlatform() {
+        return gamePlatform;
+    }
+
+    public void setGamePlatform(GamePlatform gamePlatform) {
+        this.gamePlatform = gamePlatform;
+    }
+
+    public Set<GameScreenshot> getGameScreenshots() {
+        return gameScreenshots;
+    }
+
+    public void setGameScreenshots(Set<GameScreenshot> gameScreenshots) {
+        this.gameScreenshots = gameScreenshots;
     }
 }

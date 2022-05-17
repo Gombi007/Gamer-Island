@@ -1,17 +1,21 @@
 package com.gameisland.models.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity()
-@Table(name = "game_screenshot")
+@Table(name = "game_screenshots")
 public class GameScreenshot extends BusinessObject {
     private Long steamAppId;
     private String pathThumbnail;
     private String pathFull;
 
     @ManyToOne()
+    @JsonBackReference
     private Game game;
 
     public GameScreenshot() {
@@ -21,5 +25,37 @@ public class GameScreenshot extends BusinessObject {
         this.steamAppId = steamAppId;
         this.pathThumbnail = pathThumbnail;
         this.pathFull = pathFull;
+    }
+
+    public Long getSteamAppId() {
+        return steamAppId;
+    }
+
+    public void setSteamAppId(Long steamAppId) {
+        this.steamAppId = steamAppId;
+    }
+
+    public String getPathThumbnail() {
+        return pathThumbnail;
+    }
+
+    public void setPathThumbnail(String pathThumbnail) {
+        this.pathThumbnail = pathThumbnail;
+    }
+
+    public String getPathFull() {
+        return pathFull;
+    }
+
+    public void setPathFull(String pathFull) {
+        this.pathFull = pathFull;
+    }
+
+    public Game getGame() {
+        return game;
+    }
+
+    public void setGame(Game game) {
+        this.game = game;
     }
 }

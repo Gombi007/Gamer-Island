@@ -25,7 +25,7 @@ public class GameLibraryRestController {
 
     @GetMapping("/games")
     public ResponseEntity<Object> getAllGameFromSteam() {
-        return ResponseEntity.status(HttpStatus.OK).body(gameLibraryService.getAllGamesFromSteam());
+        return ResponseEntity.status(HttpStatus.OK).body(gameLibraryService.getAllGamesFromDatabase());
     }
 
     @GetMapping("/games/{id}")
