@@ -6,6 +6,7 @@ import com.gameisland.models.entities.Game;
 import com.gameisland.models.entities.GamePlatform;
 import com.gameisland.models.entities.GamePrice;
 import com.gameisland.models.entities.GameScreenshot;
+import com.gameisland.repositories.FileDB;
 import com.google.gson.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -64,6 +65,7 @@ public class SteamApiDetailService {
     public Game saveAGameIntoTheDatabase(Long appid) {
         ResponseEntity<String> response = template.getForEntity(steamUrl.concat(appid.toString()), String.class);
         JsonObject responseBody = JsonParser.parseString(Objects.requireNonNull(response.getBody())).getAsJsonObject();
+
         JsonObject responseBodyGameAppIdObject = responseBody.getAsJsonObject(appid.toString());
         String successField = responseBodyGameAppIdObject.getAsJsonPrimitive("success").getAsString();
 

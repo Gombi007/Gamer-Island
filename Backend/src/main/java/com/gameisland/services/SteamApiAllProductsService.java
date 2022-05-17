@@ -3,6 +3,7 @@ package com.gameisland.services;
 import com.gameisland.enums.StaticStrings;
 import com.gameisland.models.dto.GameDto;
 import com.gameisland.models.dto.SteamGameNameAndIdDto;
+import com.gameisland.repositories.FileDB;
 import com.google.gson.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -47,6 +48,11 @@ public class SteamApiAllProductsService {
         ArrayList<Long> appids = new ArrayList<>();
         ResponseEntity<String> response = template.getForEntity(steamUrl, String.class);
         JsonObject responseBody = JsonParser.parseString(Objects.requireNonNull(response.getBody())).getAsJsonObject();
+
+        FileDB fileDB = new FileDB();
+        fileDB.writer(responseBody);
+
+
         JsonObject responseBodyAppListObject = responseBody.getAsJsonObject("applist");
         JsonArray responseBodyAppsObjectWithinAppListObject = responseBodyAppListObject.get("apps").getAsJsonArray();
 
