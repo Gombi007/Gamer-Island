@@ -40,4 +40,11 @@ public class GameLibraryRestController {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
+    @DeleteMapping("/games/test/{id}")
+    public ResponseEntity<Object> removeTest(@PathVariable String id) {
+        Long gameId = Long.parseLong(id);
+        gameLibraryService.remove(gameId);
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
 }

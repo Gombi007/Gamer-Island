@@ -14,4 +14,6 @@ public interface GameLibraryService {
     void test();
 
     ArrayList<Game> getAllGamesFromDatabase();
+
+    void remove(Long id);
 }

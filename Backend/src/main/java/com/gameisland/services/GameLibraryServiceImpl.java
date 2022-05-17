@@ -59,5 +59,16 @@ public class GameLibraryServiceImpl implements GameLibraryService {
         return new ArrayList<>();
     }
 
+    @Override
+    public void remove(Long id) {
+        boolean isExistingGame = gameRepository.existsById(id);
+        if (isExistingGame) {
+            Game game = gameRepository.findById(id).get();
+            gameRepository.delete(game);
+
+        }
+
+    }
+
 
 }

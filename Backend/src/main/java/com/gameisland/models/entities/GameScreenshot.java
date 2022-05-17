@@ -15,7 +15,7 @@ public class GameScreenshot extends BusinessObject {
     private String pathFull;
 
     @ManyToOne()
-    @JsonBackReference
+    @JoinColumn(name = "game_id")
     private Game game;
 
     public GameScreenshot() {
@@ -51,11 +51,4 @@ public class GameScreenshot extends BusinessObject {
         this.pathFull = pathFull;
     }
 
-    public Game getGame() {
-        return game;
-    }
-
-    public void setGame(Game game) {
-        this.game = game;
-    }
 }

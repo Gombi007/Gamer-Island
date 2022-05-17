@@ -1,7 +1,5 @@
 package com.gameisland.models.entities;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-
 import javax.persistence.*;
 import java.util.Set;
 
@@ -38,8 +36,8 @@ public class Game extends BusinessObject {
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private GamePlatform gamePlatform;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "game")
-    @JsonManagedReference
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "game_id")
     private Set<GameScreenshot> gameScreenshots;
 
 
