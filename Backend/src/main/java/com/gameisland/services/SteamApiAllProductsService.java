@@ -10,40 +10,41 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Objects;
+import java.util.Set;
 
 @Service
 public class SteamApiAllProductsService {
 
-    private String steamUrl = StaticStrings.STEAM_ALL_PRODUCTS_URL.getUrl();
-    private RestTemplate template = new RestTemplate();
+    private final String steamUrl = StaticStrings.STEAM_ALL_PRODUCTS_URL.getUrl();
+    private final RestTemplate template = new RestTemplate();
 
-    protected ArrayList<Long> getAllSteamProducts() {
-        ArrayList<Long> appids = new ArrayList<>();
+    protected void getAllSteamProducts() {
         FileDB fileDB = new FileDB();
-        Boolean getSteamProductsFromTheSTeamAPI = false;
 
-        if (getSteamProductsFromTheSTeamAPI) {
-            ResponseEntity<String> response = template.getForEntity(steamUrl, String.class);
-            JsonObject responseBody = JsonParser.parseString(Objects.requireNonNull(response.getBody())).getAsJsonObject();
-            fileDB.writeAllSteamProductsIntoAFile(responseBody);
-        }
+        ResponseEntity<String> response = template.getForEntity(steamUrl, String.class);
+        JsonObject responseBody = JsonParser.parseString(Objects.requireNonNull(response.getBody())).getAsJsonObject();
+        fileDB.writeAllSteamProductsIntoAFile(responseBody);
+    }
+
+    protected Set<Long> getAllSteamAppIdFromFileDB(Integer limit) {
+        Set<Long> appids = new HashSet<>();
+        FileDB fileDB = new FileDB();
 
         JsonObject steamAllProductsObjectFromFile = fileDB.getAllSteamProductsFromAFile();
-        JsonObject responseBodyAppListObject = steamAllProductsObjectFromFile.getAsJsonObject("applist");
-        JsonArray responseBodyAppsObjectWithinAppListObject = responseBodyAppListObject.get("apps").getAsJsonArray();
+        JsonObject appListObjectWithinProducts = steamAllProductsObjectFromFile.getAsJsonObject("applist");
+        JsonArray appsArrayWithinAppListObject = appListObjectWithinProducts.get("apps").getAsJsonArray();
 
-        Iterator<JsonElement> iterator = responseBodyAppsObjectWithinAppListObject.iterator();
-        int i = Integer.parseInt(StaticStrings.PRODUCT_LIMIT.getUrl());
-        while (iterator.hasNext() && i > 0) {
-            appids.add(iterator.next().getAsJsonObject().get("appid").getAsLong());
-            i--;
+        Iterator<JsonElement> iterator = appsArrayWithinAppListObject.iterator();
+        while (iterator.hasNext() && limit > 0) {
+            Long appId = iterator.next().getAsJsonObject().get("appid").getAsLong();
+            appids.add(appId);
+            limit--;
         }
+
         return appids;
-
-
     }
 }
 

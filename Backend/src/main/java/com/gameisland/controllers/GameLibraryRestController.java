@@ -22,29 +22,16 @@ public class GameLibraryRestController {
         this.steamService = steamService;
     }
 
-
     @GetMapping("/games")
-    public ResponseEntity<Object> getAllGameFromSteam() {
+    public ResponseEntity<Object> getAllGamesFromTheDatabase() {
         return ResponseEntity.status(HttpStatus.OK).body(gameLibraryService.getAllGamesFromDatabase());
     }
 
     @GetMapping("/games/{id}")
-    public ResponseEntity<Object> getGameDetailsByAppIdFromSteam(@PathVariable String id) {
+    public ResponseEntity<Object> getGameDetailsById(@PathVariable String id) {
         Long appId = Long.parseLong(id);
-        return ResponseEntity.status(HttpStatus.OK).body(gameLibraryService.getGameDetailsByAppIdFromSteam(appId));
+        return ResponseEntity.status(HttpStatus.OK).body(gameLibraryService.getGameDetailsByAppId(appId));
     }
 
-    @GetMapping("/games/test")
-    public ResponseEntity<Object> testUrl() {
-        gameLibraryService.test();
-        return ResponseEntity.status(HttpStatus.OK).build();
-    }
-
-    @DeleteMapping("/games/test/{id}")
-    public ResponseEntity<Object> removeTest(@PathVariable String id) {
-        Long gameId = Long.parseLong(id);
-        gameLibraryService.remove(gameId);
-        return ResponseEntity.status(HttpStatus.OK).build();
-    }
 
 }

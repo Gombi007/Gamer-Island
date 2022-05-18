@@ -1,18 +1,18 @@
 package com.gameisland.services;
 
-import com.gameisland.models.dto.GameDto;
-import com.gameisland.models.dto.SteamGameDetailsDto;
 import com.gameisland.models.entities.Game;
 
 import java.util.ArrayList;
 
 public interface GameLibraryService {
 
-    SteamGameDetailsDto getGameDetailsByAppIdFromSteam(Long appId);
+    Game getGameDetailsByAppId(Long appId);
 
-    void test();
+    void saveProductsInAFileViaSteamApi();
 
     ArrayList<Game> getAllGamesFromDatabase();
 
-    void remove(Long id);
+    void removeAGamePermanentlyFromTheDatabaseById(Long id);
+
+    void saveSteamProductsFromFileDBToDatabase(Integer limit);
 }
