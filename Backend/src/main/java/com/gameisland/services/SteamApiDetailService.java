@@ -53,7 +53,7 @@ public class SteamApiDetailService {
             isSoundtrack = gameData.getAsJsonPrimitive("name").getAsString().toLowerCase(Locale.ROOT).contains("soundtrack");
             isBeta = gameData.getAsJsonPrimitive("name").getAsString().toLowerCase(Locale.ROOT).contains("beta");
         } catch (Exception exception) {
-            System.out.println(exception.getMessage());
+            // Game is not success
         }
 
         if (!isSoundtrack && !isBeta && gameData != null) {
@@ -77,9 +77,11 @@ public class SteamApiDetailService {
             }
             Set<GameScreenshot> screenshots = new HashSet<>();
             JsonArray gameDataScreenshots = gameData.getAsJsonArray("screenshots");
-            if (gameDataScreenshots != null) {
 
-                for (int i = 0; i < gameDataScreenshots.size(); i++) {
+            if (gameDataScreenshots != null) {
+            int maxScreenshotSize = Math.min(gameDataScreenshots.size(), 5);
+
+                for (int i = 0; i < maxScreenshotSize; i++) {
                     JsonObject screenshotObject = gameDataScreenshots.get(i).getAsJsonObject();
                     String pathThumbnail = screenshotObject.get("path_thumbnail").getAsString();
                     String pathFull = screenshotObject.get("path_full").getAsString();
@@ -118,7 +120,7 @@ public class SteamApiDetailService {
                 gameMetacritic = new GameMetacritic(
                         appid,
                         gameDataMetacritic.getAsJsonPrimitive("score").getAsString(),
-                        gameDataMetacritic.getAsJsonPrimitive("urls").getAsString());
+                        gameDataMetacritic.getAsJsonPrimitive("url").getAsString());
             }
 
             String website = "";
@@ -153,7 +155,7 @@ public class SteamApiDetailService {
                     supportedLanguages,
                     gameData.getAsJsonPrimitive("header_image").getAsString(),
                     website,
-                    developers, publishers, gamePrice, gamePlatform,gameMetacritic, screenshots, genres
+                    developers, publishers, gamePrice, gamePlatform, gameMetacritic, screenshots, genres
             );
 
             return game;

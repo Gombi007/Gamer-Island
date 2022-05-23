@@ -33,7 +33,7 @@ public class SteamApiAllProductsService {
         }
     }
 
-    protected Set<Long> getAllSteamAppIdFromFileDB(Integer limit) {
+    protected Set<Long> getAllSteamAppIdFromFileDB(Integer limit, Set<Long> existingAppIds) {
         Set<Long> appids = new HashSet<>();
         FileDB fileDB = new FileDB();
         Iterator<JsonElement> iterator;
@@ -49,8 +49,10 @@ public class SteamApiAllProductsService {
 
         while (iterator.hasNext() && limit > 0) {
             Long appId = iterator.next().getAsJsonObject().get("appid").getAsLong();
+            if (!existingAppIds.contains(appId)){
             appids.add(appId);
             limit--;
+            }
         }
 
         return appids;

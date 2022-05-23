@@ -47,17 +47,15 @@ public class GameLibraryServiceImpl implements GameLibraryService {
 
     @Override
     public void saveSteamProductsFromFileDBToDatabase(Integer limit) {
-        Set<Long> appids = steamApiAllProductsService.getAllSteamAppIdFromFileDB(limit);
         Set<Long> existingAppIds = gameRepository.allExistingSteamAppId();
-
-        appids.removeAll(existingAppIds);
+        Set<Long> appids = steamApiAllProductsService.getAllSteamAppIdFromFileDB(limit, existingAppIds);
 
         Iterator<Long> iterator = appids.iterator();
         int counter = 1;
         while (iterator.hasNext()) {
             Game game = steamApiDetailService.saveAGameIntoTheDatabase(iterator.next());
             if (game != null) {
-                System.out.println("Game saved: " + counter + " " + game.getName());
+                System.out.println(counter + ". Game saved: " + game.getName());
                 gameRepository.save(game);
                 counter++;
             }
