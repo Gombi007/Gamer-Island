@@ -44,7 +44,6 @@ public class GameLibraryServiceImpl implements GameLibraryService {
         Set<Long> existingAppIds = gameRepository.allExistingSteamAppId();
 
         appids.removeAll(existingAppIds);
-        appids.forEach(System.out::println);
 
         Iterator<Long> iterator = appids.iterator();
         int counter = 1;
