@@ -29,7 +29,7 @@ public class SteamApiAllProductsService {
             JsonObject responseBody = JsonParser.parseString(Objects.requireNonNull(response.getBody())).getAsJsonObject();
             fileDB.writeAllSteamProductsIntoAFile(responseBody);
         } catch (Exception exception) {
-            throw new ResourceNotFoundException("The Steam API not available");
+            throw new ResourceNotFoundException("The Steam API is not available");
         }
     }
 

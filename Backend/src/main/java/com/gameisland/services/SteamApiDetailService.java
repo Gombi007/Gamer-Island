@@ -1,6 +1,7 @@
 package com.gameisland.services;
 
 import com.gameisland.enums.StaticStrings;
+import com.gameisland.exceptions.GameDetailsAreNotSuccessException;
 import com.gameisland.exceptions.ResourceNotFoundException;
 import com.gameisland.models.entities.Game;
 import com.gameisland.models.entities.GamePlatform;
@@ -24,7 +25,7 @@ public class SteamApiDetailService {
     private final String steamUrl = StaticStrings.STEAM_GAME_DETAILS_URL.getUrl();
     private RestTemplate template = new RestTemplate();
 
-    private JsonObject getGameDetailsIfThatIsSuccess(Long appid) {
+    private JsonObject getGameDetailsIfThatIsSuccess(Long appid) throws Exception {
         JsonObject resultDataObject;
         JsonObject responseBodyGameAppIdObject;
 
@@ -42,20 +43,25 @@ public class SteamApiDetailService {
             resultDataObject = responseBodyGameAppIdObject.getAsJsonObject("data");
             return resultDataObject;
         }
-        throw new ResourceNotFoundException("The selected game details are not full yet");
+        throw new GameDetailsAreNotSuccessException("Game is not done yet");
     }
 
     public Game saveAGameIntoTheDatabase(Long appid) {
-        JsonObject gameData = getGameDetailsIfThatIsSuccess(appid);
-        Boolean success = true;
-        String developers = "";
-        String publishers = "";
-        Set<GameScreenshot> screenshots = new HashSet<>();
-        Boolean isSoundtrack = gameData.getAsJsonPrimitive("name").getAsString().toLowerCase(Locale.ROOT).contains("soundtrack");
-        Boolean isBeta = gameData.getAsJsonPrimitive("name").getAsString().toLowerCase(Locale.ROOT).contains("beta");
+        boolean isSoundtrack = true;
+        boolean isBeta = true;
+        JsonObject gameData = null;
 
-        if (!isSoundtrack && !isBeta) {
+        try {
+            gameData = getGameDetailsIfThatIsSuccess(appid);
+            isSoundtrack = gameData.getAsJsonPrimitive("name").getAsString().toLowerCase(Locale.ROOT).contains("soundtrack");
+            isBeta = gameData.getAsJsonPrimitive("name").getAsString().toLowerCase(Locale.ROOT).contains("beta");
+        } catch (Exception exception) {
+            System.out.println(exception.getMessage());
+        }
 
+        if (!isSoundtrack && !isBeta && gameData != null) {
+
+            String developers = "";
             JsonArray gameDataDevelopers = gameData.getAsJsonArray("developers");
             if (gameDataDevelopers != null) {
 
@@ -64,6 +70,7 @@ public class SteamApiDetailService {
                 }
             }
 
+            String publishers = "";
             JsonArray gameDataPublishers = gameData.getAsJsonArray("publishers");
             if (gameDataPublishers != null) {
                 for (int i = 0; i < gameDataPublishers.size(); i++) {
@@ -71,7 +78,7 @@ public class SteamApiDetailService {
 
                 }
             }
-
+            Set<GameScreenshot> screenshots = new HashSet<>();
             JsonArray gameDataScreenshots = gameData.getAsJsonArray("screenshots");
             if (gameDataScreenshots != null) {
 
@@ -119,7 +126,7 @@ public class SteamApiDetailService {
 
             Game game = new Game(
                     appid,
-                    success,
+                    true,
                     gameData.getAsJsonPrimitive("name").getAsString(),
                     gameData.getAsJsonPrimitive("required_age").getAsString(),
                     gameData.getAsJsonPrimitive("is_free").getAsBoolean(),
