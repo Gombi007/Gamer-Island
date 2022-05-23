@@ -1,6 +1,7 @@
 package com.gameisland.services;
 
 import com.gameisland.enums.StaticStrings;
+import com.gameisland.exceptions.ResourceNotFoundException;
 import com.gameisland.repositories.FileDB;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -23,21 +24,29 @@ public class SteamApiAllProductsService {
 
     protected void getAllSteamProducts() {
         FileDB fileDB = new FileDB();
-
-        ResponseEntity<String> response = template.getForEntity(steamUrl, String.class);
-        JsonObject responseBody = JsonParser.parseString(Objects.requireNonNull(response.getBody())).getAsJsonObject();
-        fileDB.writeAllSteamProductsIntoAFile(responseBody);
+        try {
+            ResponseEntity<String> response = template.getForEntity(steamUrl, String.class);
+            JsonObject responseBody = JsonParser.parseString(Objects.requireNonNull(response.getBody())).getAsJsonObject();
+            fileDB.writeAllSteamProductsIntoAFile(responseBody);
+        } catch (Exception exception) {
+            throw new ResourceNotFoundException("The Steam API not available");
+        }
     }
 
     protected Set<Long> getAllSteamAppIdFromFileDB(Integer limit) {
         Set<Long> appids = new HashSet<>();
         FileDB fileDB = new FileDB();
+        Iterator<JsonElement> iterator;
 
-        JsonObject steamAllProductsObjectFromFile = fileDB.getAllSteamProductsFromAFile();
-        JsonObject appListObjectWithinProducts = steamAllProductsObjectFromFile.getAsJsonObject("applist");
-        JsonArray appsArrayWithinAppListObject = appListObjectWithinProducts.get("apps").getAsJsonArray();
+        try {
+            JsonObject steamAllProductsObjectFromFile = fileDB.getAllSteamProductsFromAFile();
+            JsonObject appListObjectWithinProducts = steamAllProductsObjectFromFile.getAsJsonObject("applist");
+            JsonArray appsArrayWithinAppListObject = appListObjectWithinProducts.get("apps").getAsJsonArray();
+            iterator = appsArrayWithinAppListObject.iterator();
+        } catch (Exception exception) {
+            throw new ResourceNotFoundException("Problem during the file database read");
+        }
 
-        Iterator<JsonElement> iterator = appsArrayWithinAppListObject.iterator();
         while (iterator.hasNext() && limit > 0) {
             Long appId = iterator.next().getAsJsonObject().get("appid").getAsLong();
             appids.add(appId);
