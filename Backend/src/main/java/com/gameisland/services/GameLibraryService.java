@@ -1,12 +1,13 @@
 package com.gameisland.services;
 
+import com.gameisland.models.dto.GameDto;
 import com.gameisland.models.entities.Game;
 
 import java.util.ArrayList;
 
 public interface GameLibraryService {
 
-    Game getGameDetailsByAppId(Long appId);
+    GameDto getGameDetailsByAppId(Long appId);
 
     void saveProductsInAFileViaSteamApi();
 

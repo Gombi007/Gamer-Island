@@ -1,6 +1,7 @@
 package com.gameisland.services;
 
 import com.gameisland.exceptions.ResourceNotFoundException;
+import com.gameisland.models.dto.GameDto;
 import com.gameisland.models.entities.Game;
 import com.gameisland.repositories.GamePriceRepository;
 import com.gameisland.repositories.GameRepository;
@@ -28,10 +29,11 @@ public class GameLibraryServiceImpl implements GameLibraryService {
     }
 
     @Override
-    public Game getGameDetailsByAppId(Long appId) {
+    public GameDto getGameDetailsByAppId(Long appId) {
         if (appId != null) {
             try {
-                return gameRepository.gameByAppId(appId).get();
+                Game game = gameRepository.gameByAppId(appId).orElseThrow();
+                return GameDto.convertToGameDto(game);
             } catch (NoSuchElementException exception) {
                 throw new ResourceNotFoundException("No game in the database with this App ID: " + appId);
             }
