@@ -36,15 +36,22 @@ public class Game extends BusinessObject {
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private GamePlatform gamePlatform;
 
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private GameMetacritic gameMetacritic;
+
+
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "game_id")
     private Set<GameScreenshot> gameScreenshots;
 
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "game_id")
+    private Set<GameGenre> gameGenres;
 
     public Game() {
     }
 
-    public Game(Long steamAppId, Boolean success, String name, String requiredAge, Boolean isFree, String detailedDescription, String aboutTheGame, String shortDescription, String supportedLanguages, String headerImage, String website, String developers, String publishers, GamePrice gamePrice, GamePlatform gamePlatform, Set<GameScreenshot> gameScreenshots) {
+    public Game(Long steamAppId, Boolean success, String name, String requiredAge, Boolean isFree, String detailedDescription, String aboutTheGame, String shortDescription, String supportedLanguages, String headerImage, String website, String developers, String publishers, GamePrice gamePrice, GamePlatform gamePlatform, GameMetacritic gameMetacritic, Set<GameScreenshot> gameScreenshots, Set<GameGenre> gameGenres) {
         this.steamAppId = steamAppId;
         this.success = success;
         this.name = name;
@@ -60,29 +67,9 @@ public class Game extends BusinessObject {
         this.publishers = publishers;
         this.gamePrice = gamePrice;
         this.gamePlatform = gamePlatform;
+        this.gameMetacritic = gameMetacritic;
         this.gameScreenshots = gameScreenshots;
-    }
-
-    @Override
-    public String toString() {
-        return "Game{" +
-                "steamAppId=" + steamAppId +
-                ", success=" + success +
-                ", name='" + name + '\'' +
-                ", requiredAge='" + requiredAge + '\'' +
-                ", isFree=" + isFree +
-                ", detailedDescription='" + detailedDescription + '\'' +
-                ", aboutTheGame='" + aboutTheGame + '\'' +
-                ", shortDescription='" + shortDescription + '\'' +
-                ", supportedLanguages='" + supportedLanguages + '\'' +
-                ", headerImage='" + headerImage + '\'' +
-                ", website='" + website + '\'' +
-                ", developers='" + developers + '\'' +
-                ", publishers='" + publishers + '\'' +
-                ", gamePrice=" + gamePrice +
-                ", gamePlatform=" + gamePlatform +
-                ", gameScreenshots=" + gameScreenshots +
-                '}';
+        this.gameGenres = gameGenres;
     }
 
     public Long getSteamAppId() {
@@ -205,11 +192,27 @@ public class Game extends BusinessObject {
         this.gamePlatform = gamePlatform;
     }
 
+    public GameMetacritic getGameMetacritic() {
+        return gameMetacritic;
+    }
+
+    public void setGameMetacritic(GameMetacritic gameMetacritic) {
+        this.gameMetacritic = gameMetacritic;
+    }
+
     public Set<GameScreenshot> getGameScreenshots() {
         return gameScreenshots;
     }
 
     public void setGameScreenshots(Set<GameScreenshot> gameScreenshots) {
         this.gameScreenshots = gameScreenshots;
+    }
+
+    public Set<GameGenre> getGameGenres() {
+        return gameGenres;
+    }
+
+    public void setGameGenres(Set<GameGenre> gameGenres) {
+        this.gameGenres = gameGenres;
     }
 }

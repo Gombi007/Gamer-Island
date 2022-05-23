@@ -3,10 +3,7 @@ package com.gameisland.services;
 import com.gameisland.enums.StaticStrings;
 import com.gameisland.exceptions.GameDetailsAreNotSuccessException;
 import com.gameisland.exceptions.ResourceNotFoundException;
-import com.gameisland.models.entities.Game;
-import com.gameisland.models.entities.GamePlatform;
-import com.gameisland.models.entities.GamePrice;
-import com.gameisland.models.entities.GameScreenshot;
+import com.gameisland.models.entities.*;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonNull;
 import com.google.gson.JsonObject;
@@ -90,6 +87,17 @@ public class SteamApiDetailService {
                 }
             }
 
+            Set<GameGenre> genres = new HashSet<>();
+            JsonArray gameDataGenres = gameData.getAsJsonArray("genres");
+            if (gameDataGenres != null) {
+                for (int i = 0; i < gameDataGenres.size(); i++) {
+                    JsonObject genreObject = gameDataGenres.get(i).getAsJsonObject();
+                    String description = genreObject.get("description").getAsString();
+                    genres.add(new GameGenre(appid, description));
+                }
+            }
+
+
             JsonObject gameDataPrice = gameData.getAsJsonObject("price_overview");
             GamePrice gamePrice = new GamePrice();
             if (gameDataPrice != null) {
@@ -102,6 +110,15 @@ public class SteamApiDetailService {
                         gameDataPrice.getAsJsonPrimitive("initial_formatted").getAsString(),
                         gameDataPrice.getAsJsonPrimitive("final_formatted").getAsString()
                 );
+            }
+
+            JsonObject gameDataMetacritic = gameData.getAsJsonObject("metacritic");
+            GameMetacritic gameMetacritic = new GameMetacritic();
+            if (gameDataMetacritic != null) {
+                gameMetacritic = new GameMetacritic(
+                        appid,
+                        gameDataMetacritic.getAsJsonPrimitive("score").getAsString(),
+                        gameDataMetacritic.getAsJsonPrimitive("urls").getAsString());
             }
 
             String website = "";
@@ -136,7 +153,7 @@ public class SteamApiDetailService {
                     supportedLanguages,
                     gameData.getAsJsonPrimitive("header_image").getAsString(),
                     website,
-                    developers, publishers, gamePrice, gamePlatform, screenshots
+                    developers, publishers, gamePrice, gamePlatform,gameMetacritic, screenshots, genres
             );
 
             return game;

@@ -1,5 +1,6 @@
 package com.gameisland.services;
 
+import com.gameisland.exceptions.ResourceNotFoundException;
 import com.gameisland.models.entities.Game;
 import com.gameisland.repositories.GamePriceRepository;
 import com.gameisland.repositories.GameRepository;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 import java.util.Set;
 
 @Service
@@ -28,9 +30,13 @@ public class GameLibraryServiceImpl implements GameLibraryService {
     @Override
     public Game getGameDetailsByAppId(Long appId) {
         if (appId != null) {
-            return gameRepository.gameByAppId(appId).get();
+            try {
+                return gameRepository.gameByAppId(appId).get();
+            } catch (NoSuchElementException exception) {
+                throw new ResourceNotFoundException("No game in the database with this App ID: " + appId);
+            }
         }
-        return null;
+        throw new ResourceNotFoundException("App ID mustn't be NULL: " + appId);
     }
 
     @Override
