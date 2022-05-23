@@ -1,60 +1,112 @@
 package com.gameisland.models.dto;
 
+import com.gameisland.models.entities.*;
+
+import java.util.*;
+
 public class GameDto {
     private Long id;
-    private Long appid;
+    private Long steam_appid;
+    private Boolean success;
     private String name;
-    private String headerImg;
+    private String required_age;
+    private Boolean is_free;
+    private String detailed_description;
+    private String about_the_game;
+    private String short_description;
+    private String supported_languages;
+    private String header_image;
+    private String website;
+    private String developers;
+    private String publishers;
+    private String price_in_final_formatted;
+
+    private Map<String, Boolean> platforms;
+    private Map<String, String> metacritics;
+    private List<String> screenshot_urls;
+    private List<String> genres;
+
 
     public GameDto() {
     }
 
-    public GameDto(Long id, Long appid, String name, String headerImg) {
+    public GameDto(Long id, Long steam_appid, Boolean success, String name, String required_age, Boolean is_free, String detailed_description, String about_the_game, String short_description, String supported_languages, String header_image, String website, String developers, String publishers, String price_in_final_formatted, Map<String, Boolean> platforms, Map<String, String> metacritics, List<String> screenshot_urls, List<String> genres) {
         this.id = id;
-        this.appid = appid;
+        this.steam_appid = steam_appid;
+        this.success = success;
         this.name = name;
-        this.headerImg = headerImg;
+        this.required_age = required_age;
+        this.is_free = is_free;
+        this.detailed_description = detailed_description;
+        this.about_the_game = about_the_game;
+        this.short_description = short_description;
+        this.supported_languages = supported_languages;
+        this.header_image = header_image;
+        this.website = website;
+        this.developers = developers;
+        this.publishers = publishers;
+        this.price_in_final_formatted = price_in_final_formatted;
+        this.platforms = platforms;
+        this.metacritics = metacritics;
+        this.screenshot_urls = screenshot_urls;
+        this.genres = genres;
     }
 
-    public Long getId() {
-        return id;
+    protected static GameDto convertToGameDto(Game game) {
+
+        // Platform select
+        GamePlatform platform = game.getGamePlatform();
+        Map<String, Boolean> platforms = new HashMap<>();
+        if (platform != null) {
+            platforms.put("windows", platform.getWindows());
+            platforms.put("mac", platform.getMac());
+            platforms.put("linux", platform.getLinux());
+        }
+
+
+        // Metacritic select
+        GameMetacritic metacritic = game.getGameMetacritic();
+        Map<String, String> metacritics = new HashMap<>();
+        if (metacritic.getUrl() != null) {
+            metacritics.put(metacritic.getScore(), metacritic.getUrl());
+        }
+
+        // Screenshot select
+        Set<GameScreenshot> gameScreenshots = game.getGameScreenshots();
+        List<String> screenshot_urls = new ArrayList<>();
+        Iterator<GameScreenshot> screenshotIterator = gameScreenshots.iterator();
+        while (screenshotIterator.hasNext()) {
+            screenshot_urls.add(screenshotIterator.next().getPathFull());
+        }
+
+        // Genres select
+        Set<GameGenre> genres_tmp = game.getGameGenres();
+        List<String> genres = new ArrayList<>();
+        Iterator<GameGenre> genreIterator = genres_tmp.iterator();
+        while (genreIterator.hasNext()) {
+            genres.add(genreIterator.next().getDescription());
+        }
+
+        return new GameDto(
+                game.getId(),
+                game.getSteamAppId(),
+                game.getSuccess(),
+                game.getName(),
+                game.getRequiredAge(),
+                game.getFree(),
+                game.getDetailedDescription(),
+                game.getAboutTheGame(),
+                game.getShortDescription(),
+                game.getSupportedLanguages(),
+                game.getHeaderImage(),
+                game.getWebsite(),
+                game.getDevelopers(),
+                game.getPublishers(),
+                game.getGamePrice().getFinalFormatted(),
+                platforms, metacritics, screenshot_urls, genres
+        );
+
+
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Long getAppid() {
-        return appid;
-    }
-
-    public void setAppid(Long appid) {
-        this.appid = appid;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getHeaderImg() {
-        return headerImg;
-    }
-
-    public void setHeaderImg(String headerImg) {
-        this.headerImg = headerImg;
-    }
-
-    @Override
-    public String toString() {
-        return "GameDto{" +
-                "id=" + id +
-                ", appid=" + appid +
-                ", name='" + name + '\'' +
-                ", headerImg='" + headerImg + '\'' +
-                '}';
-    }
 }
