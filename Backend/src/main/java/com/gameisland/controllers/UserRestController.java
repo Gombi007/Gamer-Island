@@ -24,5 +24,26 @@ public class UserRestController {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
+    @PostMapping("/{userId}")
+    public ResponseEntity<Object> addAGameToUser(@PathVariable Long userId, @RequestBody GameID gameId) {
+
+        return ResponseEntity.status(HttpStatus.OK).body(userService.saveAGameToUser(userId, gameId.getGameId()));
+    }
+
+    private static class GameID {
+        private Long gameId;
+
+        public GameID() {
+        }
+
+        public Long getGameId() {
+            return gameId;
+        }
+
+        public void setGameId(Long gameId) {
+            this.gameId = gameId;
+        }
+    }
+
 
 }

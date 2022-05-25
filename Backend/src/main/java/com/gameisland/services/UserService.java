@@ -6,4 +6,6 @@ public interface UserService {
 
     User createANewUser(User user);
 
+    User saveAGameToUser(Long userId, Long gameID);
+
 }
