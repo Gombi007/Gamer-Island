@@ -48,7 +48,7 @@ public class Game extends BusinessObject {
     @JoinColumn(name = "game_id")
     private Set<GameGenre> gameGenres;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "ownedGames")
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "ownedGames")
     private Set<User> users;
 
 

@@ -7,6 +7,7 @@ import com.gameisland.repositories.GamePriceRepository;
 import com.gameisland.repositories.GameRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -77,10 +78,12 @@ public class GameLibraryServiceImpl implements GameLibraryService {
     }
 
     @Override
+    @Transactional
     public void removeAGamePermanentlyFromTheDatabaseById(Long id) {
         boolean isExistingGame = gameRepository.existsById(id);
         if (isExistingGame) {
             Game game = gameRepository.findById(id).get();
+            gameRepository.deleteUserGameEntriesByGameId(game.getId());
             gameRepository.delete(game);
 
         }

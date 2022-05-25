@@ -9,8 +9,9 @@ public class User extends BusinessObject {
     private String userName;
     private String password;
     private String avatar;
+    private Long balance;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "user_game",
             joinColumns = @JoinColumn(name = "user_id"),
@@ -21,10 +22,11 @@ public class User extends BusinessObject {
     public User() {
     }
 
-    public User(String userName, String password, String avatar, Set<Game> ownedGames) {
+    public User(String userName, String password, String avatar, Long balance, Set<Game> ownedGames) {
         this.userName = userName;
         this.password = password;
         this.avatar = avatar;
+        this.balance = balance;
         this.ownedGames = ownedGames;
     }
 
@@ -50,6 +52,14 @@ public class User extends BusinessObject {
 
     public void setAvatar(String avatar) {
         this.avatar = avatar;
+    }
+
+    public Long getBalance() {
+        return balance;
+    }
+
+    public void setBalance(Long balance) {
+        this.balance = balance;
     }
 
     public Set<Game> getOwnedGames() {

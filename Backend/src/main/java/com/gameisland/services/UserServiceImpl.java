@@ -29,7 +29,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User saveAGameToUser(Long userId, Long gameID) {
+    public User addAGameToUser(Long userId, Long gameID) {
         Set<Game> gameSet = new HashSet<>();
         Game game = gameRepository.findById(gameID).get();
         gameSet.add(game);

@@ -8,26 +8,26 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/library")
+@RequestMapping("/api/games")
 @CrossOrigin(origins = "http://localhost:8080")
-public class GameLibraryRestController {
+public class GameRestController {
 
     private final GameLibraryService gameLibraryService;
     private final SteamApiDetailService steamService;
 
 
     @Autowired
-    public GameLibraryRestController(GameLibraryService gameLibraryService, SteamApiDetailService steamService) {
+    public GameRestController(GameLibraryService gameLibraryService, SteamApiDetailService steamService) {
         this.gameLibraryService = gameLibraryService;
         this.steamService = steamService;
     }
 
-    @GetMapping("/games")
+    @GetMapping
     public ResponseEntity<Object> getAllGamesFromTheDatabase() {
         return ResponseEntity.status(HttpStatus.OK).body(gameLibraryService.getAllGamesFromDatabase());
     }
 
-    @GetMapping("/games/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<Object> getGameDetailsById(@PathVariable String id) {
         Long appId = Long.parseLong(id);
         return ResponseEntity.status(HttpStatus.OK).body(gameLibraryService.getGameDetailsByAppId(appId));
