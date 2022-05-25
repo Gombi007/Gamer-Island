@@ -6,6 +6,7 @@ import com.gameisland.repositories.GameRepository;
 import com.gameisland.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -29,14 +30,24 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public User addAGameToUser(Long userId, Long gameID) {
         Set<Game> gameSet = new HashSet<>();
         Game game = gameRepository.findById(gameID).get();
-        gameSet.add(game);
-
         User user = userRepository.findById(userId).get();
+        gameSet = user.getOwnedGames();
+        gameSet.add(game);
         user.setOwnedGames(gameSet);
-
         return userRepository.save(user);
     }
+
+    @Override
+    @Transactional
+    public void removeAUserPermanently(Long userId) {
+        User user = userRepository.findById(userId).get();
+        userRepository.deleteUserGameEntriesByUserId(user.getId());
+        userRepository.delete(user);
+    }
+
+
 }

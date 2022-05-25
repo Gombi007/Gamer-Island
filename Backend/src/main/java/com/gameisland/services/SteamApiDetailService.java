@@ -22,7 +22,7 @@ public class SteamApiDetailService {
     private final String steamUrl = StaticStrings.STEAM_GAME_DETAILS_URL.getUrl();
     private RestTemplate template = new RestTemplate();
 
-    private JsonObject getGameDetailsIfThatIsSuccess(Long appid) throws Exception {
+    private JsonObject getGameDetailsIfThatIsSuccess(Long appid) {
         JsonObject resultDataObject;
         JsonObject responseBodyGameAppIdObject;
 
@@ -46,17 +46,19 @@ public class SteamApiDetailService {
     public Game saveAGameIntoTheDatabase(Long appid) {
         boolean isSoundtrack = true;
         boolean isBeta = true;
+        boolean onlyGames = false;
         JsonObject gameData = null;
 
         try {
             gameData = getGameDetailsIfThatIsSuccess(appid);
             isSoundtrack = gameData.getAsJsonPrimitive("name").getAsString().toLowerCase(Locale.ROOT).contains("soundtrack");
             isBeta = gameData.getAsJsonPrimitive("name").getAsString().toLowerCase(Locale.ROOT).contains("beta");
+            onlyGames = gameData.getAsJsonPrimitive("type").getAsString().equalsIgnoreCase("game");
         } catch (Exception exception) {
             // Game is not success
         }
 
-        if (!isSoundtrack && !isBeta && gameData != null) {
+        if (onlyGames && !isSoundtrack && !isBeta && gameData != null) {
 
             String developers = "";
             JsonArray gameDataDevelopers = gameData.getAsJsonArray("developers");
@@ -79,7 +81,7 @@ public class SteamApiDetailService {
             JsonArray gameDataScreenshots = gameData.getAsJsonArray("screenshots");
 
             if (gameDataScreenshots != null) {
-            int maxScreenshotSize = Math.min(gameDataScreenshots.size(), 5);
+                int maxScreenshotSize = Math.min(gameDataScreenshots.size(), 5);
 
                 for (int i = 0; i < maxScreenshotSize; i++) {
                     JsonObject screenshotObject = gameDataScreenshots.get(i).getAsJsonObject();

@@ -8,4 +8,6 @@ public interface UserService {
 
     User addAGameToUser(Long userId, Long gameID);
 
+    void removeAUserPermanently(Long userId);
+
 }

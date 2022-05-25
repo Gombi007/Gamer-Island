@@ -32,4 +32,12 @@ public class UserRestController {
         return ResponseEntity.status(HttpStatus.OK).body(userService.addAGameToUser(userId, gameId));
     }
 
+    @DeleteMapping("/{userIdString}")
+    public ResponseEntity<Object> deleteAUser(@PathVariable String userIdString) {
+        Long userId = Long.parseLong(userIdString);
+        userService.removeAUserPermanently(userId);
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
+
 }

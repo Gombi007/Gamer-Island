@@ -18,7 +18,6 @@ public class GameGenre extends BusinessObject {
     public GameGenre() {
     }
 
-
     public GameGenre(Long steamAppId, String description) {
         this.steamAppId = steamAppId;
         this.description = description;

@@ -15,14 +15,14 @@ import java.util.NoSuchElementException;
 import java.util.Set;
 
 @Service
-public class GameLibraryServiceImpl implements GameLibraryService {
+public class GameServiceImpl implements GameService {
     private final GameRepository gameRepository;
     private final GamePriceRepository gamePriceRepository;
     private final SteamApiAllProductsService steamApiAllProductsService;
     private final SteamApiDetailService steamApiDetailService;
 
     @Autowired
-    public GameLibraryServiceImpl(GameRepository gameRepository, GamePriceRepository gamePriceRepository, SteamApiAllProductsService steamApiAllProductsService, SteamApiDetailService steamApiDetailService) {
+    public GameServiceImpl(GameRepository gameRepository, GamePriceRepository gamePriceRepository, SteamApiAllProductsService steamApiAllProductsService, SteamApiDetailService steamApiDetailService) {
         this.gameRepository = gameRepository;
         this.gamePriceRepository = gamePriceRepository;
         this.steamApiAllProductsService = steamApiAllProductsService;

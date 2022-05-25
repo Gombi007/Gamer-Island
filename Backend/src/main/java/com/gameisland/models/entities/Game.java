@@ -39,7 +39,6 @@ public class Game extends BusinessObject {
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private GameMetacritic gameMetacritic;
 
-
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "game_id")
     private Set<GameScreenshot> gameScreenshots;

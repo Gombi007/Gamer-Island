@@ -5,7 +5,7 @@ import com.gameisland.models.entities.Game;
 
 import java.util.ArrayList;
 
-public interface GameLibraryService {
+public interface GameService {
 
     ArrayList<Game> getAllGamesFromDatabase();
 
