@@ -27,6 +27,61 @@ public class GameDto {
     private List<String> genres;
 
 
+    public static GameDto convertToGameDto(Game game) {
+
+        // Platform select
+        GamePlatform platform = game.getGamePlatform();
+        Map<String, Boolean> platforms = new HashMap<>();
+        if (platform != null) {
+            platforms.put("windows", platform.getWindows());
+            platforms.put("mac", platform.getMac());
+            platforms.put("linux", platform.getLinux());
+        }
+
+
+        // Metacritic select
+        GameMetacritic metacritic = game.getGameMetacritic();
+        Map<String, String> metacritics = new HashMap<>();
+        if (metacritic.getUrl() != null) {
+            metacritics.put(metacritic.getScore(), metacritic.getUrl());
+        }
+
+        // Screenshot select
+        Set<GameScreenshot> gameScreenshots = game.getGameScreenshots();
+        List<String> screenshot_urls = new ArrayList<>();
+        Iterator<GameScreenshot> screenshotIterator = gameScreenshots.iterator();
+        while (screenshotIterator.hasNext()) {
+            screenshot_urls.add(screenshotIterator.next().getPathFull());
+        }
+
+        // Genres select
+        Set<GameGenre> genres_tmp = game.getGameGenres();
+        List<String> genres = new ArrayList<>();
+        Iterator<GameGenre> genreIterator = genres_tmp.iterator();
+        while (genreIterator.hasNext()) {
+            genres.add(genreIterator.next().getDescription());
+        }
+
+        return new GameDto(
+                game.getId(),
+                game.getSteamAppId(),
+                game.getSuccess(),
+                game.getName(),
+                game.getRequiredAge(),
+                game.getFree(),
+                game.getDetailedDescription(),
+                game.getAboutTheGame(),
+                game.getShortDescription(),
+                game.getSupportedLanguages(),
+                game.getHeaderImage(),
+                game.getWebsite(),
+                game.getDevelopers(),
+                game.getPublishers(),
+                game.getGamePrice().getFinalFormatted(),
+                platforms, metacritics, screenshot_urls, genres
+        );
+    }
+
     public GameDto() {
     }
 
@@ -204,61 +259,5 @@ public class GameDto {
         this.genres = genres;
     }
 
-    public static GameDto convertToGameDto(Game game) {
-
-        // Platform select
-        GamePlatform platform = game.getGamePlatform();
-        Map<String, Boolean> platforms = new HashMap<>();
-        if (platform != null) {
-            platforms.put("windows", platform.getWindows());
-            platforms.put("mac", platform.getMac());
-            platforms.put("linux", platform.getLinux());
-        }
-
-
-        // Metacritic select
-        GameMetacritic metacritic = game.getGameMetacritic();
-        Map<String, String> metacritics = new HashMap<>();
-        if (metacritic.getUrl() != null) {
-            metacritics.put(metacritic.getScore(), metacritic.getUrl());
-        }
-
-        // Screenshot select
-        Set<GameScreenshot> gameScreenshots = game.getGameScreenshots();
-        List<String> screenshot_urls = new ArrayList<>();
-        Iterator<GameScreenshot> screenshotIterator = gameScreenshots.iterator();
-        while (screenshotIterator.hasNext()) {
-            screenshot_urls.add(screenshotIterator.next().getPathFull());
-        }
-
-        // Genres select
-        Set<GameGenre> genres_tmp = game.getGameGenres();
-        List<String> genres = new ArrayList<>();
-        Iterator<GameGenre> genreIterator = genres_tmp.iterator();
-        while (genreIterator.hasNext()) {
-            genres.add(genreIterator.next().getDescription());
-        }
-
-        return new GameDto(
-                game.getId(),
-                game.getSteamAppId(),
-                game.getSuccess(),
-                game.getName(),
-                game.getRequiredAge(),
-                game.getFree(),
-                game.getDetailedDescription(),
-                game.getAboutTheGame(),
-                game.getShortDescription(),
-                game.getSupportedLanguages(),
-                game.getHeaderImage(),
-                game.getWebsite(),
-                game.getDevelopers(),
-                game.getPublishers(),
-                game.getGamePrice().getFinalFormatted(),
-                platforms, metacritics, screenshot_urls, genres
-        );
-
-
-    }
 
 }

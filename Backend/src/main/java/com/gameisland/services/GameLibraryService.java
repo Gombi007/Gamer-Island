@@ -7,11 +7,13 @@ import java.util.ArrayList;
 
 public interface GameLibraryService {
 
+    ArrayList<Game> getAllGamesFromDatabase();
+
     GameDto getGameDetailsByAppId(Long appId);
 
-    void saveProductsInAFileViaSteamApi();
 
-    ArrayList<Game> getAllGamesFromDatabase();
+    //Amdin
+    void saveProductsInAFileViaSteamApi();
 
     void removeAGamePermanentlyFromTheDatabaseById(Long id);
 

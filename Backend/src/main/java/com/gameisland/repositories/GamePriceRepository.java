@@ -10,4 +10,5 @@ import java.util.ArrayList;
 public interface GamePriceRepository extends CrudRepository<GamePrice, Long> {
     @Override
     ArrayList<GamePrice> findAll();
+
 }

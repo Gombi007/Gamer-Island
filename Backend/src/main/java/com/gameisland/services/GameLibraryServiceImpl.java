@@ -29,6 +29,15 @@ public class GameLibraryServiceImpl implements GameLibraryService {
     }
 
     @Override
+    public ArrayList<Game> getAllGamesFromDatabase() {
+        Boolean isEmptyDatabase = gameRepository.findAll().isEmpty();
+        if (!isEmptyDatabase) {
+            return gameRepository.findAll();
+        }
+        return new ArrayList<>();
+    }
+
+    @Override
     public GameDto getGameDetailsByAppId(Long appId) {
         if (appId != null) {
             try {
@@ -41,6 +50,8 @@ public class GameLibraryServiceImpl implements GameLibraryService {
         throw new ResourceNotFoundException("App ID mustn't be NULL: " + appId);
     }
 
+
+    // Services for admin only
     @Override
     public void saveProductsInAFileViaSteamApi() {
         steamApiAllProductsService.getAllSteamProducts();
@@ -63,15 +74,6 @@ public class GameLibraryServiceImpl implements GameLibraryService {
             }
         }
 
-    }
-
-    @Override
-    public ArrayList<Game> getAllGamesFromDatabase() {
-        Boolean isEmptyDatabase = gameRepository.findAll().isEmpty();
-        if (!isEmptyDatabase) {
-            return gameRepository.findAll();
-        }
-        return new ArrayList<>();
     }
 
     @Override
