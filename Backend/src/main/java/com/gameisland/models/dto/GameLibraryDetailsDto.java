@@ -1,12 +1,32 @@
 package com.gameisland.models.dto;
 
 public class GameLibraryDetailsDto {
+    private Long id;
+    private Long appId;
     private String name;
     private String headerImage;
 
-    public GameLibraryDetailsDto(String name, String headerImage) {
+    public GameLibraryDetailsDto(Long id, Long appId, String name, String headerImage) {
+        this.id = id;
+        this.appId = appId;
         this.name = name;
         this.headerImage = headerImage;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Long getAppId() {
+        return appId;
+    }
+
+    public void setAppId(Long appId) {
+        this.appId = appId;
     }
 
     public String getName() {
@@ -23,13 +43,5 @@ public class GameLibraryDetailsDto {
 
     public void setHeaderImage(String headerImage) {
         this.headerImage = headerImage;
-    }
-
-    @Override
-    public String toString() {
-        return "GameLibraryDetailsDto{" +
-                "name='" + name + '\'' +
-                ", headerImage='" + headerImage + '\'' +
-                '}';
     }
 }
