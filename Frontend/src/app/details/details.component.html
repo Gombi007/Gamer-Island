@@ -23,10 +23,10 @@
                             <div class="col-12 p-0 thumbnails" id="thumbs">
                                 <ng-container *ngFor="let imgSource of screenshots; let i = index;">
                                     <div class="img-slide"
-                                        [ngClass]="firstScreenshot === imgSource.path_full ? 'opacity-100':'opacity-25'">
+                                        [ngClass]="firstScreenshot === imgSource ? 'opacity-100':'opacity-25'">
 
-                                        <img src={{imgSource.path_full}} alt="" (click)="changePic(i)" id="{{i}}"
-                                            [ngClass]="firstScreenshot === imgSource.path_full ? 'active':''">
+                                        <img src={{imgSource}} alt="" (click)="changePic(i)" id="{{i}}"
+                                            [ngClass]="firstScreenshot === imgSource ? 'active':''">
 
                                     </div>
                                 </ng-container>

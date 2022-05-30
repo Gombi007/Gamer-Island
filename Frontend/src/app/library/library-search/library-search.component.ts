@@ -19,13 +19,14 @@ export class LibrarySearchComponent implements OnInit {
     let pressedKey = event.target.value;
     let gameSearchInputText = "";
 
-    if (event.key === "Enter") {
-      event.preventDefault();
-    }
-    gameSearchInputText = pressedKey;  
-
+    gameSearchInputText = pressedKey;
     this.gameSearchInput.emit(gameSearchInputText);
 
   }
+
+  /*todo regx only letetr and numner and backspace and space
+  const input = String.fromCharCode(event.keyCode);
+  if (/[a-zA-Z0-9-_ ]/.test(input)) {  alert('input was a letter, number, hyphen, underscore or space');}  
+  */
 
 }

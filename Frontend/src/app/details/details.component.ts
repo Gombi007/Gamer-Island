@@ -1,5 +1,5 @@
 import { Component, HostListener, Input, OnInit, OnChanges, SimpleChanges } from '@angular/core';
-import { GameDetails, Screenshot } from '../game-details.model';
+import { GameDetails } from '../game-details.model';
 
 @Component({
   selector: 'app-details',
@@ -13,8 +13,8 @@ export class DetailsComponent implements OnInit {
   @Input()
   game: GameDetails = new GameDetails()
   isSelectedGame: boolean = false
-  screenshots: Screenshot[] = []
-  firstScreenshot?: string;
+  screenshots:string[] = []
+  firstScreenshot: string="";
   gameName?: string;
 
   constructor() { }
@@ -25,15 +25,17 @@ export class DetailsComponent implements OnInit {
 
   ngOnChanges(changes: SimpleChanges) {
     this.gameName = changes['game'].currentValue.name
-    if (this.gameName !== '') {
+    if (this.gameName !== 'TEST NAME') {
       this.isSelectedGame = true;
-      this.screenshots = changes['game'].currentValue.screenshots;
-      this.firstScreenshot = this.screenshots.find(image => image.id == 0)?.path_full;
-    } else {
-      this.isSelectedGame = false;
+      this.screenshots = changes['game'].currentValue.screenshot_urls;
+
+      if (this.screenshots.length != 0) {
+        this.firstScreenshot = this.screenshots[0];
+      } else {
+        this.isSelectedGame = false;
+      }
     }
   }
-
 
   // update value when resize
   @HostListener('window:resize', ['$event'])
@@ -42,22 +44,22 @@ export class DetailsComponent implements OnInit {
   }
 
   changePic(i: number) {
-    this.firstScreenshot = this.screenshots[i].path_full;
+    this.firstScreenshot = this.screenshots[i];
 
   }
 
   nextPic() {
     var screenshotsLength = this.screenshots.length;
+    var selectedPicId = this.screenshots.indexOf(this.firstScreenshot);    
 
-    var selectedPicId: any = this.screenshots.find(pic => pic.path_full === this.firstScreenshot)?.id
-    if (Number(selectedPicId) !== NaN) {
+    if (selectedPicId !== undefined) {
       var id: number = selectedPicId;
       if (id >= 0 && id < screenshotsLength - 1) {
         id += 1;
-        this.firstScreenshot = this.screenshots[id].path_full
+        this.firstScreenshot = this.screenshots[id]
         document.getElementById(String(id))?.scrollIntoView({ behavior: "smooth", block: "center", inline: "center" });
       } else {
-        this.firstScreenshot = this.screenshots[0].path_full
+        this.firstScreenshot = this.screenshots[0]
         document.getElementById(String(0))?.scrollIntoView({ behavior: "smooth", block: "center", inline: "center" });
       }
     }
@@ -65,16 +67,16 @@ export class DetailsComponent implements OnInit {
 
   prevPic() {
     var screenshotsLength = this.screenshots.length;
+    var selectedPicId = this.screenshots.indexOf(this.firstScreenshot);    
 
-    var selectedPicId: any = this.screenshots.find(pic => pic.path_full === this.firstScreenshot)?.id
-    if (Number(selectedPicId) !== NaN) {
+    if (selectedPicId !== undefined) {
       var id: number = selectedPicId;
       if (id > 0 && id < screenshotsLength) {
         id -= 1;
-        this.firstScreenshot = this.screenshots[id].path_full
+        this.firstScreenshot = this.screenshots[id];
         document.getElementById(String(id))?.scrollIntoView({ behavior: "smooth", block: "center", inline: "center" });
       } else {
-        this.firstScreenshot = this.screenshots[screenshotsLength - 1].path_full
+        this.firstScreenshot = this.screenshots[screenshotsLength - 1];
         document.getElementById(String(screenshotsLength - 1))?.scrollIntoView({ behavior: "smooth", block: "center", inline: "center" });
       }
     }
