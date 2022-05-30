@@ -1,7 +1,21 @@
 package com.gameisland.models.entities;
 
+import com.gameisland.models.dto.GameLibraryDetailsDto;
+
 import javax.persistence.*;
 import java.util.Set;
+
+
+@NamedNativeQuery(name = "Game.getLibraryDetails",
+        query = "SELECT name as name, header_image as headerImage FROM games",
+        resultSetMapping = "Mapping.GameLibraryDetailsDto")
+
+@SqlResultSetMapping(name = "Mapping.GameLibraryDetailsDto",
+        classes = @ConstructorResult(targetClass = GameLibraryDetailsDto.class,
+                columns = {
+                        @ColumnResult(name = "name"),
+                        @ColumnResult(name = "headerImage")}))
+
 
 @Entity()
 @Table(name = "games")
