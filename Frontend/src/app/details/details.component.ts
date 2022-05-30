@@ -1,5 +1,6 @@
 import { Component, HostListener, Input, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 import { GameDetails } from '../game-details.model';
+import { Game } from '../game.model';
 
 @Component({
   selector: 'app-details',
@@ -12,6 +13,10 @@ export class DetailsComponent implements OnInit {
 
   @Input()
   game: GameDetails = new GameDetails()
+
+  // <div [innerHTML]="gameAboutTheGame"></div>
+  gameAboutTheGame = ""
+
   isSelectedGame: boolean = false
   screenshots:string[] = []
   firstScreenshot: string="";
@@ -28,6 +33,7 @@ export class DetailsComponent implements OnInit {
     if (this.gameName !== 'TEST NAME') {
       this.isSelectedGame = true;
       this.screenshots = changes['game'].currentValue.screenshot_urls;
+      this.gameAboutTheGame = changes['game'].currentValue.about_the_game;
 
       if (this.screenshots.length != 0) {
         this.firstScreenshot = this.screenshots[0];
