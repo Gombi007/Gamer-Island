@@ -13,7 +13,7 @@
     box-shadow: 2px 0px 15px lightblue;
     
     padding: 1rem;
-    min-width:300px;
+    min-width:350px;
     max-width: 400px;
     min-height: 300px;
     background-color: black;
@@ -24,12 +24,33 @@
     background-color: rgba(17, 17, 17, 0.7)
 }
 
-.form-panel button{
+.form-btns {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+    
+}
+.form-btns button{
+    width: 5rem;
     color: wheat;
    
 }
 
-.form-panel button:hover{
+.form-btns button:hover{
     background-color: rgba(17, 17, 17, 0.7)
    
 }
+
+.change-login-register{
+    display: flex;
+    justify-content: center;
+}
+
+.fakeLoginBtn{
+    cursor: pointer;
+    padding-left: 0.5rem;
+    font-weight: bolder;
+    color:violet;
+}
+

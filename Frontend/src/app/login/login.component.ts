@@ -9,7 +9,12 @@ export class LoginComponent implements OnInit {
 
   constructor() { }
 
+  showLoginPage = true;
   ngOnInit(): void {
+  }
+
+  changeRegisterOrLogin(){
+    this.showLoginPage = !this.showLoginPage;
   }
 
 }
