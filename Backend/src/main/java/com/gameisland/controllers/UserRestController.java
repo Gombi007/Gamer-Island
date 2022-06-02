@@ -18,10 +18,14 @@ public class UserRestController {
         this.userService = userService;
     }
 
-    @PostMapping()
+    @GetMapping
+    public ResponseEntity<Object> getAllUserFromTheDatabase() {
+        return ResponseEntity.status(HttpStatus.OK).body(userService.getAllUserFromDatabase());
+    }
+
+    @PostMapping("/registration")
     public ResponseEntity<Object> createANewUser(@RequestBody User user) {
-        userService.createANewUser(user);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+        return ResponseEntity.status(HttpStatus.CREATED).body(userService.createANewUser(user));
     }
 
     @PostMapping("/{userIdString}/games/{gameIdString}")

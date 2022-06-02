@@ -1,13 +1,16 @@
 package com.gameisland.services;
 
+import com.gameisland.exceptions.ResourceAlreadyExists;
 import com.gameisland.models.entities.Game;
 import com.gameisland.models.entities.User;
 import com.gameisland.repositories.GameRepository;
 import com.gameisland.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -25,6 +28,16 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User createANewUser(User user) {
+        boolean isExistingUser = userRepository.findExistByName(user.getUserName());
+        if (isExistingUser) {
+            throw new ResourceAlreadyExists("This username already exists in the database." + user.getUserName());
+        }
+
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        String hashedPassword = passwordEncoder.encode(user.getPassword());
+        user.setPassword(hashedPassword);
+        user.setRole("user_role");
+        user.setBalance(1500L);
         User savedUser = userRepository.save(user);
         return savedUser;
     }
@@ -47,6 +60,11 @@ public class UserServiceImpl implements UserService {
         User user = userRepository.findById(userId).get();
         userRepository.deleteUserGameEntriesByUserId(user.getId());
         userRepository.delete(user);
+    }
+
+    @Override
+    public ArrayList<User> getAllUserFromDatabase() {
+        return userRepository.findAll();
     }
 
 
