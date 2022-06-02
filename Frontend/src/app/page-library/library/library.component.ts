@@ -1,9 +1,9 @@
 import { getLocaleDayNames } from '@angular/common';
 import { Component, EventEmitter, HostListener, Input, OnInit, Output } from '@angular/core';
-import { Game } from '../game.model';
+import { Game } from '../../game.model';
 import { HttpClient } from '@angular/common/http';
 import { fromEvent, map, of, Subject, switchMap, tap } from 'rxjs';
-import { GameDetails } from '../game-details.model';
+import { GameDetails } from '../../game-details.model';
 
 @Component({
   selector: 'app-library',

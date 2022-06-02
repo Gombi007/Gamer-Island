@@ -24,7 +24,7 @@ export class LibrarySearchComponent implements OnInit {
 
   }
 
-  /*todo regx only letetr and numner and backspace and space
+  /*todo regx only letter and numner and backspace and space
   const input = String.fromCharCode(event.keyCode);
   if (/[a-zA-Z0-9-_ ]/.test(input)) {  alert('input was a letter, number, hyphen, underscore or space');}  
   */

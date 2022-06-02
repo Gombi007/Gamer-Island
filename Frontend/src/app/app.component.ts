@@ -8,10 +8,4 @@ import { GameDetails } from './game-details.model';
 })
 export class AppComponent {
   title = 'Game Island';
-  game = new GameDetails();
-
-  getGame(gameFromLibrary:any){   
-    this.game = gameFromLibrary;
-
-  }
 }

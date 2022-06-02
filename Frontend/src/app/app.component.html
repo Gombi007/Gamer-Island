@@ -1,15 +1,8 @@
-<div class="container-fluid y-0 x-3" >
+<div class="container-fluid y-0 x-3">
     <div class="row">
         <div class="col">
-          <app-header></app-header>       
+            <app-header></app-header>
+            <router-outlet></router-outlet>
         </div>
-    </div>
-    <div class="row">
-      <div class="col-md-4 col-xl-3 col-xxl-2 ps-0 pe-1 ">
-        <app-library (gameDetailsByAppId)="getGame($event)"></app-library>
-      </div>
-      <div class="col-md-8 col-xl-9 col-xxl-10  ps-0 pe-0">
-        <app-details [game]="game"></app-details>   
-      </div>
     </div>
 </div>

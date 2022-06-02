@@ -1,6 +1,6 @@
 import { Component, HostListener, Input, OnInit, OnChanges, SimpleChanges } from '@angular/core';
-import { GameDetails } from '../game-details.model';
-import { Game } from '../game.model';
+import { GameDetails } from '../../game-details.model';
+import { Game } from '../../game.model';
 
 @Component({
   selector: 'app-details',
