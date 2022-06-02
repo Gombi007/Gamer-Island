@@ -10,6 +10,7 @@ import { NgStyle } from '@angular/common';
 import { LibrarySearchComponent } from './page-library/library/library-search/library-search.component';
 import { HttpClientModule } from '@angular/common/http';
 import { PageLibraryComponent } from './page-library/page-library.component';
+import { LoginComponent } from './login/login.component';
 
 
 @NgModule({
@@ -19,7 +20,8 @@ import { PageLibraryComponent } from './page-library/page-library.component';
     LibraryComponent,
     DetailsComponent,
     LibrarySearchComponent,
-    PageLibraryComponent
+    PageLibraryComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,

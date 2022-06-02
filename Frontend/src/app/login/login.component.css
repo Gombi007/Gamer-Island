@@ -1,0 +1,35 @@
+.flex-container{
+    padding-top: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  
+}
+
+.form-panel{
+    margin-top: 2rem;
+    background-image: url("../../assets/img/login_bg.jpg");
+    box-shadow: 2px 0px 15px lightblue;
+    
+    padding: 1rem;
+    min-width:300px;
+    max-width: 400px;
+    min-height: 300px;
+    background-color: black;
+}
+
+.form-panel input{
+    color: wheat;
+    background-color: rgba(17, 17, 17, 0.7)
+}
+
+.form-panel button{
+    color: wheat;
+   
+}
+
+.form-panel button:hover{
+    background-color: rgba(17, 17, 17, 0.7)
+   
+}
