@@ -12,4 +12,9 @@ public class GlobalExceptionHandler {
     public ResponseEntity<Object> handleNotFound(ResourceNotFoundException exception) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(exception.getMessage());
     }
+
+    @ExceptionHandler(ResourceAlreadyExists.class)
+    public ResponseEntity<Object> handleExists(ResourceAlreadyExists exception) {
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(exception.getMessage());
+    }
 }

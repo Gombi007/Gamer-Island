@@ -1,0 +1,60 @@
+<div class="container-fluid y-0 x-3">
+    <div class="row ">
+        <div class="col-12 flex-container">
+            <div>                
+                <img class="logo" src="../../assets/img/logo.png" alt="">
+            </div>
+            <div class="form-panel">
+                <form class="login" *ngIf="showLoginPage"  [formGroup]="Login" (ngSubmit)="StartLogin()">
+                    <div class="mb-3">
+                        <label for="userName" class="form-label">Username</label>
+                        <input type="text" class="form-control" id="userName" formControlName="userName">
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Password</label>
+                        <input type="password" class="form-control" id="password" formControlName="password">
+                    </div>
+                    <div class="change-login-register">
+                        <p>You don't have an account yet?</p>
+                        <p class="fakeLoginBtn" (click)="changeRegisterOrLogin()">Register</p>
+                    </div>
+                    <div class="form-btns">
+                        <button  class="btn btn-outline-secondary">Login</button>                      
+                    </div>
+                </form>
+
+                <form class="register" *ngIf="!showLoginPage"  [formGroup]="Register" (ngSubmit)="StartRegister()">
+                    <div class="mb-3">
+                        <label for="userName" class="form-label">Username</label>
+                        <input type="text" class="form-control" id="userName"  formControlName="userName">
+                    </div>
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="email"  formControlName="email">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Password</label>
+                        <input type="password" class="form-control" id="password"  formControlName="password">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="rePassword" class="form-label" *ngIf="samePasswords">Confirm Password</label>
+                        <label for="rePassword" class="form-label check-password" *ngIf="!samePasswords">The password fields are different!</label>
+                        <input type="password" class="form-control" id="rePassword"  formControlName="rePassword">
+                    </div>
+                    <div class="change-login-register">
+                        
+                        <p>You already have an account?</p>
+                        <p class="fakeLoginBtn" (click)="changeRegisterOrLogin()">Login</p>
+                    </div>
+
+                    <div class="form-btns">
+                        <button class="btn btn-outline-secondary">Register</button>                      
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>

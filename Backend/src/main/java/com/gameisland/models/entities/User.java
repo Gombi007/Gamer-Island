@@ -8,6 +8,8 @@ import java.util.Set;
 public class User extends BusinessObject {
     private String userName;
     private String password;
+    private String email;
+    private String role;
     private String avatar;
     private Long balance;
 
@@ -22,9 +24,11 @@ public class User extends BusinessObject {
     public User() {
     }
 
-    public User(String userName, String password, String avatar, Long balance, Set<Game> ownedGames) {
+    public User(String userName, String password, String email, String role, String avatar, Long balance, Set<Game> ownedGames) {
         this.userName = userName;
         this.password = password;
+        this.email = email;
+        this.role = role;
         this.avatar = avatar;
         this.balance = balance;
         this.ownedGames = ownedGames;
@@ -44,6 +48,22 @@ public class User extends BusinessObject {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 
     public String getAvatar() {

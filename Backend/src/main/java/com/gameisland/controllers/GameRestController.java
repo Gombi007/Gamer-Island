@@ -29,5 +29,10 @@ public class GameRestController {
         return ResponseEntity.status(HttpStatus.OK).body(gameService.getGameDetailsByAppId(appId));
     }
 
+    @GetMapping("/library")
+    public ResponseEntity<Object> getLibraryDetails() {
+        return ResponseEntity.status(HttpStatus.OK).body(gameService.libraryDetails());
+    }
+
 
 }

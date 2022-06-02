@@ -1,6 +1,9 @@
 package com.gameisland.services;
 
+import com.gameisland.models.dto.Login;
 import com.gameisland.models.entities.User;
+
+import java.util.ArrayList;
 
 public interface UserService {
 
@@ -9,5 +12,9 @@ public interface UserService {
     User addAGameToUser(Long userId, Long gameID);
 
     void removeAUserPermanently(Long userId);
+
+    ArrayList<User> getAllUserFromDatabase();
+
+    String login(Login login);
 
 }

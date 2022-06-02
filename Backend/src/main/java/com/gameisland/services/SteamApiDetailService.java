@@ -145,14 +145,27 @@ public class SteamApiDetailService {
                     gameDataPlatform.getAsJsonPrimitive("linux").getAsBoolean()
             );
 
+            //Limit all text what we would like save to the db
+            int maxLengthText = 10000;
+            String aboutTheGame = gameData.getAsJsonPrimitive("about_the_game").getAsString();
+            if (aboutTheGame.length() >= maxLengthText) {
+                aboutTheGame = aboutTheGame.substring(0, maxLengthText);
+            }
+
+            String detailedDescription = gameData.getAsJsonPrimitive("detailed_description").getAsString();
+            if (detailedDescription.length() >= maxLengthText) {
+                detailedDescription = detailedDescription.substring(0, maxLengthText);
+            }
+
+
             Game game = new Game(
                     appid,
                     true,
                     gameData.getAsJsonPrimitive("name").getAsString(),
                     gameData.getAsJsonPrimitive("required_age").getAsString(),
                     gameData.getAsJsonPrimitive("is_free").getAsBoolean(),
-                    gameData.getAsJsonPrimitive("detailed_description").getAsString(),
-                    gameData.getAsJsonPrimitive("about_the_game").getAsString(),
+                    detailedDescription,
+                    aboutTheGame,
                     gameData.getAsJsonPrimitive("short_description").getAsString(),
                     supportedLanguages,
                     gameData.getAsJsonPrimitive("header_image").getAsString(),

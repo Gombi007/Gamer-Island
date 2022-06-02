@@ -1,5 +1,6 @@
 package com.gameisland.controllers;
 
+import com.gameisland.models.dto.Login;
 import com.gameisland.models.entities.User;
 import com.gameisland.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,10 +19,19 @@ public class UserRestController {
         this.userService = userService;
     }
 
-    @PostMapping()
+    @GetMapping
+    public ResponseEntity<Object> getAllUserFromTheDatabase() {
+        return ResponseEntity.status(HttpStatus.OK).body(userService.getAllUserFromDatabase());
+    }
+
+    @PostMapping("login")
+    public ResponseEntity<Object> login(@RequestBody Login login) {
+        return ResponseEntity.status(HttpStatus.OK).body(userService.login(login));
+    }
+
+    @PostMapping("/registration")
     public ResponseEntity<Object> createANewUser(@RequestBody User user) {
-        userService.createANewUser(user);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+        return ResponseEntity.status(HttpStatus.CREATED).body(userService.createANewUser(user));
     }
 
     @PostMapping("/{userIdString}/games/{gameIdString}")
