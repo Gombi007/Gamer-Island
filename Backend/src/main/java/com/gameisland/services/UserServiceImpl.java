@@ -18,11 +18,13 @@ import java.util.Set;
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final GameRepository gameRepository;
+    private final AzureService azureService;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, GameRepository gameRepository) {
+    public UserServiceImpl(UserRepository userRepository, GameRepository gameRepository, AzureService azureService) {
         this.userRepository = userRepository;
         this.gameRepository = gameRepository;
+        this.azureService = azureService;
     }
 
 
