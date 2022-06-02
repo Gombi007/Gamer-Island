@@ -11,6 +11,7 @@ import { LibrarySearchComponent } from './page-library/library/library-search/li
 import { HttpClientModule } from '@angular/common/http';
 import { PageLibraryComponent } from './page-library/page-library.component';
 import { LoginComponent } from './login/login.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -26,7 +27,8 @@ import { LoginComponent } from './login/login.component';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    ReactiveFormsModule
    
   ],
   providers: [],
