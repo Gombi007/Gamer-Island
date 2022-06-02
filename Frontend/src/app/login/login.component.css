@@ -6,6 +6,12 @@
     justify-content: center;
   
 }
+.logo{
+    border-radius: 50%;
+    width: 250px;
+    border: 2px solid whitesmoke;
+    box-shadow: 2px 0px 15px lightblue;
+}
 
 .form-panel{
     margin-top: 2rem;
