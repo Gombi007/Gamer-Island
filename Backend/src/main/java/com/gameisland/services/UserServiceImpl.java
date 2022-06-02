@@ -85,7 +85,7 @@ public class UserServiceImpl implements UserService {
             }
             throw new ResourceNotFoundException("Wrong password");
         }
-        throw new ResourceAlreadyExists("This username already exists in the database." + login.getUserName());
+        throw new ResourceAlreadyExists("Username doesn't exist." + login.getUserName());
 
     }
 
