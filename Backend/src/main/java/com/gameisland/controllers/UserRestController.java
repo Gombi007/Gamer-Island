@@ -1,5 +1,6 @@
 package com.gameisland.controllers;
 
+import com.gameisland.models.dto.Login;
 import com.gameisland.models.entities.User;
 import com.gameisland.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,11 @@ public class UserRestController {
     @GetMapping
     public ResponseEntity<Object> getAllUserFromTheDatabase() {
         return ResponseEntity.status(HttpStatus.OK).body(userService.getAllUserFromDatabase());
+    }
+
+    @PostMapping("login")
+    public ResponseEntity<Object> login(@RequestBody Login login) {
+        return ResponseEntity.status(HttpStatus.OK).body(userService.login(login));
     }
 
     @PostMapping("/registration")
