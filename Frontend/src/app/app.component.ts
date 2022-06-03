@@ -9,8 +9,7 @@ import { GameDetails } from './game-details.model';
 })
 export class AppComponent {
   title = 'Game Island';
- isLoggedIn = this.route.url === 'login';
- constructor(private route:Router){}
+ constructor(){}
 
 }
 
