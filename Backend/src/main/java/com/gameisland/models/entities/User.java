@@ -12,6 +12,7 @@ public class User extends BusinessObject {
     private String role;
     private String avatar;
     private Long balance;
+    private String userUUID;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
@@ -24,13 +25,14 @@ public class User extends BusinessObject {
     public User() {
     }
 
-    public User(String userName, String password, String email, String role, String avatar, Long balance, Set<Game> ownedGames) {
+    public User(String userName, String password, String email, String role, String avatar, Long balance, String userUUID, Set<Game> ownedGames) {
         this.userName = userName;
         this.password = password;
         this.email = email;
         this.role = role;
         this.avatar = avatar;
         this.balance = balance;
+        this.userUUID = userUUID;
         this.ownedGames = ownedGames;
     }
 
@@ -80,6 +82,14 @@ public class User extends BusinessObject {
 
     public void setBalance(Long balance) {
         this.balance = balance;
+    }
+
+    public String getUserUUID() {
+        return userUUID;
+    }
+
+    public void setUserUUID(String userUUID) {
+        this.userUUID = userUUID;
     }
 
     public Set<Game> getOwnedGames() {

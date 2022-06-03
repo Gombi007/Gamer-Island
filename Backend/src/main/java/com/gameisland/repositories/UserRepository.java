@@ -7,6 +7,7 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
+import java.util.Set;
 
 @Repository
 public interface UserRepository extends CrudRepository<User, Long> {
@@ -21,6 +22,10 @@ public interface UserRepository extends CrudRepository<User, Long> {
 
     @Query(value = "SELECT password FROM users WHERE user_name = :userName", nativeQuery = true)
     String getPasswordHash(String userName);
+
+
+    @Query(value = "SELECT user_id FROM users", nativeQuery = true)
+    Set<String> getAllExistingIds();
 
 
     @Modifying

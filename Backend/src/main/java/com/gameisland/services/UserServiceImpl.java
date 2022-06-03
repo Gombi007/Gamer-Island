@@ -21,12 +21,14 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final GameRepository gameRepository;
     private final AzureService azureService;
+    private final IdGeneratorService idGeneratorService;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, GameRepository gameRepository, AzureService azureService) {
+    public UserServiceImpl(UserRepository userRepository, GameRepository gameRepository, AzureService azureService, IdGeneratorService idGeneratorService) {
         this.userRepository = userRepository;
         this.gameRepository = gameRepository;
         this.azureService = azureService;
+        this.idGeneratorService = idGeneratorService;
     }
 
 
@@ -38,11 +40,15 @@ public class UserServiceImpl implements UserService {
             throw new ResourceAlreadyExists("This username already exists in the database." + user.getUserName());
         }
 
+        Set<String> existingIds = userRepository.getAllExistingIds();
+        String uniqueId = idGeneratorService.getNewRandomGeneratedId(existingIds);
+
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         String hashedPassword = passwordEncoder.encode(user.getPassword());
         user.setPassword(hashedPassword);
         user.setRole("user_role");
         user.setBalance(1500L);
+        user.setUserUUID(uniqueId);
         User savedUser = userRepository.save(user);
         return savedUser;
     }
@@ -81,6 +87,7 @@ public class UserServiceImpl implements UserService {
             BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
             boolean passwordOk = passwordEncoder.matches(login.getPassword(), hashedUserPassword);
             if (passwordOk) {
+
                 return azureService.GetJWTFromAzure();
             }
             throw new ResourceNotFoundException("Wrong password");
