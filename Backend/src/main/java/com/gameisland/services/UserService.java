@@ -9,7 +9,7 @@ public interface UserService {
 
     User createANewUser(User user);
 
-    User getUserByUUID(String uuid);
+    Object getUserNameByUUID(String uuid);
 
     User addAGameToUser(Long userId, Long gameID);
 

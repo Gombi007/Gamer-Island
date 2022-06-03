@@ -9,7 +9,6 @@ import { AuthenticateService } from './service/authenticate.service';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-
   showLoginPage = true;
   samePasswords = true;
   responseData: any;
@@ -49,11 +48,17 @@ export class LoginComponent implements OnInit {
             localStorage.setItem('user_id', this.responseData.user_id);
             localStorage.setItem('token', this.responseData.token);
             this.route.navigate(['']);
+            this.service.GetLoggedUserName().subscribe({
+              //username showing in the header profile menu
+              next:(response)=>{               
+                console.log(response)
+              }
+            });
           }
         },
-        error: (error) => {        
-          this.errorResponseData = error;       
-        alert(this.errorResponseData.error);
+        error: (error) => {
+          this.errorResponseData = error;
+          alert(this.errorResponseData.error);
         }
       });
 

@@ -34,9 +34,9 @@ public class UserRestController {
         return ResponseEntity.status(HttpStatus.CREATED).body(userService.createANewUser(user));
     }
 
-    @GetMapping("/{uuid}")
-    public ResponseEntity<Object> getUserByUUID(@PathVariable String uuid) {
-        return ResponseEntity.status(HttpStatus.OK).body(userService.getUserByUUID(uuid));
+    @GetMapping("/username/{uuid}")
+    public ResponseEntity<Object> getUserNameByUUID(@PathVariable String uuid) {
+        return ResponseEntity.status(HttpStatus.OK).body(userService.getUserNameByUUID(uuid));
     }
 
     @PostMapping("/{userIdString}/games/{gameIdString}")

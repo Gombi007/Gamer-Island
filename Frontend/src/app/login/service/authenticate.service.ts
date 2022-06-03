@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 import { STRINGS } from 'src/app/strings.enum';
 
 @Injectable({
@@ -7,16 +8,19 @@ import { STRINGS } from 'src/app/strings.enum';
 })
 export class AuthenticateService {
 
-  constructor(private http:HttpClient) { }
-  
-  IsLoggedIn(){
+  constructor(private http: HttpClient) { }
+
+  IsLoggedIn() {
     return localStorage.getItem('token') != null;
   }
 
-  LoginViaBackend(userCredential:any){
-    let apiLoginUrl = STRINGS.API_LOGIN_URL;
-    return this.http.post<any>(apiLoginUrl,userCredential);
-
+  LoginViaBackend(userCredential: any) {
+    return this.http.post<any>(STRINGS.API_LOGIN_URL, userCredential);
   }
-  
+
+  GetLoggedUserName() {
+    let userUUID = localStorage.getItem("user_id"); 
+      return this.http.get<any>(STRINGS.API_USER_NAME_URL + userUUID);    
+  }
+
 }

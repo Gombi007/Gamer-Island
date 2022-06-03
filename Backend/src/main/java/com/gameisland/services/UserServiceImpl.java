@@ -52,13 +52,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User getUserByUUID(String uuid) {
+    public Object getUserNameByUUID(String uuid) {
         boolean isExistingUer = userRepository.getUserByUUID(uuid).isPresent();
         if (!isExistingUer) {
             throw new ResourceNotFoundException("User doesn't exist with this UUID: " + uuid);
         }
-        User user = userRepository.getUserByUUID(uuid).get();
-        return user;
+        Map<String, String> result = new HashMap<>();
+        result.put("userName", userRepository.getUserNameByUUID(uuid).get());
+        return result;
     }
 
     @Override
