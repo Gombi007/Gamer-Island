@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { AuthenticateService } from './service/authenticate.service';
 
 @Component({
   selector: 'app-login',
@@ -10,6 +12,8 @@ export class LoginComponent implements OnInit {
 
   showLoginPage = true;
   samePasswords = true;
+  responseData: any;
+  errorResponseData: any;
   Login = new FormGroup(
     {
       userName: new FormControl("", Validators.required),
@@ -25,7 +29,7 @@ export class LoginComponent implements OnInit {
     }
   );
 
-  constructor() {
+  constructor(private service: AuthenticateService, private route: Router) {
     localStorage.clear();
   }
 
@@ -38,7 +42,20 @@ export class LoginComponent implements OnInit {
 
   StartLogin() {
     if (this.Login.valid) {
-      console.log(this.Login.value)
+      this.service.LoginViaBackend(this.Login.value).subscribe({
+        next: (value) => {
+          if (value !== null) {
+            this.responseData = value;
+            localStorage.setItem('token', this.responseData);
+            this.route.navigate(['']);
+          }
+        },
+        error: (error) => {        
+          this.errorResponseData = error;       
+        alert(this.errorResponseData.error);
+        }
+      });
+
     }
   }
 
