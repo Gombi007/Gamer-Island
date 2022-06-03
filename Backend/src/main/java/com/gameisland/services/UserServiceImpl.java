@@ -12,9 +12,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -80,15 +78,18 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public String login(Login login) {
+    public Object login(Login login) {
         boolean isExistingUser = userRepository.findExistByName(login.getUserName());
         if (isExistingUser) {
             String hashedUserPassword = userRepository.getPasswordHash(login.getUserName());
             BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
             boolean passwordOk = passwordEncoder.matches(login.getPassword(), hashedUserPassword);
             if (passwordOk) {
-
-                return azureService.GetJWTFromAzure();
+                String userUUID = userRepository.getUserUUID(login.getUserName());
+                Map<String, String> userTokenAndUUID = new HashMap<>();
+                userTokenAndUUID.put("user_id", userUUID);
+                userTokenAndUUID.put("token", azureService.GetJWTFromAzure());
+                return userTokenAndUUID;
             }
             throw new ResourceNotFoundException("Wrong password");
         }

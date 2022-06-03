@@ -15,6 +15,6 @@ public interface UserService {
 
     ArrayList<User> getAllUserFromDatabase();
 
-    String login(Login login);
+    Object login(Login login);
 
 }

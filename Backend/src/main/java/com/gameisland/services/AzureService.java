@@ -31,10 +31,8 @@ public class AzureService {
         String responseBody = response.getBody();
 
         Gson gson = new Gson();
-
         Token token = gson.fromJson(responseBody, Token.class);
-        String resultJson = gson.toJson(token.getAccess_token());
-        return resultJson;
+        return token.access_token;
     }
 
 
