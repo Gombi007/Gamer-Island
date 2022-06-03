@@ -52,6 +52,16 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User getUserByUUID(String uuid) {
+        boolean isExistingUer = userRepository.getUserByUUID(uuid).isPresent();
+        if (!isExistingUer) {
+            throw new ResourceNotFoundException("User doesn't exist with this UUID: " + uuid);
+        }
+        User user = userRepository.getUserByUUID(uuid).get();
+        return user;
+    }
+
+    @Override
     @Transactional
     public User addAGameToUser(Long userId, Long gameID) {
         Set<Game> gameSet = new HashSet<>();

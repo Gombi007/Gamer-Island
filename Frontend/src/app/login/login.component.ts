@@ -46,7 +46,8 @@ export class LoginComponent implements OnInit {
         next: (value) => {
           if (value !== null) {
             this.responseData = value;
-            localStorage.setItem('token', this.responseData);
+            localStorage.setItem('user_id', this.responseData.user_id);
+            localStorage.setItem('token', this.responseData.token);
             this.route.navigate(['']);
           }
         },

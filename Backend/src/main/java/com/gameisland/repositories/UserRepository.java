@@ -7,6 +7,7 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
+import java.util.Optional;
 import java.util.Set;
 
 @Repository
@@ -25,6 +26,9 @@ public interface UserRepository extends CrudRepository<User, Long> {
 
     @Query(value = "SELECT useruuid FROM users WHERE user_name = :userName", nativeQuery = true)
     String getUserUUID(String userName);
+
+    @Query(value = "SELECT * FROM users WHERE useruuid = :UUID", nativeQuery = true)
+    Optional<User> getUserByUUID(String UUID);
 
 
     @Query(value = "SELECT user_id FROM users", nativeQuery = true)
