@@ -11,6 +11,8 @@ public interface GameService {
 
     ArrayList<Game> getAllGamesFromDatabase();
 
+    ArrayList<GameDto> getAllGamesFromDatabaseAndConvertDto();
+
     GameDto getGameDetailsByAppId(Long appId);
 
 

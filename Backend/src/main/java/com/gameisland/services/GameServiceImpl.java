@@ -40,6 +40,21 @@ public class GameServiceImpl implements GameService {
     }
 
     @Override
+    public ArrayList<GameDto> getAllGamesFromDatabaseAndConvertDto() {
+        Boolean isEmptyDatabase = gameRepository.findAll().isEmpty();
+        if (!isEmptyDatabase) {
+            ArrayList<GameDto> result = new ArrayList<>();
+            ArrayList<Game> allGames = gameRepository.findAll();
+            for (int i = 0; i < allGames.size(); i++) {
+                result.add(GameDto.convertToGameDto(allGames.get(i)));
+            }
+
+            return result;
+        }
+        throw new ResourceNotFoundException("Empty database");
+    }
+
+    @Override
     public GameDto getGameDetailsByAppId(Long appId) {
         if (appId != null) {
             try {

@@ -49,7 +49,7 @@ export class LoginComponent implements OnInit {
             localStorage.setItem('token', this.responseData.token);
             this.route.navigate(['']);
             this.service.GetLoggedUserName().subscribe({
-              //username showing in the header profile menu
+              // TODO username showing in the header profile menu
               next:(response)=>{               
                 console.log(response)
               }

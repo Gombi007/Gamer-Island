@@ -23,6 +23,11 @@ public class GameRestController {
         return ResponseEntity.status(HttpStatus.OK).body(gameService.getAllGamesFromDatabase());
     }
 
+    @GetMapping("/shop")
+    public ResponseEntity<Object> getAllGamesFromTheDatabaseForShop() {
+        return ResponseEntity.status(HttpStatus.OK).body(gameService.getAllGamesFromDatabaseAndConvertDto());
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<Object> getGameDetailsById(@PathVariable String id) {
         Long appId = Long.parseLong(id);
