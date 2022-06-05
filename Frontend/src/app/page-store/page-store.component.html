@@ -1,4 +1,4 @@
-<div class="container-fluid flex-container">
+<div class="container-fluid flex-container" infinite-scroll (scrolled)="onScrollDown($event)">
     
             <ng-container  *ngFor="let game of gamesFromDatabase">
                 <div class="card" style="width: 22rem;">

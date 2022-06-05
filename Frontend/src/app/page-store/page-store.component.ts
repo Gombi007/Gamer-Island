@@ -13,6 +13,9 @@ export class PageStoreComponent implements OnInit {
 
   gamesFromDatabase: GameDetails[] = [];
   isPending = false;
+  nextpage: number = 0;
+  totalPages: any;
+  size = 24;
 
   constructor(private http: HttpClient) { }
 
@@ -22,20 +25,31 @@ export class PageStoreComponent implements OnInit {
     this.shopGames$.next();
   }
 
-  
+  onScrollDown(ev: any) {
+    console.log(ev)
+    this.nextpage++;
+    //@ts-ignore
+    this.shopGames$.next();
+  }
+
+
+
   shopGames$ = new Subject().pipe(
     tap(() => {
       this.isPending = true;
     }),
-    switchMap(() => this.http.get(STRINGS.API_ALL_GAMES_FOR_SHOP)),
+    switchMap(() => this.http.get(STRINGS.API_ALL_GAMES_FOR_SHOP + "?page=" + this.nextpage + "&size=" + this.size)),
     tap((data: any) => {
       this.isPending = false;
-      this.gamesFromDatabase = data;
-    })
-  );
+      this.totalPages = data.totalPages;
 
-
-
-
-
+      if (this.gamesFromDatabase.length === 0) {
+        this.gamesFromDatabase = data.content;
+      } else {
+        let newPageArray: [] = data.content;
+        newPageArray.forEach(user => {
+          this.gamesFromDatabase.push(user);
+        });
+      }
+    }));
 }

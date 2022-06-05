@@ -7,7 +7,10 @@ import com.gameisland.models.entities.Game;
 import com.gameisland.repositories.GamePriceRepository;
 import com.gameisland.repositories.GameRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,15 +29,6 @@ public class GameServiceImpl implements GameService {
         this.gamePriceRepository = gamePriceRepository;
         this.steamApiAllProductsService = steamApiAllProductsService;
         this.steamApiDetailService = steamApiDetailService;
-    }
-
-    @Override
-    public ArrayList<Game> getAllGamesFromDatabase() {
-        Boolean isEmptyDatabase = gameRepository.findAll().isEmpty();
-        if (!isEmptyDatabase) {
-            return gameRepository.findAll();
-        }
-        return new ArrayList<>();
     }
 
     @Override

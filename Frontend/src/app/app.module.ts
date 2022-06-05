@@ -15,6 +15,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { PageStoreComponent } from './page-store/page-store.component';
 import { PageCommunityComponent } from './page-community/page-community.component';
 import { PageProfileComponent } from './page-profile/page-profile.component';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 
 
 @NgModule({
@@ -34,7 +35,8 @@ import { PageProfileComponent } from './page-profile/page-profile.component';
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    InfiniteScrollModule
    
   ],
   providers: [],

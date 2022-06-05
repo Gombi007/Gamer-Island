@@ -18,12 +18,6 @@ public class GameRestController {
         this.gameService = gameService;
     }
 
-    @GetMapping
-    public ResponseEntity<Object> getAllGamesFromTheDatabase() {
-        return ResponseEntity.status(HttpStatus.OK).body(gameService.getAllGamesFromDatabase());
-    }
-
-
     @GetMapping("/shop")
     public ResponseEntity<Object> getAllGamesFromTheDatabaseForShop(@RequestParam(name = "page", defaultValue = "0") int page,
                                                                     @RequestParam(name = "size", defaultValue = "1") int size) {
@@ -40,6 +34,5 @@ public class GameRestController {
     public ResponseEntity<Object> getLibraryDetails() {
         return ResponseEntity.status(HttpStatus.OK).body(gameService.libraryDetails());
     }
-
 
 }

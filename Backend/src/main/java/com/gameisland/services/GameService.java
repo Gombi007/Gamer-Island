@@ -10,12 +10,9 @@ import java.util.Set;
 
 public interface GameService {
 
-    ArrayList<Game> getAllGamesFromDatabase();
-
     Page<GameDto> getAllGamesFromDatabaseAndConvertDto(int page, int size);
 
     GameDto getGameDetailsByAppId(Long appId);
-
 
     //Amdin
     void saveProductsInAFileViaSteamApi();
