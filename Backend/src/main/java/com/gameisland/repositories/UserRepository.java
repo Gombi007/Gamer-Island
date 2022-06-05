@@ -33,8 +33,8 @@ public interface UserRepository extends CrudRepository<User, Long> {
     @Query(value = "SELECT user_name FROM users WHERE useruuid = :UUID", nativeQuery = true)
     Optional<String> getUserNameByUUID(String UUID);
 
-    @Query(value = "SELECT user_id FROM users", nativeQuery = true)
-    Set<String> getAllExistingIds();
+    @Query(value = "SELECT useruuid FROM users", nativeQuery = true)
+    Set<String> getAllExistingUUID();
 
 
     @Modifying

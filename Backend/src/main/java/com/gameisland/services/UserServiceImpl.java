@@ -38,7 +38,7 @@ public class UserServiceImpl implements UserService {
             throw new ResourceAlreadyExists("This username already exists in the database." + user.getUserName());
         }
 
-        Set<String> existingIds = userRepository.getAllExistingIds();
+        Set<String> existingIds = userRepository.getAllExistingUUID();
         String uniqueId = idGeneratorService.getNewRandomGeneratedId(existingIds);
 
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
