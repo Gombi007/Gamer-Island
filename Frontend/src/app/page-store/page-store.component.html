@@ -12,7 +12,8 @@
                         <p>{{gameGenre}}</p>
                     </ng-container>
                     </div>
-                    <h4>{{game.price_in_final_formatted}}</h4>                       
+                    <h4 *ngIf="(game.price_in_final_formatted) !== null">{{game.price_in_final_formatted}}</h4>   
+                    <h4 *ngIf="(game.price_in_final_formatted) === null">Free</h4>                         
                 </div>
             </ng-container>
         </div>

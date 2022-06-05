@@ -23,6 +23,7 @@ public class GameRestController {
         return ResponseEntity.status(HttpStatus.OK).body(gameService.getAllGamesFromDatabase());
     }
 
+
     @GetMapping("/shop")
     public ResponseEntity<Object> getAllGamesFromTheDatabaseForShop() {
         return ResponseEntity.status(HttpStatus.OK).body(gameService.getAllGamesFromDatabaseAndConvertDto());
