@@ -25,8 +25,9 @@ public class GameRestController {
 
 
     @GetMapping("/shop")
-    public ResponseEntity<Object> getAllGamesFromTheDatabaseForShop() {
-        return ResponseEntity.status(HttpStatus.OK).body(gameService.getAllGamesFromDatabaseAndConvertDto());
+    public ResponseEntity<Object> getAllGamesFromTheDatabaseForShop(@RequestParam(name = "page", defaultValue = "0") int page,
+                                                                    @RequestParam(name = "size", defaultValue = "1") int size) {
+        return ResponseEntity.status(HttpStatus.OK).body(gameService.getAllGamesFromDatabaseAndConvertDto(page, size));
     }
 
     @GetMapping("/{id}")
