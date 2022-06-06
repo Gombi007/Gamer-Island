@@ -3,14 +3,18 @@ package com.gameisland.repositories;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import org.springframework.stereotype.Service;
 
 import java.io.*;
+import java.util.HashSet;
+import java.util.Set;
 
+@Service
 public class FileDB {
 
 
-    private File initFileWriter() {
-        String fileName = "steam_apps.json";
+    private File initFileWriter(String fileNameByUser) {
+        String fileName = fileNameByUser;
         String directoryName = "data";
         try {
 
@@ -32,7 +36,7 @@ public class FileDB {
     }
 
     public void writeAllSteamProductsIntoAFile(JsonObject jsonObject) {
-        File file = initFileWriter();
+        File file = initFileWriter("steam_apps.json");
 
         if (file != null) {
             try {
@@ -50,7 +54,7 @@ public class FileDB {
     }
 
     public JsonObject getAllSteamProductsFromAFile() {
-        File file = initFileWriter();
+        File file = initFileWriter("steam_apps.json");
         String result = "";
 
         if (file != null) {
@@ -69,5 +73,62 @@ public class FileDB {
         JsonObject jsonObject = JsonParser.parseString(result).getAsJsonObject();
         return jsonObject;
 
+    }
+
+    public void CollectAllUnSuccessAndNonGameApp(Long removableAppFromList) {
+        File file = initFileWriter("removable_apps_from_steam_apps.txt");
+
+        if (file != null) {
+            try {
+                BufferedWriter writer = new BufferedWriter(new FileWriter(file, true));
+                writer.write(removableAppFromList.toString());
+                writer.newLine();
+                writer.close();
+
+            } catch (Exception exception) {
+                System.out.println("There is an issue with file writing");
+                System.out.println(exception.getMessage());
+            }
+        }
+    }
+
+    public Set<String> CollectedRemovableAppid() {
+        File file = initFileWriter("removable_apps_from_steam_apps.txt");
+        Set<String> result = new HashSet<>();
+
+        if (file != null) {
+            String temp;
+            try {
+                BufferedReader reader = new BufferedReader(new FileReader(file));
+                while ((temp = reader.readLine()) != null) {
+                    result.add(temp);
+                }
+                reader.close();
+
+                BufferedWriter writer = new BufferedWriter(new FileWriter(file));
+                writer.close();
+
+            } catch (Exception exception) {
+                System.out.println("There is an issue with file reading");
+                System.out.println(exception.getMessage());
+            }
+        }
+        return result;
+    }
+
+    public void CollectedNewAppListWriteIntoSteamAppJson(String json) {
+        File file = initFileWriter("steam_apps.json");
+
+        if (file != null) {
+            try {
+                BufferedWriter writer = new BufferedWriter(new FileWriter(file));
+                writer.write(json);
+                writer.close();
+
+            } catch (Exception exception) {
+                System.out.println("There is an issue with file writing");
+                System.out.println(exception.getMessage());
+            }
+        }
     }
 }

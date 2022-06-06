@@ -91,6 +91,7 @@ public class GameServiceImpl implements GameService {
                 counter++;
             }
         }
+        steamApiAllProductsService.removeAllSavedAndNonGameElementFromSteamAppJson();
 
     }
 
