@@ -1,7 +1,7 @@
 .flex-container{   
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
+    justify-content: center;  
     gap: 1rem 2rem;
 }
 .card{    
@@ -35,3 +35,15 @@
 .card h4{
     text-align: end;
 }
+
+.pending{
+    text-align: center;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+}
+.spinner{     
+    font-size: 4rem;
+    color: rgb(0, 0, 0);
+    text-shadow: 0px 0px 50px rgb(255, 255, 255)
+}
+

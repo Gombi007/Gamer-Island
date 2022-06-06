@@ -1,8 +1,7 @@
-    <div class="container-fluid header">     
-            <a class="item" routerLink="store" routerLinkActive="active">STORE</a>
-            <a class="item" routerLink="library" routerLinkActive="active">LIBRARY</a>
-            <a class="item" routerLink="community" routerLinkActive="active">COMMUNITY</a>
-            <a class="item" routerLink="profile" routerLinkActive="active">{{userName}}</a>       
-            <a class="item item-right" routerLink="login" routerLinkActive="active" *ngIf="isUserLoggedIn()">LOGOUT</a>
-        </div>
-
+<div class="container-fluid header">
+    <a class="item" routerLink="store" routerLinkActive="active">STORE</a>
+    <a class="item" routerLink="library" routerLinkActive="active">LIBRARY</a>
+    <a class="item" routerLink="community" routerLinkActive="active">COMMUNITY</a>
+    <a class="item" routerLink="profile" routerLinkActive="active">{{userName}}</a>
+    <a class="item item-right" routerLink="login" routerLinkActive="active" *ngIf="isUserLoggedIn()">LOGOUT</a>
+</div>

@@ -9,7 +9,7 @@ import { PageProfileComponent } from './page-profile/page-profile.component';
 import { PageStoreComponent } from './page-store/page-store.component';
 
 const routes: Routes = [
-  {path: "", component:PageLibraryComponent,canActivate:[AuthGuard]},
+  {path: "", component:PageStoreComponent, canActivate:[AuthGuard]},
   {path: "store", component:PageStoreComponent,canActivate:[AuthGuard]},
   {path: "library", component:PageLibraryComponent,canActivate:[AuthGuard]},
   {path: "community", component:PageCommunityComponent,canActivate:[AuthGuard]},
