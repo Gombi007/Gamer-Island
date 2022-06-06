@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AuthGuard } from '../login/service/auth.guard';
 import { AuthenticateService } from '../login/service/authenticate.service';
 import { STRINGS } from '../strings.enum';
@@ -22,7 +23,6 @@ export class HeaderComponent implements OnInit {
        return this.auth.IsLoggedIn();
     
   }
-
 
 }
 
