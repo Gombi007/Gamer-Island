@@ -1,9 +1,8 @@
-body {
-   
-    background-image: url("../src/assets/img/background.jpg");
+body {   
+    background-image: url("../src/assets/img/background.jpg");    
     background-repeat: no-repeat;
     background-size: cover;
-    background-attachment: fixed;
+    background-attachment: fixed; 
     color: antiquewhite;
 }
 

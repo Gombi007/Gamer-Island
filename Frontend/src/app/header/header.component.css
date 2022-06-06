@@ -1,6 +1,9 @@
 
 .header{
- display: flex;
+ display: flex; 
+ position: fixed;
+ z-index: 1;
+ background-color: black;
 } 
 
 .item {

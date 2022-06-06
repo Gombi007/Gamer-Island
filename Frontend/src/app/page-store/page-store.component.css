@@ -6,9 +6,13 @@
 }
 .card{    
     cursor: pointer;
-    background-color: rgba(59, 59, 59, 0.5);
+    background-color: rgba(59, 59, 59, 0.7);
     padding: 0.5rem;  
     border: none;   
+}
+
+.card:hover{
+    background-color: rgba(65, 65, 65, 0.9);
 }
 
 .genres{    
@@ -21,7 +25,11 @@
 .genres p{
     padding: 0.3rem;
     margin: 0;    
-    background-color: rgba(59, 59, 59, 0.5);
+    background-color: rgba(37, 37, 37, 0.5);
+}
+
+.genres p:hover{
+       background-color: rgba(24, 82, 105, 0.8);
 }
 
 .card h4{
