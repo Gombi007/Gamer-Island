@@ -21,8 +21,11 @@ Register an account and chatting your friends.
 
   
 
-  ![](E:\_E-BOOK\PROGRAMOZAS\2022 Projects\Gamer-Island\Resources\gamer-island-01.JPG)
+  ![](https://github.com/Gombi007/Gamer-Island/blob/development/Resources/gamer-island-01.JPG)
 
-![](E:\_E-BOOK\PROGRAMOZAS\2022 Projects\Gamer-Island\Resources\gamer-island-06.JPG)
+![](https://github.com/Gombi007/Gamer-Island/blob/development/Resources/gamer-island-06.JPG)
 
-![](E:\_E-BOOK\PROGRAMOZAS\2022 Projects\Gamer-Island\Resources\gamer-island-05.JPG)
+![](https://github.com/Gombi007/Gamer-Island/blob/development/Resources/gamer-island-05.JPG)
+
+
+
