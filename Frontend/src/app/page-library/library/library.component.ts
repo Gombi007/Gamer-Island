@@ -4,6 +4,7 @@ import { Game } from '../../game.model';
 import { HttpClient } from '@angular/common/http';
 import { fromEvent, map, of, Subject, switchMap, tap } from 'rxjs';
 import { GameDetails } from '../../game-details.model';
+import { STRINGS } from 'src/app/strings.enum';
 
 @Component({
   selector: 'app-library',
@@ -13,7 +14,7 @@ import { GameDetails } from '../../game-details.model';
 export class LibraryComponent implements OnInit {
 
   innerHeight!: number;
-  headerHeight: number = 155;
+  headerHeight: number = 162;
   games: Game[] = [];
   gamesClone: Game[] = [];
   isPending: Boolean = false;
@@ -37,7 +38,7 @@ export class LibraryComponent implements OnInit {
     tap(() => {
       this.isPending = true;
     }),
-    switchMap(() => this.http.get("http://localhost:8081/api/games/library")),
+    switchMap(() => this.http.get(STRINGS.API_LIBRARY)),
     tap((data: any) => {
       this.isPending = false;
       this.games = data;

@@ -9,12 +9,14 @@ public interface UserService {
 
     User createANewUser(User user);
 
+    Object getUserNameByUUID(String uuid);
+
     User addAGameToUser(Long userId, Long gameID);
 
     void removeAUserPermanently(Long userId);
 
     ArrayList<User> getAllUserFromDatabase();
 
-    String login(Login login);
+    Object login(Login login);
 
 }

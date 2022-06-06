@@ -9,7 +9,7 @@ import { Game } from '../../game.model';
 })
 export class DetailsComponent implements OnInit {
   innerHeight!: number;
-  headerHeight: number = 57;
+  headerHeight: number = 64;
 
   @Input()
   game: GameDetails = new GameDetails()

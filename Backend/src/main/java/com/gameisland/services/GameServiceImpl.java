@@ -7,13 +7,14 @@ import com.gameisland.models.entities.Game;
 import com.gameisland.repositories.GamePriceRepository;
 import com.gameisland.repositories.GameRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.NoSuchElementException;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class GameServiceImpl implements GameService {
@@ -31,12 +32,27 @@ public class GameServiceImpl implements GameService {
     }
 
     @Override
-    public ArrayList<Game> getAllGamesFromDatabase() {
+    public Page<GameDto> getAllGamesFromDatabaseAndConvertDto(int page, int size) {
         Boolean isEmptyDatabase = gameRepository.findAll().isEmpty();
         if (!isEmptyDatabase) {
-            return gameRepository.findAll();
+
+            Sort sort = Sort.by(Sort.Direction.ASC, "name");
+            PageRequest pageRequest = PageRequest.of(page, size, sort);
+            Page<Game> sortedAndPagedGames = gameRepository.findAll(pageRequest);
+            List<Game> gamesInaPage = sortedAndPagedGames.getContent();
+
+
+            ArrayList<GameDto> concertToDto = new ArrayList<>();
+            for (int i = 0; i < gamesInaPage.size(); i++) {
+                concertToDto.add(GameDto.convertToGameDto(gamesInaPage.get(i)));
+            }
+
+            Page<GameDto> resultPageWithDto = new PageImpl<>(concertToDto, sortedAndPagedGames.getPageable(), sortedAndPagedGames.getTotalPages());
+            return resultPageWithDto;
+
+
         }
-        return new ArrayList<>();
+        throw new ResourceNotFoundException("Empty database");
     }
 
     @Override
@@ -75,6 +91,7 @@ public class GameServiceImpl implements GameService {
                 counter++;
             }
         }
+        steamApiAllProductsService.removeAllSavedAndNonGameElementFromSteamAppJson();
 
     }
 

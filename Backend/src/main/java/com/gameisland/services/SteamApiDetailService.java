@@ -4,6 +4,7 @@ import com.gameisland.enums.StaticStrings;
 import com.gameisland.exceptions.GameDetailsAreNotSuccessException;
 import com.gameisland.exceptions.ResourceNotFoundException;
 import com.gameisland.models.entities.*;
+import com.gameisland.repositories.FileDB;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonNull;
 import com.google.gson.JsonObject;
@@ -21,10 +22,12 @@ import java.util.Set;
 public class SteamApiDetailService {
     private final String steamUrl = StaticStrings.STEAM_GAME_DETAILS_URL.getUrl();
     private RestTemplate template = new RestTemplate();
+    private FileDB fileDB = new FileDB();
 
     private JsonObject getGameDetailsIfThatIsSuccess(Long appid) {
         JsonObject resultDataObject;
         JsonObject responseBodyGameAppIdObject;
+
 
         try {
             ResponseEntity<String> response = template.getForEntity(steamUrl.concat(appid.toString()), String.class);
@@ -39,6 +42,10 @@ public class SteamApiDetailService {
         if (successField) {
             resultDataObject = responseBodyGameAppIdObject.getAsJsonObject("data");
             return resultDataObject;
+        } else {
+            //collect all unsuccess  appid
+            Long unSuccessAppId = responseBodyGameAppIdObject.getAsJsonObject("data").getAsJsonPrimitive("steam_appid").getAsLong();
+            fileDB.CollectAllUnSuccessAndNonGameApp(unSuccessAppId);
         }
         throw new GameDetailsAreNotSuccessException("Game is not done yet");
     }
@@ -174,6 +181,9 @@ public class SteamApiDetailService {
             );
 
             return game;
+        } else {
+            //Collect all non-game app.
+            fileDB.CollectAllUnSuccessAndNonGameApp(appid);
         }
         return null;
     }

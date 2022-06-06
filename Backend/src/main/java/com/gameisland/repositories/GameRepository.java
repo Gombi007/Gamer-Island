@@ -2,9 +2,9 @@ package com.gameisland.repositories;
 
 import com.gameisland.models.dto.GameLibraryDetailsDto;
 import com.gameisland.models.entities.Game;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -12,7 +12,7 @@ import java.util.Optional;
 import java.util.Set;
 
 @Repository
-public interface GameRepository extends CrudRepository<Game, Long> {
+public interface GameRepository extends JpaRepository<Game, Long> {
     @Override
     ArrayList<Game> findAll();
 

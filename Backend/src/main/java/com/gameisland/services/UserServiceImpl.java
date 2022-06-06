@@ -12,21 +12,21 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final GameRepository gameRepository;
     private final AzureService azureService;
+    private final IdGeneratorService idGeneratorService;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, GameRepository gameRepository, AzureService azureService) {
+    public UserServiceImpl(UserRepository userRepository, GameRepository gameRepository, AzureService azureService, IdGeneratorService idGeneratorService) {
         this.userRepository = userRepository;
         this.gameRepository = gameRepository;
         this.azureService = azureService;
+        this.idGeneratorService = idGeneratorService;
     }
 
 
@@ -38,13 +38,28 @@ public class UserServiceImpl implements UserService {
             throw new ResourceAlreadyExists("This username already exists in the database." + user.getUserName());
         }
 
+        Set<String> existingIds = userRepository.getAllExistingUUID();
+        String uniqueId = idGeneratorService.getNewRandomGeneratedId(existingIds);
+
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         String hashedPassword = passwordEncoder.encode(user.getPassword());
         user.setPassword(hashedPassword);
         user.setRole("user_role");
         user.setBalance(1500L);
+        user.setUserUUID(uniqueId);
         User savedUser = userRepository.save(user);
         return savedUser;
+    }
+
+    @Override
+    public Object getUserNameByUUID(String uuid) {
+        boolean isExistingUer = userRepository.getUserByUUID(uuid).isPresent();
+        if (!isExistingUer) {
+            throw new ResourceNotFoundException("User doesn't exist with this UUID: " + uuid);
+        }
+        Map<String, String> result = new HashMap<>();
+        result.put("userName", userRepository.getUserNameByUUID(uuid).get());
+        return result;
     }
 
     @Override
@@ -74,14 +89,18 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public String login(Login login) {
+    public Object login(Login login) {
         boolean isExistingUser = userRepository.findExistByName(login.getUserName());
         if (isExistingUser) {
             String hashedUserPassword = userRepository.getPasswordHash(login.getUserName());
             BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
             boolean passwordOk = passwordEncoder.matches(login.getPassword(), hashedUserPassword);
             if (passwordOk) {
-                return azureService.GetJWTFromAzure();
+                String userUUID = userRepository.getUserUUID(login.getUserName());
+                Map<String, String> userTokenAndUUID = new HashMap<>();
+                userTokenAndUUID.put("user_id", userUUID);
+                userTokenAndUUID.put("token", azureService.GetJWTFromAzure());
+                return userTokenAndUUID;
             }
             throw new ResourceNotFoundException("Wrong password");
         }

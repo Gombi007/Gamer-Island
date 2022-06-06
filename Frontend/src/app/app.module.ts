@@ -12,6 +12,10 @@ import { HttpClientModule } from '@angular/common/http';
 import { PageLibraryComponent } from './page-library/page-library.component';
 import { LoginComponent } from './login/login.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { PageStoreComponent } from './page-store/page-store.component';
+import { PageCommunityComponent } from './page-community/page-community.component';
+import { PageProfileComponent } from './page-profile/page-profile.component';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 
 
 @NgModule({
@@ -22,13 +26,17 @@ import { ReactiveFormsModule } from '@angular/forms';
     DetailsComponent,
     LibrarySearchComponent,
     PageLibraryComponent,
-    LoginComponent
+    LoginComponent,
+    PageStoreComponent,
+    PageCommunityComponent,
+    PageProfileComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    InfiniteScrollModule
    
   ],
   providers: [],
