@@ -19,6 +19,10 @@ Register an account and chatting your friends.
 
 - SQL
 
-  ```
-  ![alt text](https://ibb.co/XjKjrCM)
-  ```
+  
+
+  ![](E:\_E-BOOK\PROGRAMOZAS\2022 Projects\Gamer-Island\Resources\gamer-island-01.JPG)
+
+![](E:\_E-BOOK\PROGRAMOZAS\2022 Projects\Gamer-Island\Resources\gamer-island-06.JPG)
+
+![](E:\_E-BOOK\PROGRAMOZAS\2022 Projects\Gamer-Island\Resources\gamer-island-05.JPG)
