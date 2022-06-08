@@ -1,6 +1,7 @@
 package com.gameisland.models.dto;
 
 import com.gameisland.models.entities.*;
+import org.modelmapper.ModelMapper;
 
 import java.util.*;
 
@@ -28,7 +29,6 @@ public class GameDto {
 
 
     public static GameDto convertToGameDto(Game game) {
-
         // Platform select
         GamePlatform platform = game.getGamePlatform();
         Map<String, Boolean> platforms = new HashMap<>();
@@ -61,7 +61,6 @@ public class GameDto {
         while (genreIterator.hasNext()) {
             genres.add(genreIterator.next().getDescription());
         }
-
         return new GameDto(
                 game.getId(),
                 game.getSteamAppId(),
@@ -82,7 +81,59 @@ public class GameDto {
         );
     }
 
+    public static GameDto convertToGameDtoForShop(Game game) {
+        // Platform select
+        GamePlatform platform = game.getGamePlatform();
+        Map<String, Boolean> platforms = new HashMap<>();
+        if (platform != null) {
+            platforms.put("windows", platform.getWindows());
+            platforms.put("mac", platform.getMac());
+            platforms.put("linux", platform.getLinux());
+        }
+
+
+        // Metacritic select
+        GameMetacritic metacritic = game.getGameMetacritic();
+        Map<String, String> metacritics = new HashMap<>();
+        if (metacritic.getUrl() != null) {
+            metacritics.put(metacritic.getScore(), metacritic.getUrl());
+        }
+
+        // Genres select
+        Set<GameGenre> genres_tmp = game.getGameGenres();
+        List<String> genres = new ArrayList<>();
+        Iterator<GameGenre> genreIterator = genres_tmp.iterator();
+        while (genreIterator.hasNext()) {
+            genres.add(genreIterator.next().getDescription());
+        }
+        return new GameDto(
+                game.getId(),
+                game.getSteamAppId(),
+                game.getSuccess(),
+                game.getName(),
+                game.getRequiredAge(),
+                game.getFree(),
+                game.getDetailedDescription(),
+                game.getAboutTheGame(),
+                game.getShortDescription(),
+                game.getSupportedLanguages(),
+                game.getHeaderImage(),
+                game.getWebsite(),
+                game.getDevelopers(),
+                game.getPublishers(),
+                game.getGamePrice().getFinalFormatted(),
+                platforms, metacritics, null, genres
+        );
+    }
+
     public GameDto() {
+    }
+
+    public static GameDto convertToDtoWithModelMapper(Game game) {
+        ModelMapper mapper = new ModelMapper();
+        GameDto gameDto = mapper.map(game, GameDto.class);
+        System.out.println(gameDto);
+        return gameDto;
     }
 
     public GameDto(Long id, Long steam_appid, Boolean success, String name, String required_age, Boolean is_free, String detailed_description, String about_the_game, String short_description, String supported_languages, String header_image, String website, String developers, String publishers, String price_in_final_formatted, Map<String, Boolean> platforms, Map<String, String> metacritics, List<String> screenshot_urls, List<String> genres) {
@@ -259,5 +310,28 @@ public class GameDto {
         this.genres = genres;
     }
 
-
+    @Override
+    public String toString() {
+        return "GameDto{" +
+                "id=" + id +
+                ", steam_appid=" + steam_appid +
+                ", success=" + success +
+                ", name='" + name + '\'' +
+                ", required_age='" + required_age + '\'' +
+                ", is_free=" + is_free +
+                ", detailed_description='" + detailed_description + '\'' +
+                ", about_the_game='" + about_the_game + '\'' +
+                ", short_description='" + short_description + '\'' +
+                ", supported_languages='" + supported_languages + '\'' +
+                ", header_image='" + header_image + '\'' +
+                ", website='" + website + '\'' +
+                ", developers='" + developers + '\'' +
+                ", publishers='" + publishers + '\'' +
+                ", price_in_final_formatted='" + price_in_final_formatted + '\'' +
+                ", platforms=" + platforms +
+                ", metacritics=" + metacritics +
+                ", screenshot_urls=" + screenshot_urls +
+                ", genres=" + genres +
+                '}';
+    }
 }

@@ -44,10 +44,12 @@ public class GameServiceImpl implements GameService {
 
             ArrayList<GameDto> concertToDto = new ArrayList<>();
             for (int i = 0; i < gamesInaPage.size(); i++) {
-                concertToDto.add(GameDto.convertToGameDto(gamesInaPage.get(i)));
+                concertToDto.add(GameDto.convertToGameDtoForShop(gamesInaPage.get(i)));
             }
 
             Page<GameDto> resultPageWithDto = new PageImpl<>(concertToDto, sortedAndPagedGames.getPageable(), sortedAndPagedGames.getTotalPages());
+
+
             return resultPageWithDto;
 
 
@@ -59,7 +61,7 @@ public class GameServiceImpl implements GameService {
     public GameDto getGameDetailsByAppId(Long appId) {
         if (appId != null) {
             try {
-                Game game = gameRepository.gameByAppId(appId).orElseThrow();
+                Game game = gameRepository.gameByAppId(appId).get();
                 return GameDto.convertToGameDto(game);
             } catch (NoSuchElementException exception) {
                 throw new ResourceNotFoundException("No game in the database with this App ID: " + appId);
