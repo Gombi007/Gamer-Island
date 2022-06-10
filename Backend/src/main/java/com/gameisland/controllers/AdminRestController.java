@@ -1,6 +1,6 @@
 package com.gameisland.controllers;
 
-import com.gameisland.services.GameService;
+import com.gameisland.services.SteamGameService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,10 +10,10 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/admin")
 @CrossOrigin(origins = "http://localhost:8080")
 public class AdminRestController {
-    private final GameService gameService;
+    private final SteamGameService gameService;
 
     @Autowired
-    public AdminRestController(GameService gameService) {
+    public AdminRestController(SteamGameService gameService) {
         this.gameService = gameService;
     }
 
@@ -24,9 +24,13 @@ public class AdminRestController {
     }
 
     @GetMapping("/save-from-file-to-db/{limit}")
-    public ResponseEntity<Object> saveProductsInAFileViaSteamApi(@PathVariable String limit) {
+    public ResponseEntity<Object> saveProductsInAFileViaSteamApi(@PathVariable(required = false) String limit) {
+        if (limit == null) {
+            limit = "300";
+        }
         Integer queryLimit = Integer.parseInt(limit);
         gameService.saveSteamProductsFromFileDBToDatabase(queryLimit);
+        System.out.println("Games were saved");
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 

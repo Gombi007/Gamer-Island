@@ -1,6 +1,6 @@
 package com.gameisland.controllers;
 
-import com.gameisland.services.GameService;
+import com.gameisland.services.SteamGameService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,10 +11,10 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin(origins = "http://localhost:8080")
 public class GameRestController {
 
-    private final GameService gameService;
+    private final SteamGameService gameService;
 
     @Autowired
-    public GameRestController(GameService gameService) {
+    public GameRestController(SteamGameService gameService) {
         this.gameService = gameService;
     }
 

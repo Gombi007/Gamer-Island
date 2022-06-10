@@ -13,7 +13,6 @@ export class PageStoreComponent implements OnInit {
 
   gamesFromDatabase: GameDetails[] = [];
   isPending = false;
-  isPendingMoreData = false;
   nextpage: number = 0;
   totalPages: any;
   size = 24;
@@ -26,8 +25,7 @@ export class PageStoreComponent implements OnInit {
     this.shopGames$.next();
   }
 
-  onScrollDown(ev: any) {
-    this.isPendingMoreData = true;
+  onScrollDown(ev: any) { 
     console.log(ev)
     this.nextpage++;
     //@ts-ignore
@@ -42,10 +40,9 @@ export class PageStoreComponent implements OnInit {
     }),
     switchMap(() => this.http.get(STRINGS.API_ALL_GAMES_FOR_SHOP + "?page=" + this.nextpage + "&size=" + this.size)),
     tap((data: any) => {
-      this.totalPages = data.totalPages;
-      
+      this.totalPages = data.totalPages;   
       if (this.gamesFromDatabase.length === 0) {
-        this.gamesFromDatabase = data.content;
+        this.gamesFromDatabase = data.content;       
       } else {
         let newPageArray: [] = data.content;
         newPageArray.forEach(user => {

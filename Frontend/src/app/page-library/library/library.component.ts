@@ -56,8 +56,7 @@ export class LibraryComponent implements OnInit {
 
   searching(searching: string) {   
     this.gamesClone = this.games;   
-    let filteredResult = this.gamesClone.filter(game => {
-      //why getter with $ not work here     
+    let filteredResult = this.gamesClone.filter(game => {      
       return game.name.toLowerCase().includes(searching);
     });
 
@@ -67,27 +66,27 @@ export class LibraryComponent implements OnInit {
   getGameNameForShowing(gameAppid: number) {
 
     let gameDetails = new GameDetails();
-    let detail$ = this.http.get("http://localhost:8081/api/games/" + gameAppid).pipe(
+    let detail$ = this.http.get(STRINGS.API_GAMES_DETAILS + gameAppid).pipe(
       tap((data: any) => {
-        gameDetails.$id = data.id;
-        gameDetails.$steam_appid = data.steam_appid;
-        gameDetails.$success = data.success;
-        gameDetails.$name = data.name;
-        gameDetails.$required_age = data.required_age;
-        gameDetails.$is_free = data.is_free;
-        gameDetails.$detailed_description = data.detailed_description;
-        gameDetails.$about_the_game = data.about_the_game;
-        gameDetails.$short_description = data.short_description;
-        gameDetails.$supported_languages = data.supported_languages;
-        gameDetails.$header_image = data.header_image;
-        gameDetails.$website = data.website;
-        gameDetails.$developers = data.developers;
-        gameDetails.$publishers = data.publishers;
-        gameDetails.$price_in_final_formatted = data.price_in_final_formatted;
-        gameDetails.$platforms = data.platforms;
-        gameDetails.$metacritics = data.metacritics;
+        gameDetails.id = data.id;
+        gameDetails.steam_appid = data.steam_appid;
+        gameDetails.success = data.success;
+        gameDetails.name = data.name;
+        gameDetails.required_age = data.required_age;
+        gameDetails.is_free = data.is_free;
+        gameDetails.detailed_description = data.detailed_description;
+        gameDetails.about_the_game = data.about_the_game;
+        gameDetails.short_description = data.short_description;
+        gameDetails.supported_languages = data.supported_languages;
+        gameDetails.header_image = data.header_image;
+        gameDetails.website = data.website;
+        gameDetails.developers = data.developers;
+        gameDetails.publishers = data.publishers;
+        gameDetails.price_in_final_formatted = data.price_in_final_formatted;
+        gameDetails.platforms = data.platforms;
+        gameDetails.metacritics = data.metacritics;
         gameDetails.screenshot_urls = data.screenshot_urls;
-        gameDetails.$genres = data.genres;
+        gameDetails.genres = data.genres;
       }),
       tap(() => { this.gameDetailsByAppId.emit(gameDetails) })
     ).subscribe();

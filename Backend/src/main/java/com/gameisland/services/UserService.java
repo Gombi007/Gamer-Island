@@ -11,8 +11,6 @@ public interface UserService {
 
     Object getUserNameByUUID(String uuid);
 
-    User addAGameToUser(Long userId, Long gameID);
-
     void removeAUserPermanently(Long userId);
 
     ArrayList<User> getAllUserFromDatabase();

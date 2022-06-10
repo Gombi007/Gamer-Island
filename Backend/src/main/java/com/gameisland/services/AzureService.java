@@ -1,5 +1,6 @@
 package com.gameisland.services;
 
+import com.gameisland.enums.StaticStrings;
 import com.google.gson.Gson;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -26,7 +27,7 @@ public class AzureService {
         HttpEntity<MultiValueMap<String, String>> entity = new HttpEntity<>(form, headers);
 
         RestTemplate rt = new RestTemplate();
-        String url = "https://login.microsoftonline.com/3caeff68-27dd-4cf7-85c1-a587bfbd0b4f/oauth2/v2.0/token";
+        String url = StaticStrings.AZURE_TOKEN_URL.getUrl();
         ResponseEntity<String> response = rt.postForEntity(url, entity, String.class);
         String responseBody = response.getBody();
 

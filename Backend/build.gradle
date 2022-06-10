@@ -6,7 +6,7 @@ plugins {
 
 group = 'com'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '11'
+sourceCompatibility = '1.8'
 
 repositories {
 	mavenCentral()
@@ -17,6 +17,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation group: 'com.google.code.gson', name: 'gson', version: '2.9.0'
 	implementation 'org.springframework.security:spring-security-crypto:5.7.1'
+	implementation 'org.modelmapper:modelmapper:3.1.0'
 	runtimeOnly 'org.postgresql:postgresql'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
@@ -24,3 +25,13 @@ dependencies {
 tasks.named('test') {
 	useJUnitPlatform()
 }
+
+// Add these START
+bootJar {
+	archiveClassifier.set('boot')
+}
+
+jar {
+	archiveClassifier.set('')
+}
+// Add these END
