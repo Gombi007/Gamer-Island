@@ -71,6 +71,9 @@ export class LoginComponent implements OnInit {
         this.samePasswords = false;
       } else {
         this.samePasswords = true;
+        this.service.RegisterViaBackend(this.Register.value).subscribe({
+          // TODO register
+        });
       }
 
     }

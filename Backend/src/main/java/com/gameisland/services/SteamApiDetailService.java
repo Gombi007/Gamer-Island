@@ -164,7 +164,8 @@ public class SteamApiDetailService {
 
             //supported languages
             boolean isNullLanguagesJson = gameData.get("supported_languages") instanceof JsonNull;
-            if (!isNullLanguagesJson) {
+            boolean isNullLanguagesString = gameData.get("supported_languages") == null;
+            if (!isNullLanguagesJson && !isNullLanguagesString) {
                 supportedLanguages = gameData.getAsJsonPrimitive("supported_languages").getAsString();
             }
 
