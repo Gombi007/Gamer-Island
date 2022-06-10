@@ -1,63 +1,10 @@
-.flex-container{   
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;  
-    gap: 1rem 2rem;
-}
+@media screen and (max-width: 1000px) {
+    .row{
+        overflow: scroll;
+    }
 
-.card{    
-    cursor: pointer;
-    background-color: rgba(59, 59, 59, 0.7);
-    padding: 0.5rem;  
-    border: none;   
-}
-
-.card:hover{
-    background-color: rgba(65, 65, 65, 0.9);
-}
-
-.genres{    
-    display: flex;
-    flex-wrap: wrap;   
-    justify-content: flex-start;
-    gap: 0.3rem 0.3rem;
-
-}
-.genres p{
-    padding: 0.3rem;
-    margin: 0;    
-    background-color: rgba(37, 37, 37, 0.5);
-}
-
-.genres p:hover{
-       background-color: rgba(24, 82, 105, 0.8);
-}
-
-.card h4{
-    text-align: end;
-}
-
-.pending{
-    text-align: center;
-    padding-top: 2rem;
-    padding-bottom: 2rem;
-}
-.spinner{     
-    font-size: 4rem;
-    color: rgb(0, 0, 0);
-    text-shadow: 0px 0px 50px rgb(255, 255, 255)
-}
-.platforms_age{ 
-    display: flex;
-    justify-content: space-between;   
- }
- .platforms_age p span{
-     font-weight: bolder;
- }
-
-.platforms i{
- justify-content: flex-end;
- padding-left: 1rem;
-    font-size: 1.5rem;
-}
-
+    .col-md-4{   
+        background-color: cadetblue;
+        height: 100px;
+    }
+   }

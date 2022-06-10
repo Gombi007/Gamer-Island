@@ -11,9 +11,9 @@
   text-decoration: none;
   color: rgba(255, 254, 254, 0.6);
   font-family: "Fredoka", sans-serif;
-  font-size: calc(12px + 0.3vw);
-  padding-top: calc(6px + 0.4vw);
-  padding-bottom: calc(6px + 0.4vw);
+  font-size: 1.3rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
   width: 10%;
 }
 
@@ -28,3 +28,18 @@
 .active{
   color:  rgba(255, 254, 254, 1); 
 }
+
+@media screen and (max-width: 1000px) {
+  .item{ 
+    font-size: 0.7rem;
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+
+  .header{   
+    justify-content: space-around;
+  }
+  .item-right{
+    margin-left: 0;
+  }
+ }

@@ -16,6 +16,8 @@ import { PageStoreComponent } from './page-store/page-store.component';
 import { PageCommunityComponent } from './page-community/page-community.component';
 import { PageProfileComponent } from './page-profile/page-profile.component';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+import { StoreSearchComponent } from './page-store/store-search/store-search.component';
+import { StoreElementsComponent } from './page-store/store-elements/store-elements.component';
 
 
 @NgModule({
@@ -29,7 +31,9 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
     LoginComponent,
     PageStoreComponent,
     PageCommunityComponent,
-    PageProfileComponent
+    PageProfileComponent,
+    StoreSearchComponent,
+    StoreElementsComponent
   ],
   imports: [
     BrowserModule,
