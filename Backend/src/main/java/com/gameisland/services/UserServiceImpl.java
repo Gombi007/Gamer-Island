@@ -3,28 +3,27 @@ package com.gameisland.services;
 import com.gameisland.exceptions.ResourceAlreadyExists;
 import com.gameisland.exceptions.ResourceNotFoundException;
 import com.gameisland.models.dto.Login;
-import com.gameisland.models.entities.Game;
 import com.gameisland.models.entities.User;
-import com.gameisland.repositories.GameRepository;
 import com.gameisland.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 @Service
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
-    private final GameRepository gameRepository;
     private final AzureService azureService;
     private final IdGeneratorService idGeneratorService;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, GameRepository gameRepository, AzureService azureService, IdGeneratorService idGeneratorService) {
+    public UserServiceImpl(UserRepository userRepository, AzureService azureService, IdGeneratorService idGeneratorService) {
         this.userRepository = userRepository;
-        this.gameRepository = gameRepository;
         this.azureService = azureService;
         this.idGeneratorService = idGeneratorService;
     }
@@ -60,18 +59,6 @@ public class UserServiceImpl implements UserService {
         Map<String, String> result = new HashMap<>();
         result.put("userName", userRepository.getUserNameByUUID(uuid).get());
         return result;
-    }
-
-    @Override
-    @Transactional
-    public User addAGameToUser(Long userId, Long gameID) {
-        Set<Game> gameSet = new HashSet<>();
-        Game game = gameRepository.findById(gameID).get();
-        User user = userRepository.findById(userId).get();
-        gameSet = user.getOwnedGames();
-        gameSet.add(game);
-        user.setOwnedGames(gameSet);
-        return userRepository.save(user);
     }
 
     @Override

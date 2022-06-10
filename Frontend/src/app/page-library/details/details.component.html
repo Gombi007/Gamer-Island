@@ -3,7 +3,7 @@
         <ng-container *ngIf="isSelectedGame">
 
             <div class="details-header">
-                <img src="{{game.$header_image}}" alt="image 1" class="preview-img" >
+                <img src="{{game.header_image}}" alt="image 1" class="preview-img" >
             </div>                      
 
             <div class="card">               
@@ -36,15 +36,15 @@
                         </div>
                     </div>
                     <div class="col-md-4 game-details p-0">
-                        <img class="header-img" src="{{game.$header_image}}" alt="">
-                        <p class="card-text text-start">{{game.$short_description}}</p>                       
+                        <img class="header-img" src="{{game.header_image}}" alt="">
+                        <p class="card-text text-start">{{game.short_description}}</p>                       
                         <p class="card-text text-start">
-                           <b> Publishers:</b> {{game.$publishers}}
+                           <b> Publishers:</b> {{game.publishers}}
                             <br>
-                            <b>Developers:</b> {{game.$developers}}
+                            <b>Developers:</b> {{game.developers}}
                         </p>
-                        <p class="card-text text-start"><b>{{game.$genres}} </b></p>
-                        <h3 class="card-text text-start">{{game.$price_in_final_formatted}}</h3>
+                        <p class="card-text text-start"><b>{{game.genres}} </b></p>
+                        <h3 class="card-text text-start">{{game.price_in_final_formatted}}</h3>
                     </div>
                 </div>
             </div>

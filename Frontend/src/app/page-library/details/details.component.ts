@@ -28,7 +28,7 @@ export class DetailsComponent implements OnInit {
     this.innerHeight = window.innerHeight - this.headerHeight;
   }
 
-  ngOnChanges(changes: SimpleChanges) {
+  ngOnChanges(changes: SimpleChanges) {   
     this.gameName = changes['game'].currentValue.name
     if (this.gameName !== 'TEST NAME') {
       this.isSelectedGame = true;

@@ -15,7 +15,7 @@ export class PageStoreComponent implements OnInit {
   isPending = false;
   nextpage: number = 0;
   totalPages: any;
-  size = 18;
+  size = 24;
 
   constructor(private http: HttpClient) { }
 
@@ -40,10 +40,9 @@ export class PageStoreComponent implements OnInit {
     }),
     switchMap(() => this.http.get(STRINGS.API_ALL_GAMES_FOR_SHOP + "?page=" + this.nextpage + "&size=" + this.size)),
     tap((data: any) => {
-      this.totalPages = data.totalPages;
-
+      this.totalPages = data.totalPages;   
       if (this.gamesFromDatabase.length === 0) {
-        this.gamesFromDatabase = data.content;
+        this.gamesFromDatabase = data.content;       
       } else {
         let newPageArray: [] = data.content;
         newPageArray.forEach(user => {

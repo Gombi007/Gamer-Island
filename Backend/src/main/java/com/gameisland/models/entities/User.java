@@ -20,12 +20,12 @@ public class User extends BusinessObject {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "game_id")
     )
-    private Set<Game> ownedGames;
+    private Set<SteamGame> ownedGames;
 
     public User() {
     }
 
-    public User(String userName, String password, String email, String role, String avatar, Long balance, String userUUID, Set<Game> ownedGames) {
+    public User(String userName, String password, String email, String role, String avatar, Long balance, String userUUID, Set<SteamGame> ownedGames) {
         this.userName = userName;
         this.password = password;
         this.email = email;
@@ -92,11 +92,11 @@ public class User extends BusinessObject {
         this.userUUID = userUUID;
     }
 
-    public Set<Game> getOwnedGames() {
+    public Set<SteamGame> getOwnedGames() {
         return ownedGames;
     }
 
-    public void setOwnedGames(Set<Game> ownedGames) {
+    public void setOwnedGames(Set<SteamGame> ownedGames) {
         this.ownedGames = ownedGames;
     }
 }

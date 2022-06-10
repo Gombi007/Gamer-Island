@@ -3,7 +3,7 @@ package com.gameisland.services;
 import com.gameisland.enums.StaticStrings;
 import com.gameisland.exceptions.GameDetailsAreNotSuccessException;
 import com.gameisland.exceptions.ResourceNotFoundException;
-import com.gameisland.models.entities.*;
+import com.gameisland.models.entities.SteamGame;
 import com.gameisland.repositories.FileDB;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonNull;
@@ -13,10 +13,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.HashSet;
 import java.util.Locale;
 import java.util.Objects;
-import java.util.Set;
 
 @Service
 public class SteamApiDetailService {
@@ -50,137 +48,155 @@ public class SteamApiDetailService {
         throw new GameDetailsAreNotSuccessException("Game is not done yet");
     }
 
-    public Game saveAGameIntoTheDatabase(Long appid) {
-        boolean isSoundtrack = true;
-        boolean isBeta = true;
+    public SteamGame saveSteamGamesIntoTheDatabase(Long appid) {
         boolean onlyGames = false;
         JsonObject gameData = null;
+        boolean isSoundtrack = true;
+        boolean isBeta = true;
+        boolean isPlayTest = true;
+        boolean isAdultGame = true;
 
         try {
             gameData = getGameDetailsIfThatIsSuccess(appid);
+            onlyGames = gameData.getAsJsonPrimitive("type").getAsString().equalsIgnoreCase("game");
             isSoundtrack = gameData.getAsJsonPrimitive("name").getAsString().toLowerCase(Locale.ROOT).contains("soundtrack");
             isBeta = gameData.getAsJsonPrimitive("name").getAsString().toLowerCase(Locale.ROOT).contains("beta");
-            onlyGames = gameData.getAsJsonPrimitive("type").getAsString().equalsIgnoreCase("game");
+            isPlayTest = gameData.getAsJsonPrimitive("name").getAsString().toLowerCase(Locale.ROOT).contains("playtest");
+            isAdultGame = gameData.getAsJsonPrimitive("required_age").getAsString().toLowerCase(Locale.ROOT).contains("18");
+
         } catch (Exception exception) {
             // Game is not success
         }
+        if (gameData != null && onlyGames && !isSoundtrack && !isBeta && !isPlayTest && !isAdultGame) {
 
-        if (onlyGames && !isSoundtrack && !isBeta && gameData != null) {
+            Long steamAppId = appid;
+            Boolean success = true;
+            String name = gameData.getAsJsonPrimitive("name").getAsString();
+            String requiredAge = gameData.getAsJsonPrimitive("required_age").getAsString();
+            Boolean isFree = gameData.getAsJsonPrimitive("is_free").getAsBoolean();
+            String headerImage = gameData.getAsJsonPrimitive("header_image").getAsString();
+            String website = ""; //ok
+            String price = ""; //ok
+            String developers = ""; //ok
+            String publishers = ""; //ok
+            String platforms = ""; //ok
+            String screenshots = ""; //ok
+            String genres = ""; //ok
+            String detailedDescription = ""; //ok
+            String aboutTheGame = ""; //ok
+            String shortDescription = gameData.getAsJsonPrimitive("short_description").getAsString();
+            String supportedLanguages = ""; //ok;
+            String metacritic = ""; //ok;
 
-            String developers = "";
+            //website
+            boolean isNullWebsiteJson = gameData.get("website") instanceof JsonNull;
+            if (!isNullWebsiteJson) {
+                website = gameData.getAsJsonPrimitive("website").getAsString();
+            }
+
+            //price
+            JsonObject gameDataPrice = gameData.getAsJsonObject("price_overview");
+            if (gameDataPrice != null) {
+                price = gameDataPrice.getAsJsonPrimitive("final_formatted").getAsString();
+            }
+
+            //developers
             JsonArray gameDataDevelopers = gameData.getAsJsonArray("developers");
             if (gameDataDevelopers != null) {
-
                 for (int i = 0; i < gameDataDevelopers.size(); i++) {
-                    developers += gameDataDevelopers.get(i).getAsString() + ",";
+                    developers += gameDataDevelopers.get(i).getAsString() + ";";
                 }
             }
 
-            String publishers = "";
+            //publishers
             JsonArray gameDataPublishers = gameData.getAsJsonArray("publishers");
             if (gameDataPublishers != null) {
                 for (int i = 0; i < gameDataPublishers.size(); i++) {
-                    publishers += gameDataPublishers.get(i).getAsString() + ",";
-
+                    publishers += gameDataPublishers.get(i).getAsString() + ";";
                 }
             }
-            Set<GameScreenshot> screenshots = new HashSet<>();
+
+            //platforms
+            JsonObject gameDataPlatform = gameData.getAsJsonObject("platforms");
+            boolean isRunningOnWindows = gameDataPlatform.getAsJsonPrimitive("windows").getAsBoolean();
+            boolean isRunningOnMac = gameDataPlatform.getAsJsonPrimitive("mac").getAsBoolean();
+            boolean isRunningOnLinux = gameDataPlatform.getAsJsonPrimitive("linux").getAsBoolean();
+            if (isRunningOnWindows) {
+                platforms += "Windows ";
+            }
+            if (isRunningOnMac) {
+                platforms += "Mac ";
+            }
+            if (isRunningOnLinux) {
+                platforms += "Linux ";
+            }
+
+            //screenshots
             JsonArray gameDataScreenshots = gameData.getAsJsonArray("screenshots");
-
             if (gameDataScreenshots != null) {
-                int maxScreenshotSize = Math.min(gameDataScreenshots.size(), 5);
-
-                for (int i = 0; i < maxScreenshotSize; i++) {
+                for (int i = 0; i < gameDataScreenshots.size(); i++) {
                     JsonObject screenshotObject = gameDataScreenshots.get(i).getAsJsonObject();
-                    String pathThumbnail = screenshotObject.get("path_thumbnail").getAsString();
-                    String pathFull = screenshotObject.get("path_full").getAsString();
-                    screenshots.add(new GameScreenshot(appid, pathThumbnail, pathFull));
+                    screenshots += screenshotObject.get("path_full").getAsString() + ";";
                 }
             }
 
-            Set<GameGenre> genres = new HashSet<>();
+            //genres
             JsonArray gameDataGenres = gameData.getAsJsonArray("genres");
             if (gameDataGenres != null) {
                 for (int i = 0; i < gameDataGenres.size(); i++) {
                     JsonObject genreObject = gameDataGenres.get(i).getAsJsonObject();
-                    String description = genreObject.get("description").getAsString();
-                    genres.add(new GameGenre(appid, description));
+                    genres += genreObject.get("description").getAsString() + ";";
                 }
             }
 
-
-            JsonObject gameDataPrice = gameData.getAsJsonObject("price_overview");
-            GamePrice gamePrice = new GamePrice();
-            if (gameDataPrice != null) {
-                gamePrice = new GamePrice(
-                        appid,
-                        gameDataPrice.getAsJsonPrimitive("currency").getAsString(),
-                        gameDataPrice.getAsJsonPrimitive("initial").getAsString(),
-                        gameDataPrice.getAsJsonPrimitive("final").getAsString(),
-                        gameDataPrice.getAsJsonPrimitive("discount_percent").getAsString(),
-                        gameDataPrice.getAsJsonPrimitive("initial_formatted").getAsString(),
-                        gameDataPrice.getAsJsonPrimitive("final_formatted").getAsString()
-                );
-            }
-
-            JsonObject gameDataMetacritic = gameData.getAsJsonObject("metacritic");
-            GameMetacritic gameMetacritic = new GameMetacritic();
-            if (gameDataMetacritic != null) {
-                gameMetacritic = new GameMetacritic(
-                        appid,
-                        gameDataMetacritic.getAsJsonPrimitive("score").getAsString(),
-                        gameDataMetacritic.getAsJsonPrimitive("url").getAsString());
-            }
-
-            String website = "";
-            boolean isNullWebsite = gameData.get("website") instanceof JsonNull;
-            if (!isNullWebsite && gameData.getAsJsonPrimitive("website") != null) {
-                website = gameData.getAsJsonPrimitive("website").getAsString();
-            }
-
-            String supportedLanguages = "";
-            boolean isNullLanguages = gameData.get("supported_languages") instanceof JsonNull;
-            if (!isNullLanguages && gameData.getAsJsonPrimitive("supported_languages") != null) {
-                supportedLanguages = gameData.getAsJsonPrimitive("supported_languages").getAsString();
-            }
-
-            JsonObject gameDataPlatform = gameData.getAsJsonObject("platforms");
-            GamePlatform gamePlatform = new GamePlatform(
-                    appid,
-                    gameDataPlatform.getAsJsonPrimitive("windows").getAsBoolean(),
-                    gameDataPlatform.getAsJsonPrimitive("mac").getAsBoolean(),
-                    gameDataPlatform.getAsJsonPrimitive("linux").getAsBoolean()
-            );
-
-            //Limit all text what we would like save to the db
+            //detailed description
             int maxLengthText = 10000;
-            String aboutTheGame = gameData.getAsJsonPrimitive("about_the_game").getAsString();
-            if (aboutTheGame.length() >= maxLengthText) {
-                aboutTheGame = aboutTheGame.substring(0, maxLengthText);
-            }
-
-            String detailedDescription = gameData.getAsJsonPrimitive("detailed_description").getAsString();
+            detailedDescription = gameData.getAsJsonPrimitive("detailed_description").getAsString();
             if (detailedDescription.length() >= maxLengthText) {
                 detailedDescription = detailedDescription.substring(0, maxLengthText);
             }
 
+            //about the game
+            aboutTheGame = gameData.getAsJsonPrimitive("about_the_game").getAsString();
+            if (aboutTheGame.length() >= maxLengthText) {
+                aboutTheGame = aboutTheGame.substring(0, maxLengthText);
+            }
 
-            Game game = new Game(
-                    appid,
-                    true,
-                    gameData.getAsJsonPrimitive("name").getAsString(),
-                    gameData.getAsJsonPrimitive("required_age").getAsString(),
-                    gameData.getAsJsonPrimitive("is_free").getAsBoolean(),
+            //supported languages
+            boolean isNullLanguagesJson = gameData.get("supported_languages") instanceof JsonNull;
+            if (!isNullLanguagesJson) {
+                supportedLanguages = gameData.getAsJsonPrimitive("supported_languages").getAsString();
+            }
+
+            //metacritic
+            JsonObject gameDataMetacritic = gameData.getAsJsonObject("metacritic");
+            if (gameDataMetacritic != null) {
+                metacritic += gameDataMetacritic.getAsJsonPrimitive("score").getAsString();
+                metacritic += ";";
+                metacritic += gameDataMetacritic.getAsJsonPrimitive("url").getAsString();
+            }
+
+            SteamGame steamGame = new SteamGame(
+                    steamAppId,
+                    success,
+                    name,
+                    requiredAge,
+                    isFree,
+                    headerImage,
+                    website,
+                    price,
+                    developers,
+                    publishers,
+                    platforms,
+                    genres,
+                    metacritic,
+                    screenshots,
                     detailedDescription,
                     aboutTheGame,
-                    gameData.getAsJsonPrimitive("short_description").getAsString(),
-                    supportedLanguages,
-                    gameData.getAsJsonPrimitive("header_image").getAsString(),
-                    website,
-                    developers, publishers, gamePrice, gamePlatform, gameMetacritic, screenshots, genres
-            );
+                    shortDescription,
+                    supportedLanguages);
+            return steamGame;
 
-            return game;
         } else {
             //Collect all non-game app.
             fileDB.CollectAllUnSuccessAndNonGameApp(appid);
