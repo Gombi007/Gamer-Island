@@ -47,4 +47,17 @@
     color: rgb(0, 0, 0);
     text-shadow: 0px 0px 50px rgb(255, 255, 255)
 }
+.platforms_age{ 
+    display: flex;
+    justify-content: space-between;   
+ }
+ .platforms_age p span{
+     font-weight: bolder;
+ }
+
+.platforms i{
+ justify-content: flex-end;
+ padding-left: 1rem;
+    font-size: 1.5rem;
+}
 
