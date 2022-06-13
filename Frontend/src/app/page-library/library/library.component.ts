@@ -14,7 +14,7 @@ import { STRINGS } from 'src/app/strings.enum';
 export class LibraryComponent implements OnInit {
 
   innerHeight!: number;
-  headerHeight: number = 162;
+  headerHeight: number = 144;
   games: Game[] = [];
   gamesClone: Game[] = [];
   isPending: Boolean = false;

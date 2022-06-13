@@ -1,30 +1,8 @@
-<div class="container-fluid " infinite-scroll (scrolled)="onScrollDown($event)"> 
-    <div class="row flex-container">
-
-        <ng-container *ngFor="let game of gamesFromDatabase">
-            <div class="card" style="width: 22rem;">
-                <img src="{{game.header_image}}" alt="image">
-                <div class="card-body">
-                    <h5 class="card-title">{{game.name}}</h5>
-                    <p class="card-text">{{game.short_description}}</p>
-                </div>
-                <p>Required age: {{game.required_age}}</p>
-                <div class="genres">
-                    <ng-container *ngFor="let gameGenre of game.genres">
-                        <p>{{gameGenre}}</p>
-                    </ng-container>
-                </div>
-                <h4 *ngIf="(game.price_in_final_formatted) !== null">{{game.price_in_final_formatted}}</h4>
-                <h4 *ngIf="game.genres.includes('Free to Play')">Free</h4>
-                <h4 *ngIf="!game.genres.includes('Free to Play') && game.price_in_final_formatted === ''">N/A</h4>
-            </div>
-        </ng-container>
-
-    </div>
-
-    <div class="row">     
-        <h3 class="pending" *ngIf="isPending">
-            <i class="fa fa-hurricane fa-spin spinner"></i>
-        </h3>
-    </div>
+<div class="row">
+  <div class="col-md-4 col-xl-3 col-xxl-2 ps-0 pe-1 ">
+    <app-store-search></app-store-search>
+  </div>
+  <div class="col-md-8 col-xl-9 col-xxl-10  ps-0 pe-0">
+    <app-store-elements></app-store-elements>
+  </div>
 </div>
