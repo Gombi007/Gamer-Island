@@ -16,7 +16,7 @@ export class StoreElementsComponent implements OnInit {
   isPending = false;
   nextpage: number = 0;
   totalPages: any;
-  size = 24;
+  size = 20;
 
   constructor(private http: HttpClient) { }
 
@@ -34,9 +34,12 @@ export class StoreElementsComponent implements OnInit {
     }
 
   onScrollDown(ev: any) {   
-    this.nextpage++;
-    //@ts-ignore
-    this.shopGames$.next();
+    // if data query is in progress , can't increase the page number with scrolling. 
+    if (this.isPending === false){
+      this.nextpage++;
+      //@ts-ignore
+      this.shopGames$.next();
+    }
   }
 
 
@@ -46,7 +49,8 @@ export class StoreElementsComponent implements OnInit {
       this.isPending = true;
     }),
     switchMap(() => this.http.get(STRINGS.API_ALL_GAMES_FOR_SHOP + "?page=" + this.nextpage + "&size=" + this.size)),
-    tap((data: any) => {
+    tap((data: any) => {   
+      console.log(data.pageable.pageNumber)       
       this.totalPages = data.totalPages;
       if (this.gamesFromDatabase.length === 0) {
         this.gamesFromDatabase = data.content;
@@ -58,5 +62,36 @@ export class StoreElementsComponent implements OnInit {
       }
       this.isPending = false;
     }));
+
+    getPlatform(game:GameDetails, platform:string){     
+      if(platform === 'Windows' && game.platforms.includes(platform)){
+        return platform;
+      }
+      if(platform === 'Mac' && game.platforms.includes(platform)){
+        return platform;
+      }
+
+      if(platform === 'Linux' && game.platforms.includes(platform)){
+        return platform;
+      }
+      return '';
+    }
+
+    getGamePrice(game:GameDetails){
+      if(game.price_in_final_formatted !== null && game.price_in_final_formatted !== ''){
+        return 1;
+      }
+
+      if(game.price_in_final_formatted === '' && game.genres.includes('Free to Play')){
+        return 2;
+      }
+
+      if(game.price_in_final_formatted === '' && !(game.genres.includes('Free to Play'))){
+        return 3;
+      }
+      return 0;
+
+
+    }
 
 }
