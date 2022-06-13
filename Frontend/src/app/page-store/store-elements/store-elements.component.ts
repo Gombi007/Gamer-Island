@@ -63,4 +63,35 @@ export class StoreElementsComponent implements OnInit {
       this.isPending = false;
     }));
 
+    getPlatform(game:GameDetails, platform:string){     
+      if(platform === 'Windows' && game.platforms.includes(platform)){
+        return platform;
+      }
+      if(platform === 'Mac' && game.platforms.includes(platform)){
+        return platform;
+      }
+
+      if(platform === 'Linux' && game.platforms.includes(platform)){
+        return platform;
+      }
+      return '';
+    }
+
+    getGamePrice(game:GameDetails){
+      if(game.price_in_final_formatted !== null && game.price_in_final_formatted !== ''){
+        return 1;
+      }
+
+      if(game.price_in_final_formatted === '' && game.genres.includes('Free to Play')){
+        return 2;
+      }
+
+      if(game.price_in_final_formatted === '' && !(game.genres.includes('Free to Play'))){
+        return 3;
+      }
+      return 0;
+
+
+    }
+
 }
