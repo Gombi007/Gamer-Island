@@ -1,7 +1,7 @@
 package com.gameisland.controllers;
 
 import com.gameisland.services.SteamGameService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -9,14 +9,9 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/games")
 @CrossOrigin(origins = "http://localhost:8080")
+@RequiredArgsConstructor
 public class GameRestController {
-
     private final SteamGameService gameService;
-
-    @Autowired
-    public GameRestController(SteamGameService gameService) {
-        this.gameService = gameService;
-    }
 
     @GetMapping("/shop")
     public ResponseEntity<Object> getAllGamesFromTheDatabaseForShop(@RequestParam(name = "page", defaultValue = "0") int page,
