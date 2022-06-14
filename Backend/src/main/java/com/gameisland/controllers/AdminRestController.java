@@ -3,6 +3,7 @@ package com.gameisland.controllers;
 import com.gameisland.models.entities.Role;
 import com.gameisland.services.SteamGameService;
 import com.gameisland.services.UserService;
+import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -45,4 +46,17 @@ public class AdminRestController {
         return ResponseEntity.status(HttpStatus.CREATED).body(userService.saveRole(role));
     }
 
+    @PostMapping("/roles/add-to-user")
+    public ResponseEntity<Object> addRoleToUser(@RequestBody RoleToUserForm form) {
+        userService.addRoleToUser(form.getUuid(), form.getRole());
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
 }
+
+@Data
+class RoleToUserForm {
+    private String uuid;
+    private String role;
+}
+
