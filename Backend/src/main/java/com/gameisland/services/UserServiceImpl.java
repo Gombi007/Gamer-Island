@@ -36,7 +36,6 @@ public class UserServiceImpl implements UserService {
 
         String hashedPassword = passwordEncoder.encode(user.getPassword());
         user.setPassword(hashedPassword);
-        user.setRole("user_role");
         user.setBalance(1500L);
         user.setUserUUID(uniqueId);
         User savedUser = userRepository.save(user);

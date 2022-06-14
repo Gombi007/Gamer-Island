@@ -1,22 +1,22 @@
 package com.gameisland.models.entities;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 @Entity
 @Table(name = "users")
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class User extends BusinessObject {
     private String userName;
     private String password;
     private String email;
-    private String role;
     private String avatar;
     private Long balance;
     private String userUUID;
@@ -28,6 +28,9 @@ public class User extends BusinessObject {
             inverseJoinColumns = @JoinColumn(name = "game_id")
     )
     private Set<SteamGame> ownedGames;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    private List<Role> roles = new ArrayList<>();
 
 }
 
