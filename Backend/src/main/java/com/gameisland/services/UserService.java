@@ -24,4 +24,6 @@ public interface UserService {
 
     ArrayList<Role> getAllRoles();
 
+    User getUserByName(String username);
+
 }

@@ -21,13 +21,13 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+
 public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     private final AuthenticationManager authenticationManager;
 
     public CustomAuthenticationFilter(AuthenticationManager authenticationManager) {
         this.authenticationManager = authenticationManager;
     }
-
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
@@ -50,7 +50,9 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
                 .sign(algorithm);
         //  response.setHeader("access_token", access_token);
         Map<String, String> token = new HashMap<>();
-        token.put("access_token", access_token);
+        //todo user id get from db
+        token.put("user_id", "USERID");
+        token.put("token", access_token);
         response.setContentType("application/json");
         new ObjectMapper().writeValue(response.getOutputStream(), token);
     }

@@ -17,4 +17,5 @@ public class GameIslandApplication {
         return new BCryptPasswordEncoder();
     }
 
+
 }

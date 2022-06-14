@@ -74,6 +74,15 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         return result;
     }
 
+    @Override
+    public User getUserByName(String username) {
+        boolean isExistingUer = userRepository.findByUserName(username) != null;
+        if (!isExistingUer) {
+            throw new ResourceNotFoundException("User doesn't exist with this UUID: " + username);
+        }
+        return userRepository.findByUserName(username);
+    }
+
 
     @Override
     public Object login(Login login) {
