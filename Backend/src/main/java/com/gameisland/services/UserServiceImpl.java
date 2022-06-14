@@ -5,7 +5,7 @@ import com.gameisland.exceptions.ResourceNotFoundException;
 import com.gameisland.models.dto.Login;
 import com.gameisland.models.entities.User;
 import com.gameisland.repositories.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,21 +16,15 @@ import java.util.Map;
 import java.util.Set;
 
 @Service
+@Transactional
+@RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final AzureService azureService;
     private final IdGeneratorService idGeneratorService;
-
-    @Autowired
-    public UserServiceImpl(UserRepository userRepository, AzureService azureService, IdGeneratorService idGeneratorService) {
-        this.userRepository = userRepository;
-        this.azureService = azureService;
-        this.idGeneratorService = idGeneratorService;
-    }
-
+    private final BCryptPasswordEncoder passwordEncoder;
 
     @Override
-    @Transactional
     public User createANewUser(User user) {
         boolean isExistingUser = userRepository.findExistByName(user.getUserName());
         if (isExistingUser) {
@@ -40,7 +34,6 @@ public class UserServiceImpl implements UserService {
         Set<String> existingIds = userRepository.getAllExistingUUID();
         String uniqueId = idGeneratorService.getNewRandomGeneratedId(existingIds);
 
-        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         String hashedPassword = passwordEncoder.encode(user.getPassword());
         user.setPassword(hashedPassword);
         user.setRole("user_role");
@@ -62,7 +55,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @Transactional
     public void removeAUserPermanently(Long userId) {
         User user = userRepository.findById(userId).get();
         userRepository.deleteUserGameEntriesByUserId(user.getId());
@@ -75,12 +67,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @Transactional
     public Object login(Login login) {
         boolean isExistingUser = userRepository.findExistByName(login.getUserName());
         if (isExistingUser) {
             String hashedUserPassword = userRepository.getPasswordHash(login.getUserName());
-            BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
             boolean passwordOk = passwordEncoder.matches(login.getPassword(), hashedUserPassword);
             if (passwordOk) {
                 String userUUID = userRepository.getUserUUID(login.getUserName());
