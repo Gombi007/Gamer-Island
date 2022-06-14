@@ -12,6 +12,7 @@ import java.util.Set;
 
 @Repository
 public interface UserRepository extends CrudRepository<User, Long> {
+
     @Override
     ArrayList<User> findAll();
 

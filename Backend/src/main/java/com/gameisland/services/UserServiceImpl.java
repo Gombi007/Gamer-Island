@@ -3,7 +3,9 @@ package com.gameisland.services;
 import com.gameisland.exceptions.ResourceAlreadyExists;
 import com.gameisland.exceptions.ResourceNotFoundException;
 import com.gameisland.models.dto.Login;
+import com.gameisland.models.entities.Role;
 import com.gameisland.models.entities.User;
+import com.gameisland.repositories.RoleRepository;
 import com.gameisland.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -20,9 +22,11 @@ import java.util.Set;
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
-    private final AzureService azureService;
     private final IdGeneratorService idGeneratorService;
     private final BCryptPasswordEncoder passwordEncoder;
+    private final RoleRepository roleRepository;
+
+    private final AzureService azureService;
 
     @Override
     public User createANewUser(User user) {
@@ -81,6 +85,19 @@ public class UserServiceImpl implements UserService {
             throw new ResourceNotFoundException("Wrong password");
         }
         throw new ResourceAlreadyExists("Username doesn't exist." + login.getUserName());
+
+    }
+
+    @Override
+    public Role saveRole(Role role) {
+        return roleRepository.save(role);
+    }
+
+    @Override
+    public void addRoleToUser(String uuid, String roleName) {
+        User user = userRepository.getUserByUUID(uuid).get();
+        Role role = roleRepository.findByName(roleName);
+        user.getRoles().add(role);
 
     }
 
