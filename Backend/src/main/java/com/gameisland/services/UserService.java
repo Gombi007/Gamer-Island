@@ -16,8 +16,6 @@ public interface UserService {
 
     ArrayList<User> getAllUserFromDatabase();
 
-    Object login(Login login);
-
     Role saveRole(Role role);
 
     void addRoleToUser(String uuid, String roleName);

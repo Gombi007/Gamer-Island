@@ -22,6 +22,10 @@ import java.util.*;
 @Transactional
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService, UserDetailsService {
+    private final UserRepository userRepository;
+    private final IdGeneratorService idGeneratorService;
+    private final BCryptPasswordEncoder passwordEncoder;
+    private final RoleRepository roleRepository;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -38,12 +42,6 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         return new org.springframework.security.core.userdetails.User(user.getUserName(), user.getPassword(), authorities);
     }
 
-    private final UserRepository userRepository;
-    private final IdGeneratorService idGeneratorService;
-    private final BCryptPasswordEncoder passwordEncoder;
-    private final RoleRepository roleRepository;
-
-    private final AzureService azureService;
 
     @Override
     public User createANewUser(User user) {
@@ -81,26 +79,6 @@ public class UserServiceImpl implements UserService, UserDetailsService {
             throw new ResourceNotFoundException("User doesn't exist with this UUID: " + username);
         }
         return userRepository.findByUserName(username);
-    }
-
-
-    @Override
-    public Object login(Login login) {
-        boolean isExistingUser = userRepository.findExistByName(login.getUserName());
-        if (isExistingUser) {
-            String hashedUserPassword = userRepository.getPasswordHash(login.getUserName());
-            boolean passwordOk = passwordEncoder.matches(login.getPassword(), hashedUserPassword);
-            if (passwordOk) {
-                String userUUID = userRepository.getUserUUID(login.getUserName());
-                Map<String, String> userTokenAndUUID = new HashMap<>();
-                userTokenAndUUID.put("user_id", userUUID);
-                userTokenAndUUID.put("token", azureService.GetJWTFromAzure());
-                return userTokenAndUUID;
-            }
-            throw new ResourceNotFoundException("Wrong password");
-        }
-        throw new ResourceAlreadyExists("Username doesn't exist." + login.getUserName());
-
     }
 
     //Only Admin methods
