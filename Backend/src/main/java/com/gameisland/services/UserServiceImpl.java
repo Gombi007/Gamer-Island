@@ -57,17 +57,6 @@ public class UserServiceImpl implements UserService {
         return result;
     }
 
-    @Override
-    public void removeAUserPermanently(Long userId) {
-        User user = userRepository.findById(userId).get();
-        userRepository.deleteUserGameEntriesByUserId(user.getId());
-        userRepository.delete(user);
-    }
-
-    @Override
-    public ArrayList<User> getAllUserFromDatabase() {
-        return userRepository.findAll();
-    }
 
     @Override
     public Object login(Login login) {
@@ -88,6 +77,20 @@ public class UserServiceImpl implements UserService {
 
     }
 
+    //Only Admin methods
+
+    @Override
+    public ArrayList<User> getAllUserFromDatabase() {
+        return userRepository.findAll();
+    }
+
+    @Override
+    public void removeAUserPermanently(String uuid) {
+        User user = userRepository.getUserByUUID(uuid).get();
+        userRepository.deleteUserGameEntriesByUserId(user.getId());
+        userRepository.delete(user);
+    }
+
     @Override
     public Role saveRole(Role role) {
         return roleRepository.save(role);
@@ -99,6 +102,11 @@ public class UserServiceImpl implements UserService {
         Role role = roleRepository.findByName(roleName);
         user.getRoles().add(role);
         userRepository.save(user);
+    }
+
+    @Override
+    public ArrayList<Role> getAllRoles() {
+        return roleRepository.findAll();
     }
 
 

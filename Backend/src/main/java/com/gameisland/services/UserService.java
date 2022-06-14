@@ -12,7 +12,7 @@ public interface UserService {
 
     Object getUserNameByUUID(String uuid);
 
-    void removeAUserPermanently(Long userId);
+    void removeAUserPermanently(String uuid);
 
     ArrayList<User> getAllUserFromDatabase();
 
@@ -21,5 +21,7 @@ public interface UserService {
     Role saveRole(Role role);
 
     void addRoleToUser(String uuid, String roleName);
+
+    ArrayList<Role> getAllRoles();
 
 }

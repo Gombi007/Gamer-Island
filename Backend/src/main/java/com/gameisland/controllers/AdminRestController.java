@@ -17,6 +17,8 @@ public class AdminRestController {
     private final SteamGameService gameService;
     private final UserService userService;
 
+    //STEAM GAMES
+
     @GetMapping("/steam/save-from-steam-to-file")
     public ResponseEntity<Object> saveProductsInAFileViaSteamApi() {
         gameService.saveProductsInAFileViaSteamApi();
@@ -41,6 +43,14 @@ public class AdminRestController {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
+    // ROLES
+
+    @GetMapping("/roles/all")
+    public ResponseEntity<Object> getRoles() {
+        return ResponseEntity.status(HttpStatus.OK).body(userService.getAllRoles());
+    }
+
+
     @PostMapping("/roles/save")
     public ResponseEntity<Object> saveRole(@RequestBody Role role) {
         return ResponseEntity.status(HttpStatus.CREATED).body(userService.saveRole(role));
@@ -51,6 +61,19 @@ public class AdminRestController {
         userService.addRoleToUser(form.getUuid(), form.getRole());
         return ResponseEntity.status(HttpStatus.OK).build();
     }
+
+    // USERS
+    @GetMapping("/users/all")
+    public ResponseEntity<Object> getAllUserFromTheDatabase() {
+        return ResponseEntity.status(HttpStatus.OK).body(userService.getAllUserFromDatabase());
+    }
+
+    @DeleteMapping("/users/{uuid}")
+    public ResponseEntity<Object> deleteAUser(@PathVariable String uuid) {
+        userService.removeAUserPermanently(uuid);
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
 
 }
 

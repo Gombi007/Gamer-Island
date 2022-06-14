@@ -15,11 +15,6 @@ import org.springframework.web.bind.annotation.*;
 public class UserRestController {
     private final UserService userService;
 
-    @GetMapping
-    public ResponseEntity<Object> getAllUserFromTheDatabase() {
-        return ResponseEntity.status(HttpStatus.OK).body(userService.getAllUserFromDatabase());
-    }
-
     @PostMapping("login")
     public ResponseEntity<Object> login(@RequestBody Login login) {
         return ResponseEntity.status(HttpStatus.OK).body(userService.login(login));
@@ -35,12 +30,7 @@ public class UserRestController {
         return ResponseEntity.status(HttpStatus.OK).body(userService.getUserNameByUUID(uuid));
     }
 
-    @DeleteMapping("/{userIdString}")
-    public ResponseEntity<Object> deleteAUser(@PathVariable String userIdString) {
-        Long userId = Long.parseLong(userIdString);
-        userService.removeAUserPermanently(userId);
-        return ResponseEntity.status(HttpStatus.OK).build();
-    }
+
 
 
 }
