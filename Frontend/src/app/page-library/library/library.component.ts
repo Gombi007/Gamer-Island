@@ -2,9 +2,11 @@ import { getLocaleDayNames } from '@angular/common';
 import { Component, EventEmitter, HostListener, Input, OnInit, Output } from '@angular/core';
 import { Game } from '../../game.model';
 import { HttpClient } from '@angular/common/http';
-import { fromEvent, map, of, Subject, switchMap, tap } from 'rxjs';
+import { catchError, EMPTY, fromEvent, map, of, Subject, switchMap, tap } from 'rxjs';
 import { GameDetails } from '../../game-details.model';
 import { STRINGS } from 'src/app/strings.enum';
+import { AuthorizationService } from 'src/app/login/service/authorization.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-library',
@@ -23,7 +25,7 @@ export class LibraryComponent implements OnInit {
   gameDetailsByAppId = new EventEmitter();
 
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private author: AuthorizationService, private route:Router) { }
 
   ngOnInit(): void {
     this.innerHeight = window.innerHeight - this.headerHeight;
@@ -38,14 +40,20 @@ export class LibraryComponent implements OnInit {
     tap(() => {
       this.isPending = true;
     }),
-    switchMap(() => this.http.get(STRINGS.API_LIBRARY)),
+    switchMap(() => this.http.get(STRINGS.API_LIBRARY, this.author.TokenForRequests())),
     tap((data: any) => {
       this.isPending = false;
       this.games = data;
       this.gamesClone = this.games;
+    }),
+    catchError(error => {
+      let message = error.error.error_message;
+      if (message.includes("Token has expired")) {      
+        this.route.navigate(['login']);        
+      }
+      return EMPTY;
     })
   );
-
 
 
   // update value when resize
@@ -54,9 +62,9 @@ export class LibraryComponent implements OnInit {
     this.innerHeight = window.innerHeight - this.headerHeight;
   }
 
-  searching(searching: string) {   
-    this.gamesClone = this.games;   
-    let filteredResult = this.gamesClone.filter(game => {      
+  searching(searching: string) {
+    this.gamesClone = this.games;
+    let filteredResult = this.gamesClone.filter(game => {
       return game.name.toLowerCase().includes(searching);
     });
 
@@ -66,7 +74,7 @@ export class LibraryComponent implements OnInit {
   getGameNameForShowing(gameAppid: number) {
 
     let gameDetails = new GameDetails();
-    let detail$ = this.http.get(STRINGS.API_GAMES_DETAILS + gameAppid).pipe(
+    let detail$ = this.http.get(STRINGS.API_GAMES_DETAILS + gameAppid, this.author.TokenForRequests()).pipe(
       tap((data: any) => {
         gameDetails.id = data.id;
         gameDetails.steam_appid = data.steam_appid;

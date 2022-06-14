@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -18,13 +19,14 @@ public class AdminRestController {
     private final UserService userService;
 
     //STEAM GAMES
-
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/steam/save-from-steam-to-file")
     public ResponseEntity<Object> saveProductsInAFileViaSteamApi() {
         gameService.saveProductsInAFileViaSteamApi();
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/steam/save-from-file-to-db/{limit}")
     public ResponseEntity<Object> saveProductsInAFileViaSteamApi(@PathVariable(required = false) String limit) {
         if (limit == null) {
@@ -36,6 +38,7 @@ public class AdminRestController {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/steam/{id}")
     public ResponseEntity<Object> removeAGameFromTheDatabasePermanently(@PathVariable String id) {
         Long gameId = Long.parseLong(id);
@@ -44,18 +47,19 @@ public class AdminRestController {
     }
 
     // ROLES
-
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/roles/all")
     public ResponseEntity<Object> getRoles() {
         return ResponseEntity.status(HttpStatus.OK).body(userService.getAllRoles());
     }
 
-
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/roles/save")
     public ResponseEntity<Object> saveRole(@RequestBody Role role) {
         return ResponseEntity.status(HttpStatus.CREATED).body(userService.saveRole(role));
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/roles/add-to-user")
     public ResponseEntity<Object> addRoleToUser(@RequestBody RoleToUserForm form) {
         userService.addRoleToUser(form.getUuid(), form.getRole());
@@ -63,11 +67,13 @@ public class AdminRestController {
     }
 
     // USERS
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/users/all")
     public ResponseEntity<Object> getAllUserFromTheDatabase() {
         return ResponseEntity.status(HttpStatus.OK).body(userService.getAllUserFromDatabase());
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/users/{uuid}")
     public ResponseEntity<Object> deleteAUser(@PathVariable String uuid) {
         userService.removeAUserPermanently(uuid);
