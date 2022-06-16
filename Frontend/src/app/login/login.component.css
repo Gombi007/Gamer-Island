@@ -9,13 +9,13 @@
 
 .logo {
     border-radius: 50%;
-    width: 250px;
+    width: 200px;
     border: 2px solid whitesmoke;
     box-shadow: 2px 0px 15px lightblue;
 }
 
 .form-panel {
-    margin-top: 2rem;
+    margin-top: 1rem;
     background-image: url("../../assets/img/login_bg.jpg");
     box-shadow: 2px 0px 15px lightblue;
 
@@ -67,13 +67,16 @@
 
 .alert {
     background-color: rgb(252, 161, 161);
-    border-color: brown;
-    padding: 0.5rem;
+    border-color: brown;   
     display: flex;    
     font-weight: 500; 
     align-items: center;     
 }
 
+.validate{
+    color: rgb(235, 171, 94);
+    padding-left:5px;
+}
 .valid-icons{    
     color: greenyellow;
     margin-left: 1rem;

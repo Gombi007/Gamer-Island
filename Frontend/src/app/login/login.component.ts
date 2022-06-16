@@ -11,6 +11,7 @@ import { AuthenticateService } from './service/authenticate.service';
 export class LoginComponent implements OnInit {
   showLoginPage = true;
   validationError = false;
+  errorMessage:any
   responseData: any;
   errorResponseData: any;
   Login = new FormGroup(
@@ -21,10 +22,10 @@ export class LoginComponent implements OnInit {
   );
   Register = new FormGroup(
     {
-      userName: new FormControl("", [Validators.required,Validators.minLength(6)]),
-      email: new FormControl("", Validators.required),
-      password: new FormControl("", Validators.required),
-      rePassword: new FormControl("", Validators.required),
+      userName: new FormControl("", [Validators.required, Validators.minLength(6)]),
+      email: new FormControl("", [Validators.required, Validators.email]),
+      password: new FormControl("", [Validators.required, Validators.minLength(6)]),
+      rePassword: new FormControl("", [Validators.required, Validators.minLength(6)]),
     }
   );
 
@@ -74,26 +75,16 @@ export class LoginComponent implements OnInit {
 
   StartRegister() {
     if (this.Register.valid) {
-
-    } else {
-   
-    console.log( this.Register.get('userName')?.errors)
-
-    }
-
-    /*
-    if (this.Register.valid) {
-      if (this.Register.get("password")?.value !== this.Register.get("rePassword")?.value) {
-        this.samePasswords = false;
-      } else {
-        this.samePasswords = true;
-        this.service.RegisterViaBackend(this.Register.value).subscribe({
-          // TODO register
-        });
-      }
-
-    }
-*/
+      this.service.RegisterViaBackend(this.Register.value).subscribe({
+        next:(data)=>{
+          this.validationError = false;
+          console.log(data);
+        },
+        error:(err)=>{
+          this.validationError = true;
+          this.errorMessage = err.error;
+        }
+      });
+    } 
   }
-
 }

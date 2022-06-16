@@ -46,7 +46,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     public User createANewUser(User user) {
         boolean isExistingUser = userRepository.findExistByName(user.getUserName());
         if (isExistingUser) {
-            throw new ResourceAlreadyExists("This username already exists in the database." + user.getUserName());
+            throw new ResourceAlreadyExists("This username already exists in the database: " + user.getUserName());
         }
 
         Set<String> existingIds = userRepository.getAllExistingUUID();
