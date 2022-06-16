@@ -60,6 +60,7 @@ export class LoginComponent implements OnInit {
             this.responseData = value;
             localStorage.setItem('user_id', this.responseData.user_id);
             localStorage.setItem('token', this.responseData.token);
+            this.global.GetUsernameByUUID();
             this.route.navigate(['']);
           }
         },
