@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthenticateService } from './service/authenticate.service';
 
@@ -10,7 +10,7 @@ import { AuthenticateService } from './service/authenticate.service';
 })
 export class LoginComponent implements OnInit {
   showLoginPage = true;
-  samePasswords = true;
+  validationError = false;
   responseData: any;
   errorResponseData: any;
   Login = new FormGroup(
@@ -21,7 +21,7 @@ export class LoginComponent implements OnInit {
   );
   Register = new FormGroup(
     {
-      userName: new FormControl("", Validators.required),
+      userName: new FormControl("", [Validators.required,Validators.minLength(6)]),
       email: new FormControl("", Validators.required),
       password: new FormControl("", Validators.required),
       rePassword: new FormControl("", Validators.required),
@@ -39,6 +39,8 @@ export class LoginComponent implements OnInit {
     this.showLoginPage = !this.showLoginPage;
   }
 
+
+
   StartLogin() {
     if (this.Login.valid) {
       this.service.LoginViaBackend(this.Login.value).subscribe({
@@ -50,7 +52,7 @@ export class LoginComponent implements OnInit {
             this.route.navigate(['']);
             this.service.GetLoggedUserName().subscribe({
               // TODO username showing in the header profile menu
-              next:(response)=>{               
+              next: (response) => {
                 console.log(response)
               }
             });
@@ -65,7 +67,21 @@ export class LoginComponent implements OnInit {
     }
   }
 
+  //convenience getter for easy access to form fields
+  get reg(): { [key: string]: AbstractControl; } {
+    return this.Register.controls;
+  }
+
   StartRegister() {
+    if (this.Register.valid) {
+
+    } else {
+   
+    console.log( this.Register.get('userName')?.errors)
+
+    }
+
+    /*
     if (this.Register.valid) {
       if (this.Register.get("password")?.value !== this.Register.get("rePassword")?.value) {
         this.samePasswords = false;
@@ -77,7 +93,7 @@ export class LoginComponent implements OnInit {
       }
 
     }
-
+*/
   }
 
 }

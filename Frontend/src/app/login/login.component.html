@@ -27,10 +27,15 @@
                     <div class="mb-3">
                         <label for="userName" class="form-label">Username</label>
                         <input type="text" class="form-control" id="userName"  formControlName="userName">
+                        <div class="validate mt-2">                            
+                            <p *ngIf="reg['userName'].errors?.['required']">Username is required</p>
+                            <p *ngIf="reg['userName'].errors?.['minlength']">Username minimum 6 length</p>
+                            <i class="valid-icons fa-solid fa-check" *ngIf="reg['userName'].errors === null"></i>               
+                        </div>
                     </div>
                     <div class="mb-3">
                         <label for="email" class="form-label">Email</label>
-                        <input type="email" class="form-control" id="email"  formControlName="email">
+                        <input type="email" class="form-control" id="email"  formControlName="email" validate>
                     </div>
 
                     <div class="mb-3">
@@ -39,8 +44,7 @@
                     </div>
 
                     <div class="mb-3">
-                        <label for="rePassword" class="form-label" *ngIf="samePasswords">Confirm Password</label>
-                        <label for="rePassword" class="form-label check-password" *ngIf="!samePasswords">The password fields are different!</label>
+                        <label for="rePassword" class="form-label">Confirm Password</label>                      
                         <input type="password" class="form-control" id="rePassword"  formControlName="rePassword">
                     </div>
                     <div class="change-login-register">
@@ -55,6 +59,10 @@
                 </form>
 
             </div>
+            <div class="alert alert-danger mt-5" role="alert"  *ngIf="true">
+                <i class="me-3 fa-solid fa-triangle-exclamation"></i>
+                <p class="m-0" *ngIf="reg['userName'].errors?.['required']">The two pasword fields are different!</p>                
+              </div>
         </div>
     </div>
 </div>
