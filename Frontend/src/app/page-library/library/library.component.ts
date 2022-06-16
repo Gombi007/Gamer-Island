@@ -7,6 +7,7 @@ import { GameDetails } from '../../game-details.model';
 import { STRINGS } from 'src/app/strings.enum';
 import { AuthorizationService } from 'src/app/login/service/authorization.service';
 import { Router } from '@angular/router';
+import { GlobalService } from 'src/app/global.service';
 
 @Component({
   selector: 'app-library',
@@ -25,7 +26,7 @@ export class LibraryComponent implements OnInit {
   gameDetailsByAppId = new EventEmitter();
 
 
-  constructor(private http: HttpClient, private author: AuthorizationService, private route:Router) { }
+  constructor(private http: HttpClient, private author: AuthorizationService, private route:Router, private global:GlobalService) { }
 
   ngOnInit(): void {
     this.innerHeight = window.innerHeight - this.headerHeight;
@@ -47,6 +48,7 @@ export class LibraryComponent implements OnInit {
       this.gamesClone = this.games;
     }),
     catchError(error => {
+      this.global.experiedSession = true;
       let message = error.error.error_message;
       if (message.includes("Token has expired")) {      
         this.route.navigate(['login']);        

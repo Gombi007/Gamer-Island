@@ -65,9 +65,15 @@
     color: red;
 }
 
-.alert {
+.alert-danger{
     background-color: rgb(252, 161, 161);
     border-color: brown;   
+    display: flex;    
+    font-weight: 500; 
+    align-items: center;     
+}
+
+.alert-success{
     display: flex;    
     font-weight: 500; 
     align-items: center;     

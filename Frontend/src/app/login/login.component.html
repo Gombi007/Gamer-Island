@@ -5,14 +5,14 @@
                 <img class="logo" src="../../assets/img/logo.png" alt="">
             </div>
             <div class="form-panel">
-                <form class="login" *ngIf="showLoginPage" [formGroup]="Login" (ngSubmit)="StartLogin()">
+                <form class="login" *ngIf="showLoginPage" [formGroup]="Login" (ngSubmit)="StartLogin()" >
                     <div class="mb-3">
                         <label for="userName" class="form-label">Username</label>
                         <input type="text" class="form-control" id="userName" formControlName="userName">
                     </div>
                     <div class="mb-3">
                         <label for="password" class="form-label">Password</label>
-                        <input type="password" class="form-control" id="password" formControlName="password">
+                        <input type="password" class="form-control" id="password"  formControlName="password">
                     </div>
                     <div class="change-login-register">
                         <p>You don't have an account yet?</p>
@@ -22,7 +22,7 @@
                         <button class="btn btn-outline-secondary">Login</button>
                     </div>
                 </form>
-
+          
                 <form class="register" *ngIf="!showLoginPage" [formGroup]="Register" (ngSubmit)="StartRegister()">
                     <div class="mb-3">
                         <label for="userName" class="form-label">Username</label>
@@ -76,8 +76,19 @@
             </div>
             <div class="alert alert-danger mt-2 p-2" role="alert" *ngIf="validationError">
                 <i class="me-3 fa-solid fa-triangle-exclamation"></i>
-                <p class="m-0">{{errorMessage}}</p>
+                <p class="m-0">"{{errorMessage}}"</p>                
             </div>
+
+            <div class="alert alert-success mt-2 p-2" role="alert" *ngIf="infoMessageBox">
+                <i class="me-3 fa-solid fa-triangle-exclamation"></i>
+                <p class="m-0">Registration was successed. Please Login.</p>
+            </div>          
+
+            <div class="alert alert-success mt-2 p-2" role="alert" *ngIf="sessionHasExperied">
+                <i class="me-3 fa-solid fa-triangle-exclamation"></i>
+                <p class="m-0">The session has expired, Please login again.</p>
+            </div>
+
         </div>
     </div>
 </div>

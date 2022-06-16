@@ -3,6 +3,7 @@ import { Component, HostListener, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { catchError, EMPTY, Subject, switchMap, tap } from 'rxjs';
 import { GameDetails } from 'src/app/game-details.model';
+import { GlobalService } from 'src/app/global.service';
 import { AuthorizationService } from 'src/app/login/service/authorization.service';
 import { STRINGS } from 'src/app/strings.enum';
 
@@ -20,7 +21,7 @@ export class StoreElementsComponent implements OnInit {
   totalPages: any;
   size = 20;
 
-  constructor(private http: HttpClient, private author: AuthorizationService, private route: Router) { }
+  constructor(private http: HttpClient, private author: AuthorizationService, private route: Router, private global:GlobalService) { }
 
   ngOnInit(): void {
     this.innerHeight = window.innerHeight - this.headerHeight;
@@ -66,6 +67,7 @@ export class StoreElementsComponent implements OnInit {
     catchError(error => {
       let message = error.error.error_message;
       if (message.includes("Token has expired")) {
+        this.global.experiedSession = true;
         this.route.navigate(['login']);
       }
       return EMPTY;

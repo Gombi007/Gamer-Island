@@ -43,10 +43,10 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
 
     @Override
-    public User createANewUser(User user) {
+    public Map<String, String> createANewUser(User user) {
         boolean isExistingUser = userRepository.findExistByName(user.getUserName());
         if (isExistingUser) {
-            throw new ResourceAlreadyExists("This username already exists in the database: " + user.getUserName());
+            throw new ResourceAlreadyExists("This username is taken. Please choose another one.");
         }
 
         Set<String> existingIds = userRepository.getAllExistingUUID();
@@ -60,7 +60,12 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         user.getRoles().add(basicRole);
         user.setAvatar("https://robohash.org/mail@ashallendesign.co.uk");
         User savedUser = userRepository.save(user);
-        return savedUser;
+        Map<String, String> result = new HashMap<>();
+        if (savedUser != null) {
+            result.put("ok", "New user was saved");
+
+        }
+        return result;
     }
 
     @Override
