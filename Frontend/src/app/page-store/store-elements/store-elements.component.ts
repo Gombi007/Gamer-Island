@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, HostListener, OnInit } from '@angular/core';
-import { Subject, switchMap, tap } from 'rxjs';
+import { Router } from '@angular/router';
+import { catchError, EMPTY, Subject, switchMap, tap } from 'rxjs';
 import { GameDetails } from 'src/app/game-details.model';
 import { AuthorizationService } from 'src/app/login/service/authorization.service';
 import { STRINGS } from 'src/app/strings.enum';
@@ -19,7 +20,7 @@ export class StoreElementsComponent implements OnInit {
   totalPages: any;
   size = 20;
 
-  constructor(private http: HttpClient, private author:AuthorizationService) { }
+  constructor(private http: HttpClient, private author: AuthorizationService, private route: Router) { }
 
   ngOnInit(): void {
     this.innerHeight = window.innerHeight - this.headerHeight;
@@ -49,9 +50,8 @@ export class StoreElementsComponent implements OnInit {
       this.isPending = true;
     }),
     switchMap(() =>
-      this.http.get(STRINGS.API_ALL_GAMES_FOR_SHOP + "?page=" + this.nextpage + "&size=" + this.size,this.author.TokenForRequests())),
+      this.http.get(STRINGS.API_ALL_GAMES_FOR_SHOP + "?page=" + this.nextpage + "&size=" + this.size, this.author.TokenForRequests())),
     tap((data: any) => {
-      console.log(data.pageable.pageNumber)
       this.totalPages = data.totalPages;
       if (this.gamesFromDatabase.length === 0) {
         this.gamesFromDatabase = data.content;
@@ -62,7 +62,15 @@ export class StoreElementsComponent implements OnInit {
         });
       }
       this.isPending = false;
-    }));
+    }),
+    catchError(error => {
+      let message = error.error.error_message;
+      if (message.includes("Token has expired")) {
+        this.route.navigate(['login']);
+      }
+      return EMPTY;
+    })
+  );
 
   getPlatform(game: GameDetails, platform: string) {
     if (platform === 'Windows' && game.platforms.includes(platform)) {

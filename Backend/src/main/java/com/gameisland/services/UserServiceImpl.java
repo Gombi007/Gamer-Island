@@ -2,7 +2,6 @@ package com.gameisland.services;
 
 import com.gameisland.exceptions.ResourceAlreadyExists;
 import com.gameisland.exceptions.ResourceNotFoundException;
-import com.gameisland.models.dto.Login;
 import com.gameisland.models.entities.Role;
 import com.gameisland.models.entities.User;
 import com.gameisland.repositories.RoleRepository;
@@ -52,11 +51,14 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
         Set<String> existingIds = userRepository.getAllExistingUUID();
         String uniqueId = idGeneratorService.getNewRandomGeneratedId(existingIds);
-
         String hashedPassword = passwordEncoder.encode(user.getPassword());
-        user.setPassword(hashedPassword);
-        user.setBalance(1500L);
         user.setUserUUID(uniqueId);
+        user.setPassword(hashedPassword);
+
+        user.setBalance(1500L);
+        Role basicRole = roleRepository.findByName("ROLE_USER");
+        user.getRoles().add(basicRole);
+        user.setAvatar("https://robohash.org/mail@ashallendesign.co.uk");
         User savedUser = userRepository.save(user);
         return savedUser;
     }
@@ -104,6 +106,10 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     public void addRoleToUser(String uuid, String roleName) {
         User user = userRepository.getUserByUUID(uuid).get();
         Role role = roleRepository.findByName(roleName);
+        Set<Role> roleSet = new HashSet<>();
+        user.getRoles().forEach(r -> roleSet.add(r));
+        roleSet.add(role);
+        roleSet.forEach(r -> user.getRoles().add(r));
         user.getRoles().add(role);
         userRepository.save(user);
     }

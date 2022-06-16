@@ -1,5 +1,5 @@
 export enum STRINGS {
-    API_LOGIN_URL = 'http://localhost:8081/api/login',
+    API_LOGIN_URL = 'http://localhost:8081/api/users/login',
     API_REGISTER_URL = 'http://localhost:8081/api/users/registration',
     API_USER_NAME_URL = 'http://localhost:8081/api/users/username/',
     API_ALL_GAMES_FOR_SHOP = 'http://localhost:8081/api/games/shop/',
