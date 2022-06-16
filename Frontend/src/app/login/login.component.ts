@@ -11,34 +11,34 @@ import { AuthenticateService } from './service/authenticate.service';
 })
 export class LoginComponent implements OnInit {
   showLoginPage = true;
-  validationError = false;
-  infoMessageBox = false
-  sessionHasExperied = false
+  regValidationError = false;
+  regInfoMessageBox = false
+  loginSessionHasExperied = false
+  loginError = false
   errorMessage: any
-  successRegistrationMessage =''
+  successRegistrationMessage = ''
   responseData: any;
-  errorResponseData: any;
   Login = new FormGroup(
     {
       userName: new FormControl("", Validators.required),
       password: new FormControl("", Validators.required)
     }
-    );
-    Register = new FormGroup(
-      {
-        userName: new FormControl("", [Validators.required, Validators.minLength(6)]),
-        email: new FormControl("", [Validators.required, Validators.email]),
+  );
+  Register = new FormGroup(
+    {
+      userName: new FormControl("", [Validators.required, Validators.minLength(6)]),
+      email: new FormControl("", [Validators.required, Validators.email]),
       password: new FormControl("", [Validators.required, Validators.minLength(6)]),
       rePassword: new FormControl("", [Validators.required, Validators.minLength(6)]),
     }
   );
-  
-  constructor(private service: AuthenticateService, private route: Router, private global:GlobalService) {
+
+  constructor(private service: AuthenticateService, private route: Router, private global: GlobalService) {
     localStorage.clear();
   }
-  
+
   ngOnInit(): void {
-    this.sessionHasExperied =this.global.experiedSession ;
+    this.loginSessionHasExperied = this.global.experiedSession;
   }
 
   changeRegisterOrLogin() {
@@ -48,7 +48,12 @@ export class LoginComponent implements OnInit {
 
 
   StartLogin() {
+    this.loginSessionHasExperied = false
+    this.regValidationError = false;
+    this.regInfoMessageBox = false;
+
     if (this.Login.valid) {
+
       this.service.LoginViaBackend(this.Login.value).subscribe({
         next: (value) => {
           if (value !== null) {
@@ -56,18 +61,12 @@ export class LoginComponent implements OnInit {
             localStorage.setItem('user_id', this.responseData.user_id);
             localStorage.setItem('token', this.responseData.token);
             this.route.navigate(['']);
-            this.service.GetLoggedUserName().subscribe({
-              // TODO username showing in the header profile menu
-              next: (response) => {
-                console.log(response)
-                this.global.experiedSession = false;
-              }
-            });
           }
         },
         error: (error) => {
-          this.errorResponseData = error;
-          alert(this.errorResponseData.error);
+          this.loginError = true;
+          this.errorMessage = error.error.message;
+
         }
       });
 
@@ -80,16 +79,18 @@ export class LoginComponent implements OnInit {
   }
 
   StartRegister() {
+    this.loginSessionHasExperied = false;
+    this.regValidationError = false;
+    this.loginError = false;
+
     if (this.Register.valid) {
       this.service.RegisterViaBackend(this.Register.value).subscribe({
         next: (data) => {
-          this.validationError = false;
+          this.regInfoMessageBox = true;
           this.showLoginPage = true
-          this.infoMessageBox = true;     
-          this.sessionHasExperied = false;  
         },
         error: (err) => {
-          this.validationError = true;
+          this.regValidationError = true;
           this.errorMessage = err.error;
         }
       });

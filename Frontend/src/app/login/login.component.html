@@ -74,20 +74,27 @@
                 </form>
 
             </div>
-            <div class="alert alert-danger mt-2 p-2" role="alert" *ngIf="validationError">
+            <div class="alert alert-danger mt-2 p-2" role="alert" *ngIf="loginError && showLoginPage">
                 <i class="me-3 fa-solid fa-triangle-exclamation"></i>
-                <p class="m-0">"{{errorMessage}}"</p>                
+                <p class="m-0">{{errorMessage}}</p>                
             </div>
 
-            <div class="alert alert-success mt-2 p-2" role="alert" *ngIf="infoMessageBox">
+            <div class="alert alert-success mt-2 p-2" role="alert" *ngIf="regInfoMessageBox && showLoginPage">
                 <i class="me-3 fa-solid fa-triangle-exclamation"></i>
                 <p class="m-0">Registration was successed. Please Login.</p>
             </div>          
 
-            <div class="alert alert-success mt-2 p-2" role="alert" *ngIf="sessionHasExperied">
-                <i class="me-3 fa-solid fa-triangle-exclamation"></i>
+            <div class="alert alert-success mt-2 p-2" role="alert" *ngIf="loginSessionHasExperied && showLoginPage">
+                <i class="me-3 fa-solid fa-right-to-bracket"></i>
                 <p class="m-0">The session has expired, Please login again.</p>
             </div>
+
+            <div class="alert alert-danger mt-2 p-2" role="alert" *ngIf="regValidationError && !showLoginPage">
+                <i class="me-3 fa-solid fa-triangle-exclamation"></i>
+                <p class="m-0">{{errorMessage}}</p>                
+            </div>
+
+
 
         </div>
     </div>

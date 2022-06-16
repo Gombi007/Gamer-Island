@@ -26,7 +26,7 @@ export class LibraryComponent implements OnInit {
   gameDetailsByAppId = new EventEmitter();
 
 
-  constructor(private http: HttpClient, private author: AuthorizationService, private route:Router, private global:GlobalService) { }
+  constructor(private http: HttpClient, private author: AuthorizationService, private route: Router, private global: GlobalService) { }
 
   ngOnInit(): void {
     this.innerHeight = window.innerHeight - this.headerHeight;
@@ -50,8 +50,8 @@ export class LibraryComponent implements OnInit {
     catchError(error => {
       this.global.experiedSession = true;
       let message = error.error.error_message;
-      if (message.includes("Token has expired")) {      
-        this.route.navigate(['login']);        
+      if (message.includes("Token has expired")) {
+        this.route.navigate(['login']);
       }
       return EMPTY;
     })
@@ -97,6 +97,14 @@ export class LibraryComponent implements OnInit {
         gameDetails.metacritics = data.metacritics;
         gameDetails.screenshot_urls = data.screenshot_urls;
         gameDetails.genres = data.genres;
+      }),
+      catchError(error => {
+        this.global.experiedSession = true;
+        let message = error.error.error_message;
+        if (message.includes("Token has expired")) {
+          this.route.navigate(['login']);
+        }
+        return EMPTY;
       }),
       tap(() => { this.gameDetailsByAppId.emit(gameDetails) })
     ).subscribe();
