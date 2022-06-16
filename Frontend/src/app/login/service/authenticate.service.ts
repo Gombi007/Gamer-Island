@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { STRINGS } from 'src/app/strings.enum';
@@ -14,17 +14,16 @@ export class AuthenticateService {
     return localStorage.getItem('token') != null;
   }
 
-  LoginViaBackend(userCredential: any) {
-    return this.http.post<any>(STRINGS.API_LOGIN_URL, userCredential);
+  LoginViaBackend(userCredential: any) {     
+    let body = new FormData();
+    body.set('username', userCredential.userName);
+    body.set('password', userCredential.password);
+    return this.http.post<any>(STRINGS.API_LOGIN_URL, body);
   }
 
   RegisterViaBackend(userData: any) {
     return this.http.post<any>(STRINGS.API_REGISTER_URL, userData);
   }
 
-  GetLoggedUserName() {
-    let userUUID = localStorage.getItem("user_id"); 
-      return this.http.get<any>(STRINGS.API_USER_NAME_URL + userUUID);    
-  }
 
 }

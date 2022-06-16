@@ -1,20 +1,27 @@
 package com.gameisland.services;
 
-import com.gameisland.models.dto.Login;
+import com.gameisland.models.entities.Role;
 import com.gameisland.models.entities.User;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 public interface UserService {
 
-    User createANewUser(User user);
+    Map<String, String> createANewUser(User user);
 
     Object getUserNameByUUID(String uuid);
 
-    void removeAUserPermanently(Long userId);
+    void removeAUserPermanently(String uuid);
 
     ArrayList<User> getAllUserFromDatabase();
 
-    Object login(Login login);
+    Role saveRole(Role role);
+
+    void addRoleToUser(String uuid, String roleName);
+
+    ArrayList<Role> getAllRoles();
+
+    User getUserByName(String username);
 
 }

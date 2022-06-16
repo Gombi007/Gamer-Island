@@ -5,4 +5,5 @@ export enum STRINGS {
     API_ALL_GAMES_FOR_SHOP = 'http://localhost:8081/api/games/shop/',
     API_LIBRARY = 'http://localhost:8081/api/games/library',
     API_GAMES_DETAILS = 'http://localhost:8081/api/games/',
+    API_USER_GET_USERNAME_BY_UUID = 'http://localhost:8081/api/users/username/',
 }

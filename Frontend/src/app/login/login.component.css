@@ -1,31 +1,32 @@
-.flex-container{
+.flex-container {
     padding-top: 2rem;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-  
+
 }
-.logo{
+
+.logo {
     border-radius: 50%;
-    width: 250px;
+    width: 200px;
     border: 2px solid whitesmoke;
     box-shadow: 2px 0px 15px lightblue;
 }
 
-.form-panel{
-    margin-top: 2rem;
+.form-panel {
+    margin-top: 1rem;
     background-image: url("../../assets/img/login_bg.jpg");
     box-shadow: 2px 0px 15px lightblue;
-    
+
     padding: 1rem;
-    min-width:350px;
+    min-width: 350px;
     max-width: 400px;
     min-height: 300px;
     background-color: black;
 }
 
-.form-panel input{
+.form-panel input {
     color: wheat;
     background-color: rgba(17, 17, 17, 0.7)
 }
@@ -35,32 +36,54 @@
     align-items: center;
     justify-content: center;
     gap: 1.5rem;
-    
+
 }
-.form-btns button{
+
+.form-btns button {
     width: 5rem;
     color: wheat;
-   
+
 }
 
-.form-btns button:hover{
+.form-btns button:hover {
     background-color: rgba(17, 17, 17, 0.7)
-   
 }
 
-.change-login-register{
+.change-login-register {
     display: flex;
     justify-content: center;
 }
 
-.fakeLoginBtn{
+.fakeLoginBtn {
     cursor: pointer;
     padding-left: 0.5rem;
     font-weight: bolder;
-    color:violet;
+    color: violet;
 }
 
-.check-password{
-    color: red;
+.alert-danger {
+    background-color: rgb(252, 161, 161);
+    border-color: rgb(116, 37, 23);
+    display: flex;
+    font-weight: 500;
+    align-items: center;
 }
 
+.alert-success {
+    background-color: rgb(123, 211, 96);
+    border-color: rgb(0, 170, 9);
+    display: flex;
+    font-weight: 500;
+    align-items: center;
+}
+
+.validate {
+    color: rgb(235, 171, 94);
+    padding-left: 5px;
+}
+
+.valid-icons {
+    color: greenyellow;
+    margin-left: 1rem;
+    font-size: 1.2rem;
+}

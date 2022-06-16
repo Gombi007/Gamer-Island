@@ -17,4 +17,5 @@ public class GlobalExceptionHandler {
     public ResponseEntity<Object> handleExists(ResourceAlreadyExists exception) {
         return ResponseEntity.status(HttpStatus.CONFLICT).body(exception.getMessage());
     }
+
 }

@@ -1,7 +1,10 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, HostListener, OnInit } from '@angular/core';
-import { Subject, switchMap, tap } from 'rxjs';
+import { Router } from '@angular/router';
+import { catchError, EMPTY, Subject, switchMap, tap } from 'rxjs';
 import { GameDetails } from 'src/app/game-details.model';
+import { GlobalService } from 'src/app/global.service';
+import { AuthorizationService } from 'src/app/login/service/authorization.service';
 import { STRINGS } from 'src/app/strings.enum';
 
 @Component({
@@ -9,7 +12,7 @@ import { STRINGS } from 'src/app/strings.enum';
   templateUrl: './store-elements.component.html',
   styleUrls: ['./store-elements.component.css']
 })
-export class StoreElementsComponent implements OnInit { 
+export class StoreElementsComponent implements OnInit {
   innerHeight!: number;
   headerHeight: number = 46;
   gamesFromDatabase: GameDetails[] = [];
@@ -18,24 +21,24 @@ export class StoreElementsComponent implements OnInit {
   totalPages: any;
   size = 20;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private author: AuthorizationService, private route: Router, private global:GlobalService) { }
 
-  ngOnInit(): void {    
+  ngOnInit(): void {
     this.innerHeight = window.innerHeight - this.headerHeight;
     this.shopGames$.subscribe();
     //@ts-ignore
     this.shopGames$.next();
-  }   
+  }
 
-    // update value when resize
-    @HostListener('window:resize', ['$event'])
-    onResize() {
-      this.innerHeight = window.innerHeight - this.headerHeight;
-    }
+  // update value when resize
+  @HostListener('window:resize', ['$event'])
+  onResize() {
+    this.innerHeight = window.innerHeight - this.headerHeight;
+  }
 
-  onScrollDown(ev: any) {   
+  onScrollDown(ev: any) {
     // if data query is in progress , can't increase the page number with scrolling. 
-    if (this.isPending === false){
+    if (this.isPending === false) {
       this.nextpage++;
       //@ts-ignore
       this.shopGames$.next();
@@ -43,14 +46,13 @@ export class StoreElementsComponent implements OnInit {
   }
 
 
-
   shopGames$ = new Subject().pipe(
     tap(() => {
       this.isPending = true;
     }),
-    switchMap(() => this.http.get(STRINGS.API_ALL_GAMES_FOR_SHOP + "?page=" + this.nextpage + "&size=" + this.size)),
-    tap((data: any) => {   
-      console.log(data.pageable.pageNumber)       
+    switchMap(() =>
+      this.http.get(STRINGS.API_ALL_GAMES_FOR_SHOP + "?page=" + this.nextpage + "&size=" + this.size, this.author.TokenForRequests())),
+    tap((data: any) => {
       this.totalPages = data.totalPages;
       if (this.gamesFromDatabase.length === 0) {
         this.gamesFromDatabase = data.content;
@@ -61,37 +63,46 @@ export class StoreElementsComponent implements OnInit {
         });
       }
       this.isPending = false;
-    }));
+    }),
+    catchError(error => {
+      let message = error.error.error_message;
+      if (message.includes("Token has expired")) {
+        this.global.experiedSession = true;
+        this.route.navigate(['login']);
+      }
+      return EMPTY;
+    })
+  );
 
-    getPlatform(game:GameDetails, platform:string){     
-      if(platform === 'Windows' && game.platforms.includes(platform)){
-        return platform;
-      }
-      if(platform === 'Mac' && game.platforms.includes(platform)){
-        return platform;
-      }
-
-      if(platform === 'Linux' && game.platforms.includes(platform)){
-        return platform;
-      }
-      return '';
+  getPlatform(game: GameDetails, platform: string) {
+    if (platform === 'Windows' && game.platforms.includes(platform)) {
+      return platform;
+    }
+    if (platform === 'Mac' && game.platforms.includes(platform)) {
+      return platform;
     }
 
-    getGamePrice(game:GameDetails){
-      if(game.price_in_final_formatted !== null && game.price_in_final_formatted !== ''){
-        return 1;
-      }
-
-      if(game.price_in_final_formatted === '' && game.genres.includes('Free to Play')){
-        return 2;
-      }
-
-      if(game.price_in_final_formatted === '' && !(game.genres.includes('Free to Play'))){
-        return 3;
-      }
-      return 0;
-
-
+    if (platform === 'Linux' && game.platforms.includes(platform)) {
+      return platform;
     }
+    return '';
+  }
+
+  getGamePrice(game: GameDetails) {
+    if (game.price_in_final_formatted !== null && game.price_in_final_formatted !== '') {
+      return 1;
+    }
+
+    if (game.price_in_final_formatted === '' && game.genres.includes('Free to Play')) {
+      return 2;
+    }
+
+    if (game.price_in_final_formatted === '' && !(game.genres.includes('Free to Play'))) {
+      return 3;
+    }
+    return 0;
+
+
+  }
 
 }
