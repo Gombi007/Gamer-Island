@@ -10,7 +10,7 @@ public interface UserService {
 
     Map<String, String> createANewUser(User user);
 
-    Object getUsernameAndBalanceByUUID(String uuid);
+    Object getUsernameAndBalanceAndAvatarByUUID(String uuid);
 
     void removeAUserPermanently(String uuid);
 

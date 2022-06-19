@@ -69,15 +69,16 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public Object getUsernameAndBalanceByUUID(String uuid) {
+    public Object getUsernameAndBalanceAndAvatarByUUID(String uuid) {
         boolean isExistingUer = userRepository.getUserByUUID(uuid).isPresent();
         if (!isExistingUer) {
             throw new ResourceNotFoundException("User doesn't exist with this UUID: " + uuid);
         }
-        String[] usernameAndBalance = userRepository.getUsernameAndBalance(uuid).split(",");
+        String[] usernameAndBalance = userRepository.getUsernameAndBalanceAndAvatar(uuid).split(",");
         Map<String, String> result = new HashMap<>();
         result.put("username", usernameAndBalance[0]);
         result.put("balance", usernameAndBalance[1]);
+        result.put("avatar", usernameAndBalance[2]);
         return result;
     }
 

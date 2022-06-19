@@ -4,7 +4,13 @@
     <a class="item" routerLink="community" routerLinkActive="active">COMMUNITY</a>
     <a class="item" routerLink="profile" routerLinkActive="active">{{userObject.username}}</a>
     <div class="right-side" *ngIf="isUserLoggedIn()">
-        <p class="item right-item balance">{{userObject.balance}}</p>    
-        <a class="item right-item" routerLink="login" routerLinkActive="active" >LOGOUT</a>
+        <div class="avatar">
+            <img [src]="userObject.avatar" alt="avatar" >
+        </div>
+        <div class="balance-logout">
+            <p class="item right-item balance">{{userObject.balance}}</p>    
+            <a class="item right-item" routerLink="login" routerLinkActive="active" >LOGOUT</a>
+
+        </div>
     </div>
 </div>
