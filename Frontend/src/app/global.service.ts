@@ -1,5 +1,6 @@
 import { HttpBackend, HttpClient, HttpClientModule } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { EventEmitter, Injectable, Output } from '@angular/core';
+import { BehaviorSubject, Subject, switchMap, tap } from 'rxjs';
 import { AuthorizationService } from './login/service/authorization.service';
 import { STRINGS } from './strings.enum';
 
@@ -8,17 +9,13 @@ import { STRINGS } from './strings.enum';
 })
 export class GlobalService {
   experiedSession = false;
-  username = 'USER'
+  usernameFromServer = 'PROFILE'
 
-  constructor(private http:HttpClient,private author: AuthorizationService) { }
+  constructor(private http:HttpClient, private author:AuthorizationService) { }
 
   GetUsernameByUUID() {
-    let uuid= localStorage.getItem('user_id');
-    return this.http.get<any>(STRINGS.API_USER_GET_USERNAME_BY_UUID+uuid, this.author.TokenForRequests()).subscribe({
-      next:(data)=>{
-        this.username = data.userName;      
-      }
-    });
+    let uuid = localStorage.getItem('user_id');
+    return this.http.get<any>(STRINGS.API_USER_GET_USERNAME_BY_UUID + uuid, this.author.TokenForRequests())
   }
 
 

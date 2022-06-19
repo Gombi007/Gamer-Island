@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { GlobalService } from '../global.service';
@@ -10,6 +10,7 @@ import { AuthenticateService } from './service/authenticate.service';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
+
   showLoginPage = true;
   regValidationError = false;
   regInfoMessageBox = false
@@ -45,8 +46,6 @@ export class LoginComponent implements OnInit {
     this.showLoginPage = !this.showLoginPage;
   }
 
-
-
   StartLogin() {
     this.loginSessionHasExperied = false
     this.regValidationError = false;
@@ -59,9 +58,9 @@ export class LoginComponent implements OnInit {
           if (value !== null) {
             this.responseData = value;
             localStorage.setItem('user_id', this.responseData.user_id);
-            localStorage.setItem('token', this.responseData.token);
-            this.global.GetUsernameByUUID();
+            localStorage.setItem('token', this.responseData.token);                              
             this.route.navigate(['']);
+           
           }
         },
         error: (error) => {
@@ -79,6 +78,7 @@ export class LoginComponent implements OnInit {
     return this.Register.controls;
   }
 
+  
   StartRegister() {
     this.loginSessionHasExperied = false;
     this.regValidationError = false;
