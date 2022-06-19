@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, SimpleChange, SimpleChanges } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Observable, Subscription } from 'rxjs';
 import { GlobalService } from '../global.service';
 import { AuthGuard } from '../login/service/auth.guard';
 import { AuthenticateService } from '../login/service/authenticate.service';
@@ -12,20 +13,19 @@ import { STRINGS } from '../strings.enum';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
-  userName = "PROFILE";
+  @Input()
+  username: string = '';
 
-
-  constructor(private auth: AuthenticateService, private global:GlobalService) { }
+  constructor(private auth: AuthenticateService) { }
 
   ngOnInit(): void {
-    this.userName = this.global.username;
-    //TODO give the username to header 
   }
 
-  isUserLoggedIn() {  
-       return this.auth.IsLoggedIn();
-    
+  isUserLoggedIn() {
+    return this.auth.IsLoggedIn();
   }
+
+
 
 }
 
