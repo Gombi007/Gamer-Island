@@ -1,10 +1,9 @@
-
-.header{
- display: flex; 
- position: fixed;
- z-index: 1;
- background-color: black;
-} 
+.header {
+  display: flex;
+  position: fixed;
+  z-index: 1;
+  background-color: black;
+}
 
 .item {
   text-align: center;
@@ -14,32 +13,48 @@
   font-size: 1.3rem;
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
-  width: 10%;
+  padding-right: 1rem;
+
 }
 
 .item:hover {
-  color:   rgba(255, 254, 254, 0.9); 
+  color: rgba(255, 254, 254, 0.9);
 }
 
-.item-right{ 
+.right-side {
+  padding-top: 0.2rem;
   margin-left: auto;
 }
 
-.active{
-  color:  rgba(255, 254, 254, 1); 
+.right-item {
+  padding: 0;
+  margin: 0;
+  font-size: 1rem;
+}
+
+.balance {
+  cursor: pointer;
+  color: rgb(157, 202, 88);
+  font-size: 0.8rem;
+}
+
+
+.active {
+  color: rgba(255, 254, 254, 1);
 }
 
 @media screen and (max-width: 1000px) {
-  .item{ 
+  .item {
     font-size: 0.7rem;
     padding-top: 0;
     padding-bottom: 0;
   }
 
-  .header{   
+  .header {
     justify-content: space-around;
   }
-  .item-right{
+
+  .item-right {
     margin-left: 0;
   }
- }
+}
