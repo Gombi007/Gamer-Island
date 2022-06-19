@@ -10,12 +10,17 @@ import { STRINGS } from './strings.enum';
 export class GlobalService {
   experiedSession = false;
   usernameFromServer = 'PROFILE'
+  uuid: any
 
-  constructor(private http:HttpClient, private author:AuthorizationService) { }
+  constructor(private http: HttpClient, private author: AuthorizationService) { }
 
-  GetUsernameByUUID() {
-    let uuid = localStorage.getItem('user_id');
-    return this.http.get<any>(STRINGS.API_USER_GET_USERNAME_BY_UUID + uuid, this.author.TokenForRequests())
+  getUsernameAndBalanceByUUID() {
+    this.uuid = localStorage.getItem('user_id');
+    return this.http.get<any>(STRINGS.API_USER_GET_USERNAME_BY_UUID + this.uuid, this.author.TokenForRequests())
+  }
+
+  getUUIDFromLocalStore() {
+    this.uuid = localStorage.getItem('user_id');
   }
 
 

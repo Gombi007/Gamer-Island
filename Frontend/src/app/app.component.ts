@@ -9,21 +9,25 @@ import { GlobalService } from './global.service';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  username = 'PROFILE'
+  userObject = { username: 'PROFILE', balance: '0 €', avatar: '' }
   title = 'Game Island';
 
-  constructor(private global: GlobalService, private route: Router) { }
+  constructor(private global: GlobalService) { }
 
   getUsername(event: any) {
 
-    if (event.constructor.name === 'LoginComponent') {
-      this.username = 'PROFILE'     
+    this.global.getUUIDFromLocalStore();
+
+    if (this.global.uuid === null) {
+      this.userObject.username = 'PROFILE'
     }
 
-    if (this.username === 'PROFILE' && event.constructor.name !== 'LoginComponent') {
-      let obs = this.global.GetUsernameByUUID().subscribe(
+    if (this.userObject.username === 'PROFILE' && this.global.uuid !== null) {
+      let obs = this.global.getUsernameAndBalanceByUUID().subscribe(
         res => {
-          this.username = res.userName.toLocaleUpperCase();       
+          this.userObject.username = res.username.toLocaleUpperCase();
+          this.userObject.balance = res.balance + ' €';
+          this.userObject.avatar = res.avatar + ' €';
         }
       );
     }

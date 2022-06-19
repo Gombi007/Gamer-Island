@@ -23,8 +23,8 @@ public class UserRestController {
 
     @PreAuthorize("hasRole('USER')")
     @GetMapping("/username/{uuid}")
-    public ResponseEntity<Object> getUserNameByUUID(@PathVariable String uuid) {
-        return ResponseEntity.status(HttpStatus.OK).body(userService.getUserNameByUUID(uuid));
+    public ResponseEntity<Object> getUsernameAndBalanceAndAvatarByUUID(@PathVariable String uuid) {
+        return ResponseEntity.status(HttpStatus.OK).body(userService.getUsernameAndBalanceAndAvatarByUUID(uuid));
     }
 
 
