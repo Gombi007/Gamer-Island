@@ -13,7 +13,7 @@ export class GlobalService {
 
   constructor(private http:HttpClient, private author:AuthorizationService) { }
 
-  GetUsernameByUUID() {
+  getUsernameAndBalanceByUUID() {
     let uuid = localStorage.getItem('user_id');
     return this.http.get<any>(STRINGS.API_USER_GET_USERNAME_BY_UUID + uuid, this.author.TokenForRequests())
   }

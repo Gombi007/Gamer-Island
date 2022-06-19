@@ -14,7 +14,7 @@ import { STRINGS } from '../strings.enum';
 })
 export class HeaderComponent implements OnInit {
   @Input()
-  username: string = '';
+  userObject= {username:'',balance:''};
 
   constructor(private auth: AuthenticateService) { }
 

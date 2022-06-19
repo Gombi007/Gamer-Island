@@ -9,7 +9,7 @@ import { GlobalService } from './global.service';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  username = 'PROFILE'
+  userObject = {username:'PROFILE',balance:"0 €"}
   title = 'Game Island';
 
   constructor(private global: GlobalService, private route: Router) { }
@@ -17,13 +17,14 @@ export class AppComponent {
   getUsername(event: any) {
 
     if (event.constructor.name === 'LoginComponent') {
-      this.username = 'PROFILE'     
+      this.userObject.username = 'PROFILE'     
     }
 
-    if (this.username === 'PROFILE' && event.constructor.name !== 'LoginComponent') {
-      let obs = this.global.GetUsernameByUUID().subscribe(
+    if (this.userObject.username === 'PROFILE' && event.constructor.name !== 'LoginComponent') {
+      let obs = this.global.getUsernameAndBalanceByUUID().subscribe(
         res => {
-          this.username = res.userName.toLocaleUpperCase();       
+          this.userObject.username = res.username.toLocaleUpperCase();       
+          this.userObject.balance = res.balance +' €';    
         }
       );
     }
