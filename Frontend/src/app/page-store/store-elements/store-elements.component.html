@@ -1,7 +1,6 @@
 <div class="container-fluid scroller" [ngStyle]="{'height.px': innerHeight}" infinite-scroll [scrollWindow]="false"
     (scrolled)="onScrollDown($event)">
     <div class="row flex-container">
-
         <ng-container *ngFor="let game of gamesFromDatabase">
             <div class="card" style="width: 22rem;">
                 <img src="{{game.header_image}}" alt="image">
@@ -35,3 +34,4 @@
             </h3>
         </div>
     </div>
+</div>
