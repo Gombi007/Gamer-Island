@@ -1,4 +1,5 @@
 import { Component, HostListener, OnInit } from '@angular/core';
+import { STRINGS } from 'src/app/strings.enum';
 
 @Component({
   selector: 'app-store-search',
@@ -7,7 +8,7 @@ import { Component, HostListener, OnInit } from '@angular/core';
 })
 export class StoreSearchComponent implements OnInit {
   innerHeight!: number;
-  headerHeight: number = 46;
+  headerHeight: number = STRINGS.HEADER_HEIGHT_FOR_CONTENT;
 
   constructor() { }
 

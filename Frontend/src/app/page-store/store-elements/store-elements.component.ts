@@ -14,7 +14,7 @@ import { STRINGS } from 'src/app/strings.enum';
 })
 export class StoreElementsComponent implements OnInit {
   innerHeight!: number;
-  headerHeight: number = 46;
+  headerHeight: number = STRINGS.HEADER_HEIGHT_FOR_CONTENT;
   gamesFromDatabase: GameDetails[] = [];
   isPending = false;
   nextpage: number = 0;
