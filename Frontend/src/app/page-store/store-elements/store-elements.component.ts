@@ -1,5 +1,5 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Component, EventEmitter, HostListener, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, HostListener, OnChanges, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core';
 import { Router } from '@angular/router';
 import { catchError, EMPTY, Subject, switchMap, tap } from 'rxjs';
 import { GameDetails } from 'src/app/game-details.model';
@@ -22,7 +22,9 @@ export class StoreElementsComponent implements OnInit {
   totalPages: any;
   size = 20;
 
-  constructor(private http: HttpClient, private author: AuthorizationService, private route: Router, private global: GlobalService) { }
+  constructor(private http: HttpClient, private author: AuthorizationService, private route: Router, private global: GlobalService) { 
+    
+  }
 
   ngOnInit(): void {
     this.innerHeight = window.innerHeight - this.headerHeight;
@@ -37,7 +39,9 @@ export class StoreElementsComponent implements OnInit {
     this.innerHeight = window.innerHeight - this.headerHeight;
   }
 
-  onScrollDown(ev: any) {
+  onScrollDown(ev: any) { 
+    localStorage.setItem("store_current_position",ev.currentScrollPosition);
+
     // if data query is in progress , can't increase the page number with scrolling. 
     if (this.isPending === false) {
       this.nextpage++;
