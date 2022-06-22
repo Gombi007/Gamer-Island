@@ -1,4 +1,134 @@
-.container-fluid{   
-   background-color: blue;
-   /* background-color: rgba(56, 65, 94, 0.3); */ 
+.detail {
+    background-color: rgba(56, 65, 94, 0.3);
+}
+
+.title{
+    color: whitesmoke;
+    text-shadow: 5px 5px 5px #000000;
+}
+
+.details-content {
+    padding-top: 2rem;
+    display: flex;
+    justify-content: center;
+}
+
+.details-info {
+    display: flex;
+    justify-content: center;
+}
+
+.card {
+    background-color: rgb(48, 47, 47);
+    border: none;
+}
+
+.cart {
+    width: 40%;
+    padding: 0.3rem;
+    padding-right: 1rem;
+    padding-left: 1rem;
+    border-radius: 5px;
+    background-image: linear-gradient(to right, rgb(0, 0, 0), rgb(83, 83, 83));
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.cart-icon {
+    text-align: center;
+}
+
+.fa-cart-plus {
+    font-size: 1.2rem;
+}
+
+.fa-cart-plus:hover {
+    color: greenyellow;
+}
+
+.thumbnails {
+    overflow-x: auto;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+
+}
+
+.img-slide {
+    align-items: center;
+    padding-right: 0.5rem;
+    padding-bottom: 1rem;
+    cursor: pointer;
+}
+
+.img-slide img {
+    width: 115px;
+    height: 65px;
+}
+
+.navigation {
+    padding-top: 1rem;
+    display: flex;
+    justify-content: space-between;
+
+}
+
+.active {
+    border: 1px solid whitesmoke;
+}
+
+.genres {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    gap: 0.3rem 0.3rem;
+
+}
+
+.genres p {
+    padding: 0.3rem;
+    margin: 0;
+    background-color: rgba(37, 37, 37, 0.5);
+}
+
+.genres p:hover {
+    background-color: rgba(24, 82, 105, 0.8);
+}
+
+.card h4 {
+    padding-right: 1rem;
+    text-align: end;
+}
+
+.platforms_age {
+    display: flex;
+    justify-content: space-between;
+}
+
+.platforms_age p span {
+    font-weight: bolder;
+}
+
+.platforms i {
+    justify-content: flex-end;
+    padding-right: 1rem;
+    font-size: 1.5rem;
+}
+
+
+
+/*custom scrollbar*/
+::-webkit-scrollbar {
+    height: 10px
+}
+
+::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 2px rgb(5, 171, 180);
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgb(5, 171, 180);
+    border-radius: 5px;
 }
