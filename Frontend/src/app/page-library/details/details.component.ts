@@ -1,4 +1,5 @@
 import { Component, HostListener, Input, OnInit, OnChanges, SimpleChanges } from '@angular/core';
+import { STRINGS } from 'src/app/strings.enum';
 import { GameDetails } from '../../game-details.model';
 import { Game } from '../../game.model';
 
@@ -9,7 +10,7 @@ import { Game } from '../../game.model';
 })
 export class DetailsComponent implements OnInit {
   innerHeight!: number;
-  headerHeight: number = 45;
+  headerHeight: number = STRINGS.HEADER_HEIGHT_FOR_CONTENT;
 
   @Input()
   game: GameDetails = new GameDetails()

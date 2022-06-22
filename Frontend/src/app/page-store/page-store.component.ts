@@ -1,8 +1,7 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, HostListener, OnInit } from '@angular/core';
-import { Subject, switchMap, tap } from 'rxjs';
-import { GameDetails } from '../game-details.model';
-import { STRINGS } from '../strings.enum';
+import { Component, HostListener, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-page-store',
@@ -10,13 +9,13 @@ import { STRINGS } from '../strings.enum';
   styleUrls: ['./page-store.component.css']
 })
 export class PageStoreComponent implements OnInit {
- 
-  
+  constructor() { }
+
   ngOnInit(): void {
-  
-  
+
   }
 
-
-
 }
+
+
+

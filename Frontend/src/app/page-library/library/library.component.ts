@@ -16,7 +16,7 @@ import { GlobalService } from 'src/app/global.service';
 export class LibraryComponent implements OnInit {
 
   innerHeight!: number;
-  headerHeight: number = 144;
+  headerHeight: number = STRINGS.HEADER_HEIGHT_FOR_LEFT_SIDE;
   games: Game[] = [];
   gamesClone: Game[] = [];
   isPending: Boolean = false;
