@@ -1,3 +1,64 @@
-.detail{  
-    background-color: rgba(56, 65, 94, 0.3); 
+.detail {
+    background-color: rgba(56, 65, 94, 0.3);  
+}
+.details-content { 
+    padding-top: 2rem;
+    display: flex;
+    justify-content: center;
+}
+
+.details-info { 
+    display: flex;
+    justify-content: center;
+}
+.card{
+    background-color: rgba(50, 50, 51, 0.9);   
+    border: none;
+}
+
+
+.thumbnails {
+    overflow-x: auto;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+}
+
+.img-slide {
+    align-items: center;  
+    padding-right: 0.5rem;
+    padding-bottom: 1rem;
+    cursor: pointer;
+}
+
+.img-slide img {
+    width: 115px;
+    height: 65px;
+}
+
+.navigation { 
+    padding-top: 1rem;
+    display: flex;  
+    justify-content: space-between;
+  
+}
+.active {
+    border: 1px solid whitesmoke;
+}
+
+
+
+/*custom scrollbar*/
+::-webkit-scrollbar {
+    height: 10px
+}
+
+::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 2px rgb(5, 171, 180);
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgb(5, 171, 180);
+    border-radius: 5px;
 }
