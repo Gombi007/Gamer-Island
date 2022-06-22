@@ -37,10 +37,10 @@
                             <br>
                             <b>Developers:</b> {{game.developers}}
                         </p>
-                        <h3 class="card-text text-start">{{game.price_in_final_formatted}}</h3>
                     </div>
                 </div>
             </div>
+
             <div class="details-info">
                 <div class="card ps-3" style="width: 71%;">
                     <div class="card-body">
@@ -48,6 +48,21 @@
                     </div>
                 </div>
             </div>
+
+            <div class="details-content">
+                <div class="cart">
+                    <h5 class="p-0">Buy {{game.name}}</h5>
+                    <div class="p-0 cart-icon">
+                        <h5 class="p-0" *ngIf="game.price_in_final_formatted ===''">N/A</h5>
+                        <h5 class="p-0">{{game.price_in_final_formatted}}</h5>
+                        <i class="fa-solid fa-cart-plus"></i>
+                    </div>
+                </div>
+            </div>
+
+
+
+
         </ng-container>
 
         <ng-container *ngIf="isPending">

@@ -1,31 +1,57 @@
 .detail {
-    background-color: rgba(56, 65, 94, 0.3);  
+    background-color: rgba(56, 65, 94, 0.3);
 }
-.details-content { 
+
+.details-content {
     padding-top: 2rem;
     display: flex;
     justify-content: center;
 }
 
-.details-info { 
+.details-info {
     display: flex;
     justify-content: center;
 }
-.card{
-    background-color: rgba(50, 50, 51, 0.9);   
+
+.card {
+    background-color: rgb(48, 47, 47);
     border: none;
 }
 
+.cart {
+    width: 40%;
+    padding: 0.3rem;
+    padding-right: 1rem;
+    padding-left: 1rem;
+    border-radius: 5px;
+    background-image: linear-gradient(to right, rgb(0, 0, 0), rgb(83, 83, 83));
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.cart-icon {
+    text-align: center;
+}
+
+.fa-cart-plus {
+    font-size: 1.2rem;
+}
+
+.fa-cart-plus:hover {
+    color: greenyellow;
+}
 
 .thumbnails {
     overflow-x: auto;
     width: 100%;
     display: flex;
     flex-direction: row;
+
 }
 
 .img-slide {
-    align-items: center;  
+    align-items: center;
     padding-right: 0.5rem;
     padding-bottom: 1rem;
     cursor: pointer;
@@ -36,12 +62,13 @@
     height: 65px;
 }
 
-.navigation { 
+.navigation {
     padding-top: 1rem;
-    display: flex;  
+    display: flex;
     justify-content: space-between;
-  
+
 }
+
 .active {
     border: 1px solid whitesmoke;
 }
