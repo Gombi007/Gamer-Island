@@ -13,10 +13,10 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { PageStoreComponent } from './page-store/page-store.component';
 import { PageCommunityComponent } from './page-community/page-community.component';
 import { PageProfileComponent } from './page-profile/page-profile.component';
-import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { StoreSearchComponent } from './page-store/store-search/store-search.component';
 import { StoreElementsComponent } from './page-store/store-elements/store-elements.component';
 import { GameDetailComponent } from './page-store/game-detail/game-detail.component';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 
 @NgModule({
@@ -39,8 +39,9 @@ import { GameDetailComponent } from './page-store/game-detail/game-detail.compon
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    ReactiveFormsModule,
-    InfiniteScrollModule
+    ReactiveFormsModule, 
+    NgxPaginationModule
+
    
   ],
   providers: [],

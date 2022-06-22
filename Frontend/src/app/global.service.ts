@@ -8,6 +8,8 @@ import { STRINGS } from './strings.enum';
   providedIn: 'root'
 })
 export class GlobalService {
+  storeCurrentPage:number = 1;
+  storeCurrentYPosition:number =0;
   experiedSession = false;
   usernameFromServer = 'PROFILE'
   uuid: any

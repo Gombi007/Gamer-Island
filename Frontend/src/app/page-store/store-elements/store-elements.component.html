@@ -1,7 +1,12 @@
-<div class="container-fluid scroller" [ngStyle]="{'height.px': innerHeight}" infinite-scroll [scrollWindow]="false" 
-    (scrolled)="onScrollDown($event)">
-    <div class="row flex-container">
-        <ng-container *ngFor="let game of gamesFromDatabase">
+<div class="container-fluid scroller" #scrollableDiv [ngStyle]="{'height.px': innerHeight}">
+    
+    <div class="row flex-container" *ngIf="!isPending">
+        <ng-container *ngFor="let game of gamesFromDatabase | paginate
+        : {
+            itemsPerPage: itemsPerPage,
+            currentPage: currentPage,
+            totalItems: totalElements
+          }">
             <div class="card" style="width: 22rem;" (click)="goToGameDeatil(game.steam_appid)">
                 <img src="{{game.header_image}}" alt="image">
                 <div class="card-body">
@@ -26,12 +31,17 @@
                 <h4 *ngIf="getGamePrice(game) === 3">N/A</h4>
             </div>
         </ng-container>
+        <div class="d-flex justify-content-center">
+            <pagination-controls previousLabel="Prev" nextLabel="Next" (pageChange)="onTableDataChange($event)">
+            </pagination-controls>
+        </div>
+    </div>
 
-
+    <div class="row flex-container" *ngIf="isPending">
         <div class="row">
             <h3 class="pending" *ngIf="isPending">
                 <i class="fa fa-hurricane fa-spin spinner"></i>
             </h3>
         </div>
-    </div>  
+    </div>
 </div>
