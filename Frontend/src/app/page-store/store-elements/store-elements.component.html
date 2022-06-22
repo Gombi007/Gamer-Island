@@ -2,7 +2,7 @@
     (scrolled)="onScrollDown($event)">
     <div class="row flex-container">
         <ng-container *ngFor="let game of gamesFromDatabase">
-            <div class="card" style="width: 22rem;">
+            <div class="card" style="width: 22rem;" (click)="goToGameDeatil(game.steam_appid)">
                 <img src="{{game.header_image}}" alt="image">
                 <div class="card-body">
                     <h5 class="card-title">{{game.name}}</h5>
@@ -34,4 +34,7 @@
             </h3>
         </div>
     </div>
+    <ng-container >
+        <app-game-detail></app-game-detail>
+    </ng-container>
 </div>

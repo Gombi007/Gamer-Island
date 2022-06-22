@@ -1,5 +1,5 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, EventEmitter, HostListener, OnDestroy, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { catchError, EMPTY, Subject, switchMap, tap } from 'rxjs';
 import { GameDetails } from 'src/app/game-details.model';
@@ -12,7 +12,8 @@ import { STRINGS } from 'src/app/strings.enum';
   templateUrl: './store-elements.component.html',
   styleUrls: ['./store-elements.component.css']
 })
-export class StoreElementsComponent implements OnInit {
+export class StoreElementsComponent implements OnInit, OnDestroy {
+  @Output() selectedGameAppid = new EventEmitter<number>();
   innerHeight!: number;
   headerHeight: number = STRINGS.HEADER_HEIGHT_FOR_CONTENT;
   gamesFromDatabase: GameDetails[] = [];
@@ -21,7 +22,7 @@ export class StoreElementsComponent implements OnInit {
   totalPages: any;
   size = 20;
 
-  constructor(private http: HttpClient, private author: AuthorizationService, private route: Router, private global:GlobalService) { }
+  constructor(private http: HttpClient, private author: AuthorizationService, private route: Router, private global: GlobalService) { }
 
   ngOnInit(): void {
     this.innerHeight = window.innerHeight - this.headerHeight;
@@ -30,10 +31,19 @@ export class StoreElementsComponent implements OnInit {
     this.shopGames$.next();
   }
 
+  ngOnDestroy(): void {
+    console.log('component was destroyed')
+  }
+
   // update value when resize
   @HostListener('window:resize', ['$event'])
   onResize() {
     this.innerHeight = window.innerHeight - this.headerHeight;
+  }
+
+  @HostListener('window:popstate', ['$event.target'])
+  onClick() {
+    console.log('button','number of clicks:');
   }
 
   onScrollDown(ev: any) {
@@ -101,8 +111,11 @@ export class StoreElementsComponent implements OnInit {
       return 3;
     }
     return 0;
+  }
 
-
+  goToGameDeatil(steam_appid: number) {   
+    this.selectedGameAppid.emit(steam_appid);
+    this.route.navigate(["game-detail"])
   }
 
 }
