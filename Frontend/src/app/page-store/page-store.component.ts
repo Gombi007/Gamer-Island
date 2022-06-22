@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, HostListener, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 
 
 @Component({
@@ -8,7 +9,10 @@ import { Component, HostListener, OnChanges, OnInit, Output, SimpleChanges } fro
   styleUrls: ['./page-store.component.css']
 })
 export class PageStoreComponent implements OnInit {
+  constructor() { }
+
   ngOnInit(): void {
+
   }
 
 }

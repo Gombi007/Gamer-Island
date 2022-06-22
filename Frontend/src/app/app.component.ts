@@ -27,7 +27,7 @@ export class AppComponent {
         res => {
           this.userObject.username = res.username.toLocaleUpperCase();
           this.userObject.balance = res.balance + ' €';
-          this.userObject.avatar = res.avatar + ' €';
+          this.userObject.avatar = res.avatar;
         }
       );
     }

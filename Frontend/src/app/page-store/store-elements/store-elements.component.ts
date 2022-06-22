@@ -12,7 +12,7 @@ import { STRINGS } from 'src/app/strings.enum';
   templateUrl: './store-elements.component.html',
   styleUrls: ['./store-elements.component.css']
 })
-export class StoreElementsComponent implements OnInit, OnDestroy {
+export class StoreElementsComponent implements OnInit {
   @Output() selectedGameAppid = new EventEmitter<number>();
   innerHeight!: number;
   headerHeight: number = STRINGS.HEADER_HEIGHT_FOR_CONTENT;
@@ -31,19 +31,10 @@ export class StoreElementsComponent implements OnInit, OnDestroy {
     this.shopGames$.next();
   }
 
-  ngOnDestroy(): void {
-    console.log('component was destroyed')
-  }
-
   // update value when resize
   @HostListener('window:resize', ['$event'])
   onResize() {
     this.innerHeight = window.innerHeight - this.headerHeight;
-  }
-
-  @HostListener('window:popstate', ['$event.target'])
-  onClick() {
-    console.log('button','number of clicks:');
   }
 
   onScrollDown(ev: any) {
@@ -115,7 +106,7 @@ export class StoreElementsComponent implements OnInit, OnDestroy {
 
   goToGameDeatil(steam_appid: number) {   
     this.selectedGameAppid.emit(steam_appid);
-    this.route.navigate(["game-detail"])
+    this.route.navigate(["store",steam_appid])
   }
 
 }

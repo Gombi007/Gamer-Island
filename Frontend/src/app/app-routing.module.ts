@@ -10,15 +10,15 @@ import { GameDetailComponent } from './page-store/game-detail/game-detail.compon
 import { PageStoreComponent } from './page-store/page-store.component';
 
 const routes: Routes = [
-  {path: "", component:PageStoreComponent, canActivate:[AuthGuard]},
-  {path: "store", component:PageStoreComponent,canActivate:[AuthGuard]},
-  {path: "library", component:PageLibraryComponent,canActivate:[AuthGuard]},
-  {path: "community", component:PageCommunityComponent,canActivate:[AuthGuard]},
-  {path: "profile", component:PageProfileComponent,canActivate:[AuthGuard]}, 
-  {path: "game-detail", component:GameDetailComponent,canActivate:[AuthGuard]}, 
-  {path: "login", component:LoginComponent},
-  {path: "**", component:LoginComponent}
- 
+  { path: "", component: PageStoreComponent, canActivate: [AuthGuard] },
+  { path: "store", component: PageStoreComponent, canActivate: [AuthGuard] },
+  { path: "library", component: PageLibraryComponent, canActivate: [AuthGuard] },
+  { path: "community", component: PageCommunityComponent, canActivate: [AuthGuard] },
+  { path: "profile", component: PageProfileComponent, canActivate: [AuthGuard] },
+  { path: "store/:steamAppid", component: GameDetailComponent, canActivate: [AuthGuard] },
+  { path: "login", component: LoginComponent },
+  { path: "**", component: LoginComponent }
+
 ];
 
 @NgModule({
