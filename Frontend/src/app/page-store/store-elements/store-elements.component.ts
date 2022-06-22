@@ -1,5 +1,6 @@
+import { ViewportScroller } from '@angular/common';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Component, EventEmitter, HostListener, OnChanges, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core';
+import { AfterViewChecked, Component, ElementRef, EventEmitter, HostListener, OnChanges, OnDestroy, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { catchError, EMPTY, Subject, switchMap, tap } from 'rxjs';
 import { GameDetails } from 'src/app/game-details.model';
@@ -12,19 +13,20 @@ import { STRINGS } from 'src/app/strings.enum';
   templateUrl: './store-elements.component.html',
   styleUrls: ['./store-elements.component.css']
 })
-export class StoreElementsComponent implements OnInit {
+export class StoreElementsComponent implements OnInit, AfterViewChecked {
   @Output() selectedGameAppid = new EventEmitter<number>();
+  //@ts-ignore
+  @ViewChild('scrollableDiv', { read: ElementRef }) scrollableDiv: ElementRef<any>;
   innerHeight!: number;
   headerHeight: number = STRINGS.HEADER_HEIGHT_FOR_CONTENT;
   gamesFromDatabase: GameDetails[] = [];
   isPending = false;
-  nextpage: number = 0;
-  totalPages: any;
-  size = 20;
+  currentPage: number = this.global.storeCurrentPage;
+  totalElements: number = 0;
+  count: number = 0;
+  itemsPerPage = 40;
 
-  constructor(private http: HttpClient, private author: AuthorizationService, private route: Router, private global: GlobalService) { 
-    
-  }
+  constructor(private http: HttpClient, private author: AuthorizationService, private route: Router, private global: GlobalService) { }
 
   ngOnInit(): void {
     this.innerHeight = window.innerHeight - this.headerHeight;
@@ -33,21 +35,23 @@ export class StoreElementsComponent implements OnInit {
     this.shopGames$.next();
   }
 
+  ngAfterViewChecked() {
+    this.scrollableDiv.nativeElement.scrollTop = this.global.storeCurrentYPosition;
+  }
+
   // update value when resize
   @HostListener('window:resize', ['$event'])
   onResize() {
     this.innerHeight = window.innerHeight - this.headerHeight;
   }
 
-  onScrollDown(ev: any) { 
-    localStorage.setItem("store_current_position",ev.currentScrollPosition);
-
-    // if data query is in progress , can't increase the page number with scrolling. 
-    if (this.isPending === false) {
-      this.nextpage++;
-      //@ts-ignore
-      this.shopGames$.next();
-    }
+  onTableDataChange(event: any) {
+    this.global.storeCurrentPage = event;
+    this.currentPage = this.global.storeCurrentPage;
+    //@ts-ignore
+    this.shopGames$.next();
+    this.scrollableDiv.nativeElement.scrollTop = 0
+    this.global.storeCurrentYPosition = 0;
   }
 
 
@@ -56,17 +60,10 @@ export class StoreElementsComponent implements OnInit {
       this.isPending = true;
     }),
     switchMap(() =>
-      this.http.get(STRINGS.API_ALL_GAMES_FOR_SHOP + "?page=" + this.nextpage + "&size=" + this.size, this.author.TokenForRequests())),
+      this.http.get(STRINGS.API_ALL_GAMES_FOR_SHOP + "?page=" + (this.global.storeCurrentPage - 1) + "&size=" + this.itemsPerPage, this.author.TokenForRequests())),
     tap((data: any) => {
-      this.totalPages = data.totalPages;
-      if (this.gamesFromDatabase.length === 0) {
-        this.gamesFromDatabase = data.content;
-      } else {
-        let newPageArray: [] = data.content;
-        newPageArray.forEach(user => {
-          this.gamesFromDatabase.push(user);
-        });
-      }
+      this.totalElements = data.totalElements;
+      this.gamesFromDatabase = data.content;
       this.isPending = false;
     }),
     catchError(error => {
@@ -108,9 +105,10 @@ export class StoreElementsComponent implements OnInit {
     return 0;
   }
 
-  goToGameDeatil(steam_appid: number) {   
+  goToGameDeatil(steam_appid: number) {
+    this.global.storeCurrentYPosition = this.scrollableDiv.nativeElement.scrollTop;
     this.selectedGameAppid.emit(steam_appid);
-    this.route.navigate(["store",steam_appid])
+    this.route.navigate(["store/", steam_appid])
   }
 
 }

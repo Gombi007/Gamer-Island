@@ -38,13 +38,13 @@ public class SteamGameServiceImpl implements SteamGameService {
             Page<SteamGame> sortedAndPagedGames = steamGameRepository.findAll(pageRequest);
             List<SteamGame> gamesInaPage = sortedAndPagedGames.getContent();
 
-
             ArrayList<SteamGameDTO> concertToDto = new ArrayList<>();
             for (int i = 0; i < gamesInaPage.size(); i++) {
                 concertToDto.add(SteamGameDTO.convertToGameDto(gamesInaPage.get(i)));
             }
 
-            Page<SteamGameDTO> resultPageWithDto = new PageImpl<>(concertToDto, sortedAndPagedGames.getPageable(), sortedAndPagedGames.getTotalPages());
+            Page<SteamGameDTO> resultPageWithDto = new PageImpl<>(concertToDto, sortedAndPagedGames.getPageable(), sortedAndPagedGames.getTotalElements());
+
             return resultPageWithDto;
 
         }
