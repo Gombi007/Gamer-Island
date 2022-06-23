@@ -13,9 +13,14 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(exception.getMessage());
     }
 
-    @ExceptionHandler(ResourceAlreadyExists.class)
-    public ResponseEntity<Object> handleExists(ResourceAlreadyExists exception) {
+    @ExceptionHandler(ResourceAlreadyExistsException.class)
+    public ResponseEntity<Object> handleExists(ResourceAlreadyExistsException exception) {
         return ResponseEntity.status(HttpStatus.CONFLICT).body(exception.getMessage());
+    }
+
+    @ExceptionHandler(SteamApiNotRespondingException.class)
+    public ResponseEntity<Object> handeSteamError(SteamApiNotRespondingException exception) {
+        return ResponseEntity.status(HttpStatus.TOO_MANY_REQUESTS).body(exception.getMessage());
     }
 
 }

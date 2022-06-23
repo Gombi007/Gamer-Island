@@ -3,12 +3,14 @@ package com.gameisland.services;
 import com.gameisland.enums.StaticStrings;
 import com.gameisland.exceptions.GameDetailsAreNotSuccessException;
 import com.gameisland.exceptions.ResourceNotFoundException;
+import com.gameisland.exceptions.SteamApiNotRespondingException;
 import com.gameisland.models.entities.SteamGame;
 import com.gameisland.repositories.FileDB;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonNull;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -16,6 +18,7 @@ import org.springframework.web.client.RestTemplate;
 import java.util.Locale;
 import java.util.Objects;
 
+@Slf4j
 @Service
 public class SteamApiDetailService {
     private final String steamUrl = StaticStrings.STEAM_GAME_DETAILS_URL.getUrl();
@@ -32,7 +35,7 @@ public class SteamApiDetailService {
             JsonObject responseBody = JsonParser.parseString(Objects.requireNonNull(response.getBody())).getAsJsonObject();
             responseBodyGameAppIdObject = responseBody.getAsJsonObject(appid.toString());
         } catch (Exception exception) {
-            throw new ResourceNotFoundException("Steam API is not responding");
+            throw new ResourceNotFoundException("Steam API is not responding " + exception.getMessage());
 
         }
 
@@ -49,12 +52,16 @@ public class SteamApiDetailService {
     }
 
     public SteamGame saveSteamGamesIntoTheDatabase(Long appid) {
+
         boolean onlyGames = false;
         JsonObject gameData = null;
         boolean isSoundtrack = true;
         boolean isBeta = true;
         boolean isPlayTest = true;
         boolean isAdultGame = true;
+        boolean isHighPriceGame = false;
+        boolean isFreeGame = false;
+        boolean freeOrHighPrice = false;
 
         try {
             gameData = getGameDetailsIfThatIsSuccess(appid);
@@ -63,11 +70,26 @@ public class SteamApiDetailService {
             isBeta = gameData.getAsJsonPrimitive("name").getAsString().toLowerCase(Locale.ROOT).contains("beta");
             isPlayTest = gameData.getAsJsonPrimitive("name").getAsString().toLowerCase(Locale.ROOT).contains("playtest");
             isAdultGame = gameData.getAsJsonPrimitive("required_age").getAsString().toLowerCase(Locale.ROOT).contains("18");
+            isFreeGame = gameData.getAsJsonPrimitive("is_free").getAsBoolean();
+
+            JsonObject gameDataPrice = gameData.getAsJsonObject("price_overview");
+            String priceAbove40 = gameDataPrice.getAsJsonPrimitive("final_formatted").getAsString();
+            String[] tmp = priceAbove40.split(",");
+            Integer priceInNumber = Integer.parseInt(tmp[0]);
+
+            if (priceInNumber > 3 || isFreeGame) {
+                freeOrHighPrice = true;
+            }
+            // log.error("Filter game: gameData:{} onlyGames:{} isSoundtrack:{} isBeta:{} isPlayTest:{} isAdultGame:{} priceAbove30:{}", gameData.isJsonObject(), onlyGames, isSoundtrack, isBeta, isPlayTest, isAdultGame, isHighPriceGame);
 
         } catch (Exception exception) {
             // Game is not success
+            if (exception.getMessage().contains("Steam API is not responding 429 Too Many Requests")) {
+               // log.error("Error during game saving: {}", exception.getMessage());
+                throw new SteamApiNotRespondingException(exception.getMessage());
+            }
         }
-        if (gameData != null && onlyGames && !isSoundtrack && !isBeta && !isPlayTest && !isAdultGame) {
+        if (gameData != null && onlyGames && freeOrHighPrice && !isSoundtrack && !isBeta && !isPlayTest && !isAdultGame) {
 
             Long steamAppId = appid;
             Boolean success = true;

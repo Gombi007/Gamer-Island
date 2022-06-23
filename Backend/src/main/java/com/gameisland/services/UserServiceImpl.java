@@ -1,6 +1,6 @@
 package com.gameisland.services;
 
-import com.gameisland.exceptions.ResourceAlreadyExists;
+import com.gameisland.exceptions.ResourceAlreadyExistsException;
 import com.gameisland.exceptions.ResourceNotFoundException;
 import com.gameisland.models.entities.Role;
 import com.gameisland.models.entities.User;
@@ -46,7 +46,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     public Map<String, String> createANewUser(User user) {
         boolean isExistingUser = userRepository.findExistByName(user.getUserName());
         if (isExistingUser) {
-            throw new ResourceAlreadyExists("This username is taken. Please choose another one.");
+            throw new ResourceAlreadyExistsException("This username is taken. Please choose another one.");
         }
 
         Set<String> existingIds = userRepository.getAllExistingUUID();
