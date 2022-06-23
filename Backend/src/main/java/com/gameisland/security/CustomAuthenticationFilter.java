@@ -60,7 +60,7 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
         response.setStatus(HttpStatus.OK.value());
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         new ObjectMapper().writeValue(response.getOutputStream(), token);
-        log.error("Authenticate OK");
+        log.warn("Authenticate OK");
     }
 
     @Override
