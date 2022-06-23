@@ -15,7 +15,8 @@ export class GlobalService {
   uuid: any
   cartItemsCounter = 0;
 
-  constructor(private http: HttpClient, private author: AuthorizationService) { }
+  constructor(private http: HttpClient, private author: AuthorizationService) {
+  }
 
   getUsernameAndBalanceByUUID() {
     this.uuid = localStorage.getItem('user_id');
@@ -26,15 +27,26 @@ export class GlobalService {
     this.uuid = localStorage.getItem('user_id');
   }
 
+  isThereAnyItemInTheCart() {
+    let storedSteamAppIdsInTheCart = localStorage.getItem('cart');
+    if (storedSteamAppIdsInTheCart === null) {
+      this.cartItemsCounter =0
+      return false
+    } else {
+      return true
+    }
+
+  }
+
   addgamesToCart(steamAppId: number) {
     let storedSteamAppIdsInTheCart = localStorage.getItem('cart');
     if (storedSteamAppIdsInTheCart !== null) {
       let savedGameIds = localStorage.getItem('cart') || '';
-      savedGameIds += ','+steamAppId;
+      savedGameIds += ',' + steamAppId;
       if (!storedSteamAppIdsInTheCart.includes(steamAppId.toString())) {
         localStorage.setItem('cart', savedGameIds)
         let idCounter = localStorage.getItem('cart')?.split(',');
-        let idCounterLength =   idCounter?.length || 0;     
+        let idCounterLength = idCounter?.length || 0;
         this.cartItemsCounter = idCounterLength;
       }
     } else {

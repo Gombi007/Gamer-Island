@@ -26,6 +26,7 @@ export class HeaderComponent implements OnInit {
   }
 
   get cartCounter(): number {
+    this.global.isThereAnyItemInTheCart();
     return this.global.cartItemsCounter;
 
   }
