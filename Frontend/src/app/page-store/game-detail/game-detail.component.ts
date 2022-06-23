@@ -23,6 +23,7 @@ export class GameDetailComponent implements OnInit {
   firstScreenshot: string="";
   gameName?: string;
 
+
   constructor(private route: ActivatedRoute, private router: Router, private global: GlobalService, private http: HttpClient, private author: AuthorizationService) { }
 
   ngOnInit(): void {

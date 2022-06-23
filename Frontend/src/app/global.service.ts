@@ -13,6 +13,7 @@ export class GlobalService {
   experiedSession = false;
   usernameFromServer = 'PROFILE'
   uuid: any
+  cartItemsCounter = 0;
 
   constructor(private http: HttpClient, private author: AuthorizationService) { }
 
@@ -29,12 +30,16 @@ export class GlobalService {
     let storedSteamAppIdsInTheCart = localStorage.getItem('cart');
     if (storedSteamAppIdsInTheCart !== null) {
       let savedGameIds = localStorage.getItem('cart') || '';
-      savedGameIds += ',' + steamAppId;
+      savedGameIds += ','+steamAppId;
       if (!storedSteamAppIdsInTheCart.includes(steamAppId.toString())) {
         localStorage.setItem('cart', savedGameIds)
+        let idCounter = localStorage.getItem('cart')?.split(',');
+        let idCounterLength =   idCounter?.length || 0;     
+        this.cartItemsCounter = idCounterLength;
       }
     } else {
-      localStorage.setItem('cart', steamAppId + ',')
+      localStorage.setItem('cart', steamAppId.toString())
+      this.cartItemsCounter = 1
     }
 
 
