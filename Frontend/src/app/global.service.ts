@@ -30,10 +30,13 @@ export class GlobalService {
   isThereAnyItemInTheCart() {
     let storedSteamAppIdsInTheCart = localStorage.getItem('cart');
     if (storedSteamAppIdsInTheCart === null) {
-      this.cartItemsCounter =0
-      return false
+      this.cartItemsCounter = 0;
+      return this.cartItemsCounter;
     } else {
-      return true
+      let idCounter = localStorage.getItem('cart')?.split(',');
+      let idCounterLength = idCounter?.length || 0;
+      this.cartItemsCounter = idCounterLength;
+      return this.cartItemsCounter;
     }
 
   }

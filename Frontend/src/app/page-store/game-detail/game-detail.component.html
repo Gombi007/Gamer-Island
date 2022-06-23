@@ -10,21 +10,20 @@
             <h3 class="text-center pt-4 title">{{game.name}}</h3>
 
             <div class="details-content">
-                <div class="card" style="width: 40%;">
-                    <img src="{{firstScreenshot}}" class="card-img-top" alt="header-image" style="height: 300px;">
-                    <div class="navigation">
-                        <i class="fa-solid fa-circle-chevron-left" (click)="prevPic()"></i>
-                        <i class="fa-solid fa-circle-chevron-right" (click)="nextPic()"></i>
-                    </div>
+                <div class="card" style="width: 45%;">
+                    <img src="{{firstScreenshot}}" class="card-img-top" alt="header-image" style="height: 300px;">                   
                     <div class="card-body">
                         <div class="thumbnails">
                             <ng-container *ngFor="let imgSource of screenshots; let i = index;">
-                                <div class="img-slide"
-                                    [ngClass]="firstScreenshot === imgSource ? 'opacity-100':'opacity-25'">
-                                    <img src={{imgSource}} alt="" (click)="changePic(i)" id="{{i}}"
-                                        [ngClass]="firstScreenshot === imgSource ? 'active':''">
+                                <div class="img-slide">
+                                    <img src={{imgSource}} alt="thumbnail" (click)="changePic(i)" [id]="i"
+                                        [ngClass]="firstScreenshot === imgSource ? 'active':'deactive'">
                                 </div>
                             </ng-container>
+                        </div>
+                        <div class="navigation">
+                            <i class="fa-solid fa-circle-chevron-left" (click)="prevPic()"></i>
+                            <i class="fa-solid fa-circle-chevron-right" (click)="nextPic()"></i>
                         </div>
                         <div class="genres">
                             <ng-container *ngFor="let gameGenre of game.genres">
@@ -33,7 +32,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="card" style="width: 30%;">
+                <div class="card" style="width: 25%;">
                     <img src="{{game.header_image}}" class="card-img-top" alt="header-image">
                     <div class="card-body card-content">
                         <p class="card-text text-start">{{game.short_description}}</p>
