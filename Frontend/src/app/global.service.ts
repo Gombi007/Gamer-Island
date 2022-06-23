@@ -8,8 +8,8 @@ import { STRINGS } from './strings.enum';
   providedIn: 'root'
 })
 export class GlobalService {
-  storeCurrentPage:number = 1;
-  storeCurrentYPosition:number =0;
+  storeCurrentPage: number = 1;
+  storeCurrentYPosition: number = 0;
   experiedSession = false;
   usernameFromServer = 'PROFILE'
   uuid: any
@@ -23,6 +23,21 @@ export class GlobalService {
 
   getUUIDFromLocalStore() {
     this.uuid = localStorage.getItem('user_id');
+  }
+
+  addgamesToCart(steamAppId: number) {
+    let storedSteamAppIdsInTheCart = localStorage.getItem('cart');
+    if (storedSteamAppIdsInTheCart !== null) {
+      let savedGameIds = localStorage.getItem('cart') || '';
+      savedGameIds += ',' + steamAppId;
+      if (!storedSteamAppIdsInTheCart.includes(steamAppId.toString())) {
+        localStorage.setItem('cart', savedGameIds)
+      }
+    } else {
+      localStorage.setItem('cart', steamAppId + ',')
+    }
+
+
   }
 
 

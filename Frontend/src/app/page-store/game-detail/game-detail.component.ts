@@ -134,6 +134,10 @@ export class GameDetailComponent implements OnInit {
     return 0;
   }
 
+  addToCart(steamAppId:number){
+  this.global.addgamesToCart(steamAppId);
+  }
+
 
 
 
