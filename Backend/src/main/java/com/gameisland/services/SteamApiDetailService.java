@@ -72,12 +72,17 @@ public class SteamApiDetailService {
             isAdultGame = gameData.getAsJsonPrimitive("required_age").getAsString().toLowerCase(Locale.ROOT).contains("18");
             isFreeGame = gameData.getAsJsonPrimitive("is_free").getAsBoolean();
 
+            //price limit
             JsonObject gameDataPrice = gameData.getAsJsonObject("price_overview");
-            String priceAbove40 = gameDataPrice.getAsJsonPrimitive("final_formatted").getAsString();
-            String[] tmp = priceAbove40.split(",");
-            Integer priceInNumber = Integer.parseInt(tmp[0]);
-
-            if (priceInNumber > 3 || isFreeGame) {
+            if (gameDataPrice != null) {
+                String priceAbove40 = gameDataPrice.getAsJsonPrimitive("final_formatted").getAsString();
+                String[] tmp = priceAbove40.split(",");
+                Integer priceInNumber = Integer.parseInt(tmp[0]);
+                if (priceInNumber > 3) {
+                    freeOrHighPrice = true;
+                }
+            }
+            if (isFreeGame) {
                 freeOrHighPrice = true;
             }
             // log.error("Filter game: gameData:{} onlyGames:{} isSoundtrack:{} isBeta:{} isPlayTest:{} isAdultGame:{} priceAbove30:{}", gameData.isJsonObject(), onlyGames, isSoundtrack, isBeta, isPlayTest, isAdultGame, isHighPriceGame);
@@ -85,7 +90,7 @@ public class SteamApiDetailService {
         } catch (Exception exception) {
             // Game is not success
             if (exception.getMessage().contains("Steam API is not responding 429 Too Many Requests")) {
-               // log.error("Error during game saving: {}", exception.getMessage());
+                 log.error("Error during game saving: {}", exception.getMessage());
                 throw new SteamApiNotRespondingException(exception.getMessage());
             }
         }
