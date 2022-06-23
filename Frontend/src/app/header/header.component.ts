@@ -14,8 +14,9 @@ import { STRINGS } from '../strings.enum';
 })
 export class HeaderComponent implements OnInit {
   @Input()
-  userObject= {username:'',balance:'', avatar:''};
-
+  userObject = { username: '', balance: '', avatar: '' };
+  cartItemCounter = 1;
+  
   constructor(private auth: AuthenticateService) { }
 
   ngOnInit(): void {

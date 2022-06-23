@@ -10,7 +10,10 @@
         <div class="balance-logout">
             <p class="item right-item balance">{{userObject.balance}}</p>    
             <a class="item right-item" routerLink="login" routerLinkActive="active" >LOGOUT</a>
-
+        </div>
+        <div class="cart" [ngClass]="{'cart-filled' : cartItemCounter>0}" >
+            <i class="fa-solid fa-cart-shopping"></i>
+            <p *ngIf="cartItemCounter>0" class="cart-counter">0</p>
         </div>
     </div>
 </div>
