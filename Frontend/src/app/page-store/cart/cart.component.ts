@@ -1,10 +1,10 @@
-import { HttpBackend, HttpClient } from '@angular/common/http';
-import { Component OnInit } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Component, OnInit  } from '@angular/core';
 import {  Router } from '@angular/router';
 import { catchError, EMPTY, Subject, switchMap, tap } from 'rxjs';
 import { GameDetails } from 'src/app/game-details.model';
 import { GlobalService } from 'src/app/global.service';
-import { AuthenticateService } from 'src/app/login/service/authenticate.service';
+
 import { AuthorizationService } from 'src/app/login/service/authorization.service';
 import { STRINGS } from 'src/app/strings.enum';
 
@@ -19,18 +19,21 @@ export class CartComponent implements OnInit {
   constructor(private global:GlobalService, private router:Router, private http:HttpClient, private author:AuthorizationService) { }
 
   ngOnInit(): void {
+    this.getGameByAppid$.subscribe();
+    //@ts-ignore
+    this.getGameByAppid$.next();
 
   }
 
 getGameByAppid$ = new Subject().pipe(
-    tap(() => {
+  tap(() => { 
       this.isPending = true;   
     }),
     switchMap(() =>
-      this.http.get(, this.author.TokenForRequests())),
+      this.http.post(STRINGS.API_GAMES_GET_ALL_CART_GAMES, this.global.getAllIDFromCart(),this.author.TokenForRequests())),
     tap((data: any) => {
       this.isPending = false;     
-      console.log(data)
+      this.gamesInTheCart = data;
     }),
     catchError(error => {
       let message = error.error.error_message;

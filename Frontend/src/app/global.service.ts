@@ -56,7 +56,21 @@ export class GlobalService {
       localStorage.setItem('cart', steamAppId.toString())
       this.cartItemsCounter = 1
     }
+  }
 
+  getAllIDFromCart() {
+    let storedSteamAppIdsInTheCart = localStorage.getItem('cart');
+    if (storedSteamAppIdsInTheCart !== null) {
+      let allIdArray: string[] = localStorage.getItem('cart')?.split(',') || [];
+      let allIdNumberArray: number[] = [];
+      for (let id of allIdArray) {
+        let idInNumberFormat = Number(id);
+        allIdNumberArray.push(idInNumberFormat)
+      }
+
+      return allIdNumberArray;
+    }
+    return []
 
   }
 

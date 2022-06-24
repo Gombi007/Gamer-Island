@@ -66,6 +66,19 @@ public class SteamGameServiceImpl implements SteamGameService {
         throw new ResourceNotFoundException("App ID mustn't be NULL: " + appId);
     }
 
+    @Override
+    public Set<SteamGameDTO> getAllCartGames(Long[] steamAppIds) {
+        Set<SteamGameDTO> result = new HashSet<>();
+
+        if (steamAppIds != null && steamAppIds.length > 0) {
+            for (int i = 0; i < steamAppIds.length; i++) {
+                result.add(getGameDetailsByAppId(steamAppIds[i]));
+
+            }
+        }
+        return result;
+    }
+
 
     // Services for admin only
     @Override

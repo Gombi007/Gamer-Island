@@ -19,4 +19,6 @@ public interface SteamGameService {
     void removeAGamePermanentlyFromTheDatabaseById(Long id);
 
     Set<GameLibraryDetailsDto> libraryDetails();
+
+    Set<SteamGameDTO> getAllCartGames(Long[] steamAppIds);
 }

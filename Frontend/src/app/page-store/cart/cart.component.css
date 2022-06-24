@@ -1,4 +1,17 @@
 .cart{
     width: 70%;
-    background-color: rgba(56, 65, 94, 0.3);
+    background-color: rgba(56, 65, 94, 0.6);
+    padding-right: 10rem;
+    padding-left: 10rem;
+    padding-bottom: 10rem;
 }
+
+img{
+    max-height: 70px;
+}
+.fa-xmark{
+    cursor: pointer;
+    font-size: 1.5rem;
+    color: rgb(146, 7, 7);
+}
+

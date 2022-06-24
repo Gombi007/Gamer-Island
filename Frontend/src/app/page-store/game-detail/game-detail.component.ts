@@ -54,8 +54,7 @@ export class GameDetailComponent implements OnInit {
       this.isPending = false;
       this.game = data;
       this.screenshots = data.screenshot_urls
-      this.firstScreenshot = this.screenshots[0]
-      console.log(data)
+      this.firstScreenshot = this.screenshots[0]    
     }),
     catchError(error => {
       let message = error.error.error_message;
