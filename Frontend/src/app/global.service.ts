@@ -24,7 +24,7 @@ export class GlobalService {
   }
 
   getUUIDFromLocalStore() {
-    this.uuid = localStorage.getItem('user_id');
+  return  this.uuid = localStorage.getItem('user_id');
   }
 
   isThereAnyItemInTheCart() {

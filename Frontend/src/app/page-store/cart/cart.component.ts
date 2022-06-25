@@ -18,12 +18,14 @@ export class CartComponent implements OnInit {
   headerHeight: number = STRINGS.HEADER_HEIGHT_FOR_CONTENT;
   gamesInTheCart: GameDetails[] = [];
   isPending = false;
+  userUUID:string  =''
 
   constructor(private global: GlobalService, private router: Router, private http: HttpClient, private author: AuthorizationService) { }
 
   ngOnInit(): void {
     this.innerHeight = window.innerHeight - this.headerHeight;
     this.getGameByAppid$.subscribe();
+    this.purchase$.subscribe();
     //@ts-ignore
     this.getGameByAppid$.next();
 
@@ -54,6 +56,26 @@ export class CartComponent implements OnInit {
     })
   );
 
+   purchase$ = new Subject().pipe(
+    tap(() => {
+      this.isPending = true;
+    }),
+    switchMap(() =>
+      this.http.post(STRINGS.API_USER_BUY_GAMES_FROM_CART+this.userUUID, this.global.getAllIDFromCart(), this.author.TokenForRequests())),
+    tap((data: any) => {
+      this.isPending = false;    
+    }),
+    catchError(error => {
+      let message = error.error.error_message;
+      if (message.includes("Token has expired")) {
+        this.global.experiedSession = true;
+        this.router.navigate(['login']);
+      }
+      return EMPTY;
+    })
+  );
+
+
   goToStore() {
     this.router.navigate(['store']);
   }
@@ -83,8 +105,11 @@ export class CartComponent implements OnInit {
   }
   
   buyAllGamesFromCart(){
-    
+    this.userUUID = this.global.getUUIDFromLocalStore() || '';
+      //@ts-ignore
+      this.purchase$.next();    
   }
+
 
 
 }

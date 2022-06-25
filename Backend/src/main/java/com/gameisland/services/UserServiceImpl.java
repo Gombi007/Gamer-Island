@@ -3,8 +3,10 @@ package com.gameisland.services;
 import com.gameisland.exceptions.ResourceAlreadyExistsException;
 import com.gameisland.exceptions.ResourceNotFoundException;
 import com.gameisland.models.entities.Role;
+import com.gameisland.models.entities.SteamGame;
 import com.gameisland.models.entities.User;
 import com.gameisland.repositories.RoleRepository;
+import com.gameisland.repositories.SteamGameRepository;
 import com.gameisland.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,6 +26,7 @@ import java.util.*;
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService, UserDetailsService {
     private final UserRepository userRepository;
+    private final SteamGameRepository gameRepository;
     private final IdGeneratorService idGeneratorService;
     private final BCryptPasswordEncoder passwordEncoder;
     private final RoleRepository roleRepository;
@@ -102,11 +105,44 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Override
     public void userCartPurchase(String uuid, Long[] steamAppids) {
-        System.out.println("UUID to purchase:" + uuid);
-        for (int i = 0; i < steamAppids.length; i++) {
-            System.out.println("Steam app id to purchase: " + steamAppids[i]);
+        User user = userRepository.getUserByUUID(uuid).get();
+        if (user != null) {
+            Double currentlyBalance = user.getBalance();
+            Set<SteamGame> userGameSet = user.getOwnedGames();
 
+            if (steamAppids.length > 0) {
+
+                for (int i = 0; i < steamAppids.length; i++) {
+                    SteamGame gameFromCart = gameRepository.gameByAppId(steamAppids[i]).get();
+                    //price
+                    String priceWithDot = "";
+                    if (!gameFromCart.getPrice().isEmpty() && gameFromCart.getPrice().contains(",")) {
+                        priceWithDot = gameFromCart.getPrice().replace(",", ".");
+                        priceWithDot = priceWithDot.replace("€", "");
+                    }
+                    Double price = 0.0;
+                    try {
+                        if (!priceWithDot.isEmpty()) {
+                            price = Double.parseDouble(priceWithDot);
+                        }
+                    } catch (Exception e) {
+                        log.error(e.getMessage());
+                    }
+
+
+                    if (gameFromCart != null) {
+                        System.out.println(currentlyBalance);
+                        currentlyBalance = currentlyBalance - price;
+                        System.out.println(currentlyBalance);
+                        userGameSet.add(gameFromCart);
+                    }
+                }
+            }
+            user.setBalance(currentlyBalance);
+            user.setOwnedGames(userGameSet);
+            userRepository.save(user);
         }
+
 
     }
 

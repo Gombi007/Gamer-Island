@@ -7,6 +7,7 @@ export enum STRINGS {
     API_GAMES_DETAILS = 'http://localhost:8081/api/games/',
     API_USER_GET_USERNAME_BY_UUID = 'http://localhost:8081/api/users/username/',
     API_GAMES_GET_ALL_CART_GAMES = 'http://localhost:8081/api/games/cart',
+    API_USER_BUY_GAMES_FROM_CART = 'http://localhost:8081/api/users/cart/',
     HEADER_HEIGHT_FOR_CONTENT = 54,
     HEADER_HEIGHT_FOR_LEFT_SIDE = 153,
 }
