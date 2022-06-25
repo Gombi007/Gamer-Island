@@ -5,11 +5,13 @@ import com.gameisland.services.SteamGameService;
 import com.gameisland.services.UserService;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+@Slf4j
 @RestController
 @RequestMapping("/api/admin")
 @CrossOrigin(origins = "http://localhost:8080")
@@ -34,7 +36,7 @@ public class AdminRestController {
         }
         Integer queryLimit = Integer.parseInt(limit);
         gameService.saveSteamProductsFromFileDBToDatabase(queryLimit);
-        System.out.println("Games were saved");
+        log.warn("Games were saved");
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 

@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, EventEmitter, Input, OnInit, SimpleChange, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, SimpleChange, SimpleChanges } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, Subscription } from 'rxjs';
 import { GlobalService } from '../global.service';
@@ -14,15 +14,21 @@ import { STRINGS } from '../strings.enum';
 })
 export class HeaderComponent implements OnInit {
   @Input()
-  userObject= {username:'',balance:'', avatar:''};
+  userObject = { username: '', balance: 0, avatar: '' };
 
-  constructor(private auth: AuthenticateService) { }
+  constructor(private auth: AuthenticateService, private global: GlobalService) { }
 
   ngOnInit(): void {
   }
 
   isUserLoggedIn() {
     return this.auth.IsLoggedIn();
+  }
+
+  get cartCounter(): number {
+    this.global.isThereAnyItemInTheCart();
+    return this.global.cartItemsCounter;
+
   }
 
 

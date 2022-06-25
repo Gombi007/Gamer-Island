@@ -4,10 +4,12 @@ import com.gameisland.models.entities.SteamGame;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -26,7 +28,7 @@ public class SteamGameDTO {
     private String website;
     private String developers;
     private String publishers;
-    private String price_in_final_formatted;
+    private Double price_in_final_formatted;
     private String platforms;
     private String metacritic;
     private List<String> screenshot_urls;
@@ -53,6 +55,23 @@ public class SteamGameDTO {
             }
         }
 
+        //price
+        String priceWithDot = "";
+        if (!game.getPrice().isEmpty() && game.getPrice().contains(",")) {
+            priceWithDot = game.getPrice().replace(",", ".");
+            priceWithDot = priceWithDot.replace("€", "");
+        }
+
+        Double price = 0.0;
+        try {
+            if (!priceWithDot.isEmpty()) {
+                price = Double.parseDouble(priceWithDot);
+            }
+        } catch (Exception e) {
+            log.error(e.getMessage());
+        }
+
+
         SteamGameDTO dto = new SteamGameDTO(
                 game.getId(),
                 game.getSteamAppId(),
@@ -68,7 +87,7 @@ public class SteamGameDTO {
                 game.getWebsite(),
                 game.getDevelopers(),
                 game.getPublishers(),
-                game.getPrice(),
+                price,
                 game.getPlatforms(),
                 game.getMetacritic(),
                 screenshotsList,

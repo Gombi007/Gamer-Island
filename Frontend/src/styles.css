@@ -5,6 +5,7 @@ body {
     background-size: cover;
     background-attachment: fixed; 
     color: antiquewhite;
+    cursor: context-menu;
 }
 
 i {

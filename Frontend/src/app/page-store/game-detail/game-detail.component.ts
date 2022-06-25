@@ -23,6 +23,7 @@ export class GameDetailComponent implements OnInit {
   firstScreenshot: string="";
   gameName?: string;
 
+
   constructor(private route: ActivatedRoute, private router: Router, private global: GlobalService, private http: HttpClient, private author: AuthorizationService) { }
 
   ngOnInit(): void {
@@ -53,8 +54,7 @@ export class GameDetailComponent implements OnInit {
       this.isPending = false;
       this.game = data;
       this.screenshots = data.screenshot_urls
-      this.firstScreenshot = this.screenshots[0]
-      console.log(data)
+      this.firstScreenshot = this.screenshots[0]    
     }),
     catchError(error => {
       let message = error.error.error_message;
@@ -120,18 +120,22 @@ export class GameDetailComponent implements OnInit {
   }
 
   getGamePrice(game: GameDetails) {
-    if (game.price_in_final_formatted !== null && game.price_in_final_formatted !== '') {
+    if (game.price_in_final_formatted !== null && game.price_in_final_formatted !== 0) {
       return 1;
     }
 
-    if (game.price_in_final_formatted === '' && game.genres.includes('Free to Play')) {
+    if (game.price_in_final_formatted === 0 && game.genres.includes('Free to Play')) {
       return 2;
     }
 
-    if (game.price_in_final_formatted === '' && !(game.genres.includes('Free to Play'))) {
+    if (game.price_in_final_formatted === 0 && !(game.genres.includes('Free to Play'))) {
       return 3;
     }
     return 0;
+  }
+
+  addToCart(steamAppId:number){
+  this.global.addgamesToCart(steamAppId);
   }
 
 

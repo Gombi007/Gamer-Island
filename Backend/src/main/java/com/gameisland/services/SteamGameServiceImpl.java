@@ -5,6 +5,7 @@ import com.gameisland.models.dto.GameLibraryDetailsDto;
 import com.gameisland.models.dto.SteamGameDTO;
 import com.gameisland.models.entities.SteamGame;
 import com.gameisland.repositories.SteamGameRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -16,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.*;
 
 @Service
+@Slf4j
 public class SteamGameServiceImpl implements SteamGameService {
     private final SteamApiAllProductsService steamApiAllProductsService;
     private final SteamApiDetailService steamApiDetailService;
@@ -64,6 +66,19 @@ public class SteamGameServiceImpl implements SteamGameService {
         throw new ResourceNotFoundException("App ID mustn't be NULL: " + appId);
     }
 
+    @Override
+    public Set<SteamGameDTO> getAllCartGames(Long[] steamAppIds) {
+        Set<SteamGameDTO> result = new HashSet<>();
+
+        if (steamAppIds != null && steamAppIds.length > 0) {
+            for (int i = 0; i < steamAppIds.length; i++) {
+                result.add(getGameDetailsByAppId(steamAppIds[i]));
+
+            }
+        }
+        return result;
+    }
+
 
     // Services for admin only
     @Override
@@ -82,7 +97,7 @@ public class SteamGameServiceImpl implements SteamGameService {
         while (iterator.hasNext()) {
             SteamGame game = steamApiDetailService.saveSteamGamesIntoTheDatabase(iterator.next());
             if (game != null) {
-                System.out.println(counter + ". Game saved: " + game.getName());
+                log.warn("{}. Game saved: {}", counter, game.getName());
                 steamGameRepository.save(game);
                 counter++;
             }
