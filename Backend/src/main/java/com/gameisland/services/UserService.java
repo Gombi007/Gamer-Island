@@ -24,4 +24,6 @@ public interface UserService {
 
     User getUserByName(String username);
 
+    void userCartPurchase(String uuid, Long[] steamAppids);
+
 }

@@ -100,6 +100,16 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         return userRepository.findByUserName(username);
     }
 
+    @Override
+    public void userCartPurchase(String uuid, Long[] steamAppids) {
+        System.out.println("UUID to purchase:" + uuid);
+        for (int i = 0; i < steamAppids.length; i++) {
+            System.out.println("Steam app id to purchase: " + steamAppids[i]);
+
+        }
+
+    }
+
     //Only Admin methods
 
     @Override
