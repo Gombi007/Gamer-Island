@@ -44,6 +44,15 @@ getGameByAppid$ = new Subject().pipe(
       return EMPTY;
     })
   );
+
+  removeItemFromCart(steam_appid:number){
+    this.global.removeItemFromCart(steam_appid);
+    let filteredcartItemsTable = this.gamesInTheCart.filter((e) => { return e.steam_appid !== steam_appid });
+    this.gamesInTheCart = filteredcartItemsTable;
+    this.global.isThereAnyItemInTheCart();
+
+
+  }
   
   
 

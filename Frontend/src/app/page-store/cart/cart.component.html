@@ -10,7 +10,7 @@
                         <td class="w-25 p-0"><img src="{{game.header_image}}" alt="image"></td>
                         <td class="w-50 text-center align-middle p-0"> <h4 class="table-name">{{game.name}}</h4></td>
                         <td class="w-25 text-end align-middle p-0 pe-5"> <h4 class="table-price">{{game.price_in_final_formatted}}</h4>
-                        <td class="text-end align-middle p-0 pe-3"> <i class="fa-solid fa-xmark"></i></td>                
+                        <td class="text-end align-middle p-0 pe-3"> <i class="fa-solid fa-xmark" (click)="removeItemFromCart(game.steam_appid)"></i></td>                
                       </tr>                     
                     </tbody>
                   </table>

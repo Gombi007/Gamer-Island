@@ -29,7 +29,7 @@ export class GlobalService {
 
   isThereAnyItemInTheCart() {
     let storedSteamAppIdsInTheCart = localStorage.getItem('cart');
-    if (storedSteamAppIdsInTheCart === null) {
+    if (storedSteamAppIdsInTheCart === null || storedSteamAppIdsInTheCart!.length === 0) {
       this.cartItemsCounter = 0;
       return this.cartItemsCounter;
     } else {
@@ -43,7 +43,7 @@ export class GlobalService {
 
   addgamesToCart(steamAppId: number) {
     let storedSteamAppIdsInTheCart = localStorage.getItem('cart');
-    if (storedSteamAppIdsInTheCart !== null) {
+    if (storedSteamAppIdsInTheCart !== null && storedSteamAppIdsInTheCart.length > 0) {
       let savedGameIds = localStorage.getItem('cart') || '';
       savedGameIds += ',' + steamAppId;
       if (!storedSteamAppIdsInTheCart.includes(steamAppId.toString())) {
@@ -60,9 +60,9 @@ export class GlobalService {
 
   getAllIDFromCart() {
     let storedSteamAppIdsInTheCart = localStorage.getItem('cart');
+    let allIdNumberArray: number[] = [];
     if (storedSteamAppIdsInTheCart !== null) {
       let allIdArray: string[] = localStorage.getItem('cart')?.split(',') || [];
-      let allIdNumberArray: number[] = [];
       for (let id of allIdArray) {
         let idInNumberFormat = Number(id);
         allIdNumberArray.push(idInNumberFormat)
@@ -74,5 +74,23 @@ export class GlobalService {
 
   }
 
+  removeItemFromCart(steam_appid: number) {
+    let idsInLocalStorage: number[] = this.getAllIDFromCart();
+    let idsWithoutRemovedElement = idsInLocalStorage.filter((id) => { return id !== steam_appid });
+    let resultToSavingInString = '';
 
+    for (let i = 0; i < idsWithoutRemovedElement.length; i++) {
+      if (i === 0) {
+        resultToSavingInString += idsWithoutRemovedElement[i];
+      } else {
+        resultToSavingInString += ',' + idsWithoutRemovedElement[i];
+
+      }
+    }
+    localStorage.setItem('cart', resultToSavingInString);
+  }
+  
 }
+
+
+
