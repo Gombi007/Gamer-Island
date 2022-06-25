@@ -91,15 +91,15 @@ export class StoreElementsComponent implements OnInit, AfterViewChecked {
   }
 
   getGamePrice(game: GameDetails) {
-    if (game.price_in_final_formatted !== null && game.price_in_final_formatted !== '') {
+    if (game.price_in_final_formatted !== null && game.price_in_final_formatted !== 0) {
       return 1;
     }
 
-    if (game.price_in_final_formatted === '' && game.genres.includes('Free to Play')) {
+    if (game.price_in_final_formatted === 0 && game.genres.includes('Free to Play')) {
       return 2;
     }
 
-    if (game.price_in_final_formatted === '' && !(game.genres.includes('Free to Play'))) {
+    if (game.price_in_final_formatted === 0 && !(game.genres.includes('Free to Play'))) {
       return 3;
     }
     return 0;

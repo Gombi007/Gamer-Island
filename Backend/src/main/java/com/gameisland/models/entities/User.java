@@ -18,7 +18,7 @@ public class User extends BusinessObject {
     private String password;
     private String email;
     private String avatar;
-    private Long balance;
+    private Double balance;
     private String userUUID;
 
     @ManyToMany(fetch = FetchType.LAZY)

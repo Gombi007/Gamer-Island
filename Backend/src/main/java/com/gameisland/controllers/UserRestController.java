@@ -27,5 +27,12 @@ public class UserRestController {
         return ResponseEntity.status(HttpStatus.OK).body(userService.getUsernameAndBalanceAndAvatarByUUID(uuid));
     }
 
+    @PreAuthorize("hasRole('USER')")
+    @PostMapping("/cart/{uuid}")
+    public ResponseEntity<Object> cartPurchase(@PathVariable String uuid, @RequestBody Long[] steamAppids) {
+        userService.userCartPurchase(uuid, steamAppids);
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
 
 }

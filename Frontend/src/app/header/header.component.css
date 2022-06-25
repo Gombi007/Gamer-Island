@@ -41,13 +41,14 @@
   font-size: 0.8rem;
 }
 
-.avatar{
+.avatar {
   cursor: pointer;
-  padding-bottom: 0.3rem; 
-  padding-top: 0.1rem; 
-  padding-right: 0.7rem;
+  padding-bottom: 0.3rem;
+  padding-top: 0.1rem;
+  padding-right: 1rem;
 }
-img{ 
+
+img {
   background-color: aqua;
   border-radius: 50%;
   width: 40px;
@@ -55,12 +56,31 @@ img{
   transition: transform .7s ease-in-out;
 }
 
-img:hover{
+img:hover {
   transform: rotate(360deg);
 }
 
 .active {
   color: rgba(255, 254, 254, 1);
+}
+
+.cart {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.cart i {
+  margin-left: 1rem;
+  margin-right: 0.2rem;
+  color: gray;
+  font-size: 1.3rem;
+  cursor: pointer;
+}
+
+.cart-filled,
+.cart-filled i {
+  color: rgb(210, 255, 8);
 }
 
 @media screen and (max-width: 1000px) {

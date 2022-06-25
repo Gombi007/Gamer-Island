@@ -17,6 +17,7 @@ import { StoreSearchComponent } from './page-store/store-search/store-search.com
 import { StoreElementsComponent } from './page-store/store-elements/store-elements.component';
 import { GameDetailComponent } from './page-store/game-detail/game-detail.component';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { CartComponent } from './page-store/cart/cart.component';
 
 
 @NgModule({
@@ -33,7 +34,8 @@ import { NgxPaginationModule } from 'ngx-pagination';
     PageProfileComponent,
     StoreSearchComponent,
     StoreElementsComponent,
-    GameDetailComponent
+    GameDetailComponent,
+    CartComponent
   ],
   imports: [
     BrowserModule,

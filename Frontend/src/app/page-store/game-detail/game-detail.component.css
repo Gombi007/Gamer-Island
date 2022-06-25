@@ -1,46 +1,61 @@
 .detail {
     background-color: rgba(56, 65, 94, 0.3);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
-.title{
+.title {
     color: whitesmoke;
     text-shadow: 5px 5px 5px #000000;
 }
 
 .details-content {
+    margin-top: 0%;
+    max-width: 1600px;
     padding-top: 2rem;
     display: flex;
     justify-content: center;
 }
 
-.details-info {
-    display: flex;
-    justify-content: center;
-}
 
 .card {
-    background-color: rgb(48, 47, 47);
+
+    background-image: linear-gradient(45deg, rgb(0, 0, 0), rgb(36, 75, 94));
     border: none;
+    margin: 0.2rem;
+}
+
+.card-content {
+    padding-right: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 .cart {
-    width: 40%;
-    padding: 0.3rem;
-    padding-right: 1rem;
-    padding-left: 1rem;
+    margin: 2rem;
+    padding: 1rem;
     border-radius: 5px;
-    background-image: linear-gradient(to right, rgb(0, 0, 0), rgb(83, 83, 83));
+    background-image: linear-gradient(45deg, rgb(0, 0, 0), rgb(36, 75, 94));
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
 .cart-icon {
-    text-align: center;
+    text-shadow: 2px 2px 2px rgb(14, 14, 14);
+    width: 8rem;
+    display: flex;
+    margin-left: 5rem;
+    align-items: center;
+    justify-content: space-between;
+
 }
 
 .fa-cart-plus {
-    font-size: 1.2rem;
+    cursor: pointer;
+    font-size: 1.6rem;
 }
 
 .fa-cart-plus:hover {
@@ -48,17 +63,16 @@
 }
 
 .thumbnails {
+    max-width: 100%;
     overflow-x: auto;
-    width: 100%;
     display: flex;
-    flex-direction: row;
+
 
 }
 
 .img-slide {
-    align-items: center;
     padding-right: 0.5rem;
-    padding-bottom: 1rem;
+    padding-bottom: 0.5rem;
     cursor: pointer;
 }
 
@@ -68,6 +82,7 @@
 }
 
 .navigation {
+    cursor: pointer;
     padding-top: 1rem;
     display: flex;
     justify-content: space-between;
@@ -76,9 +91,16 @@
 
 .active {
     border: 1px solid whitesmoke;
+    opacity: 100%;
+}
+
+.deactive {
+    opacity: 25%;
 }
 
 .genres {
+    cursor: pointer;
+    padding-top: 1rem;
     display: flex;
     flex-wrap: wrap;
     justify-content: flex-start;
