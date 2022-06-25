@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, HostListener, OnInit } from '@angular/core';
+import { Router, UrlMatcher } from '@angular/router';
 import { catchError, EMPTY, Subject, switchMap, tap } from 'rxjs';
 import { GameDetails } from 'src/app/game-details.model';
 import { GlobalService } from 'src/app/global.service';
@@ -14,17 +14,25 @@ import { STRINGS } from 'src/app/strings.enum';
   styleUrls: ['./cart.component.css']
 })
 export class CartComponent implements OnInit {
+  innerHeight!: number;
+  headerHeight: number = STRINGS.HEADER_HEIGHT_FOR_CONTENT;
   gamesInTheCart: GameDetails[] = [];
   isPending = false;
 
   constructor(private global: GlobalService, private router: Router, private http: HttpClient, private author: AuthorizationService) { }
 
   ngOnInit(): void {
+    this.innerHeight = window.innerHeight - this.headerHeight;
     this.getGameByAppid$.subscribe();
     //@ts-ignore
     this.getGameByAppid$.next();
 
   }
+    // update value when resize
+    @HostListener('window:resize', ['$event'])
+    onResize() {
+      this.innerHeight = window.innerHeight - this.headerHeight;
+    }
 
   getGameByAppid$ = new Subject().pipe(
     tap(() => {
@@ -68,6 +76,10 @@ export class CartComponent implements OnInit {
   removeAllItemsFromCart(){
     this.global.removeAllItemFromCart();
     this.gamesInTheCart =[];
+  }
+
+  goToGameDetailPage(steam_appid:number){
+    this.router.navigate(["store/", steam_appid]);
   }
 
 

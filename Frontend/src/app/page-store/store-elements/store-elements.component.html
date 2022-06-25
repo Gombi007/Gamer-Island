@@ -1,4 +1,4 @@
-<div class="container-fluid scroller" #scrollableDiv [ngStyle]="{'height.px': innerHeight}">
+<div class="container-fluid" #scrollableDiv [ngStyle]="{'height.px': innerHeight}">
     
     <div class="row flex-container" *ngIf="!isPending">
         <ng-container *ngFor="let game of gamesFromDatabase | paginate
