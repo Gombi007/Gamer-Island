@@ -55,7 +55,7 @@ export class CartComponent implements OnInit {
     this.gamesInTheCart.forEach((game) => {
       amountTheCart += Number(game.price_in_final_formatted)
     })
-    return amountTheCart;
+    return amountTheCart.toFixed(2);
   }
 
   removeItemFromCart(steam_appid: number) {
@@ -64,6 +64,10 @@ export class CartComponent implements OnInit {
     this.gamesInTheCart = filteredcartItemsTable;
     this.global.isThereAnyItemInTheCart();
 
+  }
+  removeAllItemsFromCart(){
+    this.global.removeAllItemFromCart();
+    this.gamesInTheCart =[];
   }
 
 

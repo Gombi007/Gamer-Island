@@ -89,6 +89,10 @@ export class GlobalService {
     }
     localStorage.setItem('cart', resultToSavingInString);
   }
+
+  removeAllItemFromCart(){
+    localStorage.removeItem('cart');
+  }
   
 }
 
