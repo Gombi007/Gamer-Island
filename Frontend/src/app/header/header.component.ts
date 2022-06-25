@@ -14,7 +14,7 @@ import { STRINGS } from '../strings.enum';
 })
 export class HeaderComponent implements OnInit {
   @Input()
-  userObject = { username: '', balance: '', avatar: '' };
+  userObject = { username: '', balance: 0, avatar: '' };
 
   constructor(private auth: AuthenticateService, private global: GlobalService) { }
 

@@ -8,7 +8,7 @@
             <img [src]="userObject.avatar" alt="avatar">
         </div>
         <div class="balance-logout">
-            <p class="item right-item balance">{{userObject.balance}}</p>
+            <p class="item right-item balance">{{userObject.balance}} €</p>
             <a class="item right-item" routerLink="login" routerLinkActive="active">LOGOUT</a>
         </div>
         <div class="cart" [ngClass]="{'cart-filled' : cartCounter>0}">

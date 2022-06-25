@@ -7,6 +7,7 @@ import com.gameisland.models.entities.User;
 import com.gameisland.repositories.RoleRepository;
 import com.gameisland.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -17,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
+@Slf4j
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -55,7 +57,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         user.setUserUUID(uniqueId);
         user.setPassword(hashedPassword);
 
-        user.setBalance(1500L);
+        user.setBalance(1500.0);
         Role basicRole = roleRepository.findByName("ROLE_USER");
         user.getRoles().add(basicRole);
         user.setAvatar("https://robohash.org/mail@ashallendesign.co.uk");
@@ -75,9 +77,16 @@ public class UserServiceImpl implements UserService, UserDetailsService {
             throw new ResourceNotFoundException("User doesn't exist with this UUID: " + uuid);
         }
         String[] usernameAndBalance = userRepository.getUsernameAndBalanceAndAvatar(uuid).split(",");
-        Map<String, String> result = new HashMap<>();
+        Double balance = 0.0;
+        try {
+            balance = Double.parseDouble(usernameAndBalance[1]);
+        } catch (Exception e) {
+            log.error("Balance parse error: {}", e.getMessage());
+        }
+
+        Map<String, Object> result = new HashMap<>();
         result.put("username", usernameAndBalance[0]);
-        result.put("balance", usernameAndBalance[1]);
+        result.put("balance", balance);
         result.put("avatar", usernameAndBalance[2]);
         return result;
     }

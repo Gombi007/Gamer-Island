@@ -9,7 +9,7 @@ import { GlobalService } from './global.service';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  userObject = { username: 'PROFILE', balance: '0 €', avatar: '' }
+  userObject = { username: 'PROFILE', balance: 0, avatar: '' }
   title = 'Game Island';
 
   constructor(private global: GlobalService) { }
@@ -26,7 +26,7 @@ export class AppComponent {
       let obs = this.global.getUsernameAndBalanceByUUID().subscribe(
         res => {
           this.userObject.username = res.username.toLocaleUpperCase();
-          this.userObject.balance = res.balance + ' €';
+          this.userObject.balance = res.balance;
           this.userObject.avatar = res.avatar;
         }
       );
