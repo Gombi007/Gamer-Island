@@ -81,7 +81,10 @@ export class CartComponent implements OnInit {
   goToGameDetailPage(steam_appid:number){
     this.router.navigate(["store/", steam_appid]);
   }
-
+  
+  buyAllGamesFromCart(){
+    
+  }
 
 
 }
