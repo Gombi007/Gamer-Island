@@ -63,7 +63,7 @@
                 <div class="cart">
                     <h5 class="m-0">Buy {{game.name}}</h5>
                     <div class="cart-icon">
-                        <h4 class="m-0" *ngIf="game.price_in_final_formatted ===''">N/A</h4>
+                        <h4 class="m-0" *ngIf="game.price_in_final_formatted ===0">N/A</h4>
                         <h4 class="m-0">{{game.price_in_final_formatted}}</h4>
                         <i class="fa-solid fa-cart-plus" (click)="addToCart(game.steam_appid)"></i>
                     </div>

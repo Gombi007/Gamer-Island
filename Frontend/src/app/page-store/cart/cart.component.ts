@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit  } from '@angular/core';
-import {  Router } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { catchError, EMPTY, Subject, switchMap, tap } from 'rxjs';
 import { GameDetails } from 'src/app/game-details.model';
 import { GlobalService } from 'src/app/global.service';
@@ -14,9 +14,10 @@ import { STRINGS } from 'src/app/strings.enum';
   styleUrls: ['./cart.component.css']
 })
 export class CartComponent implements OnInit {
-  gamesInTheCart:GameDetails[] =[];
-  isPending =false;
-  constructor(private global:GlobalService, private router:Router, private http:HttpClient, private author:AuthorizationService) { }
+  gamesInTheCart: GameDetails[] = [];
+  isPending = false;
+
+  constructor(private global: GlobalService, private router: Router, private http: HttpClient, private author: AuthorizationService) { }
 
   ngOnInit(): void {
     this.getGameByAppid$.subscribe();
@@ -25,14 +26,14 @@ export class CartComponent implements OnInit {
 
   }
 
-getGameByAppid$ = new Subject().pipe(
-  tap(() => { 
-      this.isPending = true;   
+  getGameByAppid$ = new Subject().pipe(
+    tap(() => {
+      this.isPending = true;
     }),
     switchMap(() =>
-      this.http.post(STRINGS.API_GAMES_GET_ALL_CART_GAMES, this.global.getAllIDFromCart(),this.author.TokenForRequests())),
+      this.http.post(STRINGS.API_GAMES_GET_ALL_CART_GAMES, this.global.getAllIDFromCart(), this.author.TokenForRequests())),
     tap((data: any) => {
-      this.isPending = false;     
+      this.isPending = false;
       this.gamesInTheCart = data;
     }),
     catchError(error => {
@@ -45,15 +46,26 @@ getGameByAppid$ = new Subject().pipe(
     })
   );
 
-  removeItemFromCart(steam_appid:number){
+  goToStore() {
+    this.router.navigate(['store']);
+  }
+
+  get itemsAmount() {
+    let amountTheCart = 0;
+    this.gamesInTheCart.forEach((game) => {
+      amountTheCart += Number(game.price_in_final_formatted)
+    })
+    return amountTheCart;
+  }
+
+  removeItemFromCart(steam_appid: number) {
     this.global.removeItemFromCart(steam_appid);
     let filteredcartItemsTable = this.gamesInTheCart.filter((e) => { return e.steam_appid !== steam_appid });
     this.gamesInTheCart = filteredcartItemsTable;
     this.global.isThereAnyItemInTheCart();
 
-
   }
-  
-  
+
+
 
 }

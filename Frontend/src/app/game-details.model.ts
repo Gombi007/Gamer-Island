@@ -15,7 +15,7 @@ export class GameDetails {
     website: string = "TEST WEBSITE";
     developers: string = "TEST DEVELOPERS";
     publishers: string = "TEST PUBLISHERS";
-    price_in_final_formatted: string = "TEST PRICE €";
+    price_in_final_formatted: number = 0;
     platforms: string = "TEST PLATFORMS";
     metacritics: string = "10 TEST META URL";
     screenshot_urls: string[] = [];
