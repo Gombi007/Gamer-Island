@@ -107,7 +107,14 @@ export class CartComponent implements OnInit {
   buyAllGamesFromCart(){
     this.userUUID = this.global.getUUIDFromLocalStore() || '';
       //@ts-ignore
-      this.purchase$.next();    
+      this.purchase$.next();   
+
+      this.global.removeAllItemFromCart();
+      this.gamesInTheCart =[];
+      alert("Thank you for your purchase!");
+      this.router.navigate(["library"]);
+
+      
   }
 
 

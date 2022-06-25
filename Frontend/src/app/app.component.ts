@@ -22,11 +22,11 @@ export class AppComponent {
       this.userObject.username = 'PROFILE'
     }
 
-    if (this.userObject.username === 'PROFILE' && this.global.uuid !== null) {
+    if ( this.global.uuid !== null) {
       let obs = this.global.getUsernameAndBalanceByUUID().subscribe(
         res => {
           this.userObject.username = res.username.toLocaleUpperCase();
-          this.userObject.balance = res.balance;
+          this.userObject.balance = res.balance.toFixed(2);
           this.userObject.avatar = res.avatar;
         }
       );

@@ -105,6 +105,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Override
     public void userCartPurchase(String uuid, Long[] steamAppids) {
+        //ToDo User balance check
         User user = userRepository.getUserByUUID(uuid).get();
         if (user != null) {
             Double currentlyBalance = user.getBalance();
@@ -131,9 +132,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
 
                     if (gameFromCart != null) {
-                        System.out.println(currentlyBalance);
                         currentlyBalance = currentlyBalance - price;
-                        System.out.println(currentlyBalance);
                         userGameSet.add(gameFromCart);
                     }
                 }
