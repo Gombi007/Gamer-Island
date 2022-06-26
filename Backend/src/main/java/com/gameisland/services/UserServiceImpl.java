@@ -3,6 +3,7 @@ package com.gameisland.services;
 import com.gameisland.exceptions.ResourceAlreadyExistsException;
 import com.gameisland.exceptions.ResourceNotFoundException;
 import com.gameisland.exceptions.UserBalanceNotEnoughEception;
+import com.gameisland.models.dto.GameLibraryDetailsDto;
 import com.gameisland.models.entities.Role;
 import com.gameisland.models.entities.SteamGame;
 import com.gameisland.models.entities.User;
@@ -106,7 +107,6 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Override
     public void userCartPurchase(String uuid, Long[] steamAppids) {
-        //ToDo User balance check
 
         if (steamAppids == null || steamAppids.length == 0) {
             throw new ResourceNotFoundException("No steam app id in the array or null");
@@ -142,6 +142,27 @@ public class UserServiceImpl implements UserService, UserDetailsService {
             user.setOwnedGames(userCurrentlyGameSet);
             userRepository.save(user);
         }
+    }
+
+    @Override
+    public Set<GameLibraryDetailsDto> libraryDetails(String uuid) {
+        Set<GameLibraryDetailsDto> result = new HashSet<>();
+        User user = userRepository.getUserByUUID(uuid).get();
+        if (user == null) {
+            throw new ResourceNotFoundException("No user with this UUID: " + uuid);
+        }
+        Set<SteamGame> userGameSet = user.getOwnedGames();
+        Iterator iterator = userGameSet.iterator();
+        while (iterator.hasNext()) {
+            SteamGame game = (SteamGame) iterator.next();
+            GameLibraryDetailsDto dto = new GameLibraryDetailsDto();
+            dto.setAppId(game.getSteamAppId());
+            dto.setHeaderImage(game.getHeaderImage());
+            dto.setName(game.getName());
+            dto.setId(game.getId());
+            result.add(dto);
+        }
+        return result;
     }
 
     //Only Admin methods

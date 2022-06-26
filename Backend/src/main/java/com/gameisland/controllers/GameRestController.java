@@ -29,12 +29,6 @@ public class GameRestController {
     }
 
     @PreAuthorize("hasRole('USER')")
-    @GetMapping("/library")
-    public ResponseEntity<Object> getLibraryDetails() {
-        return ResponseEntity.status(HttpStatus.OK).body(gameService.libraryDetails());
-    }
-
-    @PreAuthorize("hasRole('USER')")
     @PostMapping("/cart")
     public ResponseEntity<Object> getAllCartGames(@RequestBody Long[] steamAppIds) {
         return ResponseEntity.status(HttpStatus.OK).body(gameService.getAllCartGames(steamAppIds));

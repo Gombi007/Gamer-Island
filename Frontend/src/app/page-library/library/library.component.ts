@@ -20,6 +20,7 @@ export class LibraryComponent implements OnInit {
   games: Game[] = [];
   gamesClone: Game[] = [];
   isPending: Boolean = false;
+  userUUID ='';
 
   @Output()
   gameDetailsByAppId = new EventEmitter();
@@ -29,6 +30,7 @@ export class LibraryComponent implements OnInit {
 
   ngOnInit(): void {
     this.innerHeight = window.innerHeight - this.headerHeight;
+    this.userUUID = this.global.getUUIDFromLocalStore() || '';
     this.librayGame$.subscribe();
 
     //@ts-ignore
@@ -40,7 +42,7 @@ export class LibraryComponent implements OnInit {
     tap(() => {
       this.isPending = true;
     }),
-    switchMap(() => this.http.get(STRINGS.API_LIBRARY, this.author.TokenForRequests())),
+    switchMap(() => this.http.get(STRINGS.API_LIBRARY +this.userUUID, this.author.TokenForRequests())),
     tap((data: any) => {
       this.isPending = false;
       this.games = data;

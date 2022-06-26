@@ -1,6 +1,5 @@
 package com.gameisland.repositories;
 
-import com.gameisland.models.dto.GameLibraryDetailsDto;
 import com.gameisland.models.entities.SteamGame;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -25,8 +24,5 @@ public interface SteamGameRepository extends JpaRepository<SteamGame, Long> {
     @Modifying
     @Query(value = "DELETE FROM user_game WHERE game_id = :gameId", nativeQuery = true)
     void deleteUserGameEntriesByGameId(Long gameId);
-
-    @Query(nativeQuery = true)
-    Set<GameLibraryDetailsDto> getLibraryDetails();
 
 }
