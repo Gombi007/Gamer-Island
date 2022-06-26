@@ -49,6 +49,10 @@ hr {
     margin-left: 1rem;
 }
 
+.alert{
+    width: max-content;
+}
+
 
 /*custom scrollbar*/
 ::-webkit-scrollbar {

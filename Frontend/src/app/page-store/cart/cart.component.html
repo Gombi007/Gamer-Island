@@ -38,10 +38,18 @@
           </div>
           <h5 class="mb-1">Summary Price: <b> {{itemsAmount}}</b> €</h5>
         </div>
+        
+        <div class="d-flex justify-content-center pt-3">
+          <div class="alert alert-danger mt-2 p-2" role="alert" *ngIf="errorMessage !== ''">
+            <p class="m-0">{{errorMessage}}</p>
+          </div>
+        </div>
+        
         <div class="text-center">
           <button type="button" class="btn btn-outline-light" (click)="buyAllGamesFromCart()">Purchase</button>
-
         </div>
+
+
       </div>
     </div>
   </div>

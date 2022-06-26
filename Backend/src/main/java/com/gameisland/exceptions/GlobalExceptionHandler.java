@@ -23,4 +23,9 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.TOO_MANY_REQUESTS).body(exception.getMessage());
     }
 
+    @ExceptionHandler(UserBalanceNotEnoughEception.class)
+    public ResponseEntity<Object> handleExists(UserBalanceNotEnoughEception exception) {
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(exception.getMessage());
+    }
+
 }

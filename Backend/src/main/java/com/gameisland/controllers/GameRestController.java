@@ -7,8 +7,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Map;
-
 @RestController
 @RequestMapping("/api/games")
 @CrossOrigin(origins = "http://localhost:8080")
@@ -41,7 +39,6 @@ public class GameRestController {
     public ResponseEntity<Object> getAllCartGames(@RequestBody Long[] steamAppIds) {
         return ResponseEntity.status(HttpStatus.OK).body(gameService.getAllCartGames(steamAppIds));
     }
-
 
 
 }

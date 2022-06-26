@@ -2,6 +2,7 @@ package com.gameisland.services;
 
 import com.gameisland.exceptions.ResourceAlreadyExistsException;
 import com.gameisland.exceptions.ResourceNotFoundException;
+import com.gameisland.exceptions.UserBalanceNotEnoughEception;
 import com.gameisland.models.entities.Role;
 import com.gameisland.models.entities.SteamGame;
 import com.gameisland.models.entities.User;
@@ -106,43 +107,41 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     public void userCartPurchase(String uuid, Long[] steamAppids) {
         //ToDo User balance check
-        User user = userRepository.getUserByUUID(uuid).get();
-        if (user != null) {
-            Double currentlyBalance = user.getBalance();
-            Set<SteamGame> userGameSet = user.getOwnedGames();
 
-            if (steamAppids.length > 0) {
-
-                for (int i = 0; i < steamAppids.length; i++) {
-                    SteamGame gameFromCart = gameRepository.gameByAppId(steamAppids[i]).get();
-                    //price
-                    String priceWithDot = "";
-                    if (!gameFromCart.getPrice().isEmpty() && gameFromCart.getPrice().contains(",")) {
-                        priceWithDot = gameFromCart.getPrice().replace(",", ".");
-                        priceWithDot = priceWithDot.replace("€", "");
-                    }
-                    Double price = 0.0;
-                    try {
-                        if (!priceWithDot.isEmpty()) {
-                            price = Double.parseDouble(priceWithDot);
-                        }
-                    } catch (Exception e) {
-                        log.error(e.getMessage());
-                    }
-
-
-                    if (gameFromCart != null) {
-                        currentlyBalance = currentlyBalance - price;
-                        userGameSet.add(gameFromCart);
-                    }
-                }
-            }
-            user.setBalance(currentlyBalance);
-            user.setOwnedGames(userGameSet);
-            userRepository.save(user);
+        if (steamAppids == null || steamAppids.length == 0) {
+            throw new ResourceNotFoundException("No steam app id in the array or null");
         }
 
+        User user = userRepository.getUserByUUID(uuid).get();
+        if (user == null) {
+            throw new ResourceNotFoundException("No user with this UUID: " + uuid);
+        }
 
+        Double userCurrentlyBalance = user.getBalance();
+        Set<SteamGame> userCurrentlyGameSet = user.getOwnedGames();
+
+        for (int i = 0; i < steamAppids.length; i++) {
+            SteamGame gameFromCart = gameRepository.gameByAppId(steamAppids[i]).get();
+
+            if (gameFromCart != null) {
+                boolean isThisGameNotOwnedByUserYet = userCurrentlyGameSet.add(gameFromCart);
+
+                if (isThisGameNotOwnedByUserYet) {
+                    boolean userBalanceBiggerThanThisGamePrice = userCurrentlyBalance - gameFromCart.getPrice() > 0.0;
+
+                    if (userBalanceBiggerThanThisGamePrice) {
+                        userCurrentlyBalance = userCurrentlyBalance - gameFromCart.getPrice();
+                    } else {
+                        throw new UserBalanceNotEnoughEception("Sorry, You don't have enough money on your account to buy these games");
+                    }
+                } else {
+                    throw new ResourceAlreadyExistsException("This game already owned by user: " + gameFromCart.getName());
+                }
+            }
+            user.setBalance(userCurrentlyBalance);
+            user.setOwnedGames(userCurrentlyGameSet);
+            userRepository.save(user);
+        }
     }
 
     //Only Admin methods

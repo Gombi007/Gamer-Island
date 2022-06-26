@@ -55,22 +55,6 @@ public class SteamGameDTO {
             }
         }
 
-        //price
-        String priceWithDot = "";
-        if (!game.getPrice().isEmpty() && game.getPrice().contains(",")) {
-            priceWithDot = game.getPrice().replace(",", ".");
-            priceWithDot = priceWithDot.replace("€", "");
-        }
-
-        Double price = 0.0;
-        try {
-            if (!priceWithDot.isEmpty()) {
-                price = Double.parseDouble(priceWithDot);
-            }
-        } catch (Exception e) {
-            log.error(e.getMessage());
-        }
-
 
         SteamGameDTO dto = new SteamGameDTO(
                 game.getId(),
@@ -87,7 +71,7 @@ public class SteamGameDTO {
                 game.getWebsite(),
                 game.getDevelopers(),
                 game.getPublishers(),
-                price,
+                game.getPrice(),
                 game.getPlatforms(),
                 game.getMetacritic(),
                 screenshotsList,
