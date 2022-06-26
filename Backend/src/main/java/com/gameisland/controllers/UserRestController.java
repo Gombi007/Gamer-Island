@@ -34,5 +34,11 @@ public class UserRestController {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
+    @PreAuthorize("hasRole('USER')")
+    @GetMapping("/library/{uuid}")
+    public ResponseEntity<Object> getLibraryDetails(@PathVariable String uuid) {
+        return ResponseEntity.status(HttpStatus.OK).body(userService.libraryDetails(uuid));
+    }
+
 
 }

@@ -18,23 +18,24 @@ export class CartComponent implements OnInit {
   headerHeight: number = STRINGS.HEADER_HEIGHT_FOR_CONTENT;
   gamesInTheCart: GameDetails[] = [];
   isPending = false;
-  userUUID:string  =''
+  userUUID: string = ''
+  balance = 0;
+  errorMessage ='';
 
   constructor(private global: GlobalService, private router: Router, private http: HttpClient, private author: AuthorizationService) { }
 
   ngOnInit(): void {
     this.innerHeight = window.innerHeight - this.headerHeight;
     this.getGameByAppid$.subscribe();
-    this.purchase$.subscribe();
     //@ts-ignore
     this.getGameByAppid$.next();
 
   }
-    // update value when resize
-    @HostListener('window:resize', ['$event'])
-    onResize() {
-      this.innerHeight = window.innerHeight - this.headerHeight;
-    }
+  // update value when resize
+  @HostListener('window:resize', ['$event'])
+  onResize() {
+    this.innerHeight = window.innerHeight - this.headerHeight;
+  }
 
   getGameByAppid$ = new Subject().pipe(
     tap(() => {
@@ -56,18 +57,24 @@ export class CartComponent implements OnInit {
     })
   );
 
-   purchase$ = new Subject().pipe(
+  purchase$ = new Subject().pipe(
     tap(() => {
       this.isPending = true;
     }),
     switchMap(() =>
-      this.http.post(STRINGS.API_USER_BUY_GAMES_FROM_CART+this.userUUID, this.global.getAllIDFromCart(), this.author.TokenForRequests())),
+      this.http.post(STRINGS.API_USER_BUY_GAMES_FROM_CART + this.userUUID, this.global.getAllIDFromCart(), this.author.TokenForRequests())),
     tap((data: any) => {
-      this.isPending = false;    
+      this.isPending = false;
+      this.global.removeAllItemFromCart();
+      this.gamesInTheCart = [];
+      alert("Thank you for your purchase! Go to the library..");
+      this.router.navigate(["library"]);    
     }),
     catchError(error => {
       let message = error.error.error_message;
-      if (message.includes("Token has expired")) {
+      if (message === undefined) {
+       this.errorMessage = error.error;
+      } else if (message.includes("Token has expired")) {
         this.global.experiedSession = true;
         this.router.navigate(['login']);
       }
@@ -95,28 +102,24 @@ export class CartComponent implements OnInit {
     this.global.isThereAnyItemInTheCart();
 
   }
-  removeAllItemsFromCart(){
+  removeAllItemsFromCart() {
     this.global.removeAllItemFromCart();
-    this.gamesInTheCart =[];
+    this.gamesInTheCart = [];
   }
 
-  goToGameDetailPage(steam_appid:number){
+  goToGameDetailPage(steam_appid: number) {
     this.router.navigate(["store/", steam_appid]);
   }
-  
-  buyAllGamesFromCart(){
+
+  buyAllGamesFromCart() {
+    this.errorMessage ='';
     this.userUUID = this.global.getUUIDFromLocalStore() || '';
-      //@ts-ignore
-      this.purchase$.next();   
-
-      this.global.removeAllItemFromCart();
-      this.gamesInTheCart =[];
-      alert("Thank you for your purchase!");
-      this.router.navigate(["library"]);
-
-      
+    this.purchase$.subscribe();
+    //@ts-ignore
+    this.purchase$.next();
+    //@ts-ignore
+    this.purchase$.unsubscribe();  
+          
   }
-
-
 
 }
