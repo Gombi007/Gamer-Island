@@ -3,6 +3,8 @@
 
 (this app was made due to improving my porgramming skills)
 
+#### UNDER CONSTRUCTON
+
 ------
 
 You can buy games for fake money.
@@ -21,11 +23,21 @@ Register an account and chatting your friends.
 
   
 
-  ![](https://github.com/Gombi007/Gamer-Island/blob/development/Resources/gamer-island-01.JPG)
+  ![](https://github.com/Gombi007/Gamer-Island/blob/development/Resources/gamer-island-001.JPG)
 
-![](https://github.com/Gombi007/Gamer-Island/blob/development/Resources/gamer-island-06.JPG)
+![](https://github.com/Gombi007/Gamer-Island/blob/development/Resources/gamer-island-002.JPG)
 
-![](https://github.com/Gombi007/Gamer-Island/blob/development/Resources/gamer-island-05.JPG)
+![](https://github.com/Gombi007/Gamer-Island/blob/development/Resources/gamer-island-003.JPG)
+
+![](https://github.com/Gombi007/Gamer-Island/blob/development/Resources/gamer-island-004.JPG)
+
+![](https://github.com/Gombi007/Gamer-Island/blob/development/Resources/gamer-island-005.JPG)
+
+![](https://github.com/Gombi007/Gamer-Island/blob/development/Resources/gamer-island-006.JPG)
+
+![](https://github.com/Gombi007/Gamer-Island/blob/development/Resources/gamer-island-007.JPG)
+
+![](https://github.com/Gombi007/Gamer-Island/blob/development/Resources/gamer-island-008.JPG)
 
 
 
