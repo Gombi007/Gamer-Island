@@ -1,7 +1,6 @@
 package com.gameisland.services;
 
 import com.gameisland.exceptions.ResourceNotFoundException;
-import com.gameisland.models.dto.GameLibraryDetailsDto;
 import com.gameisland.models.dto.SteamGameDTO;
 import com.gameisland.models.entities.SteamGame;
 import com.gameisland.repositories.SteamGameRepository;
@@ -115,15 +114,6 @@ public class SteamGameServiceImpl implements SteamGameService {
             steamGameRepository.deleteUserGameEntriesByGameId(game.getId());
             steamGameRepository.delete(game);
         }
-    }
-
-    @Override
-    public Set<GameLibraryDetailsDto> libraryDetails() {
-        boolean isEmptyGameSet = steamGameRepository.getLibraryDetails().isEmpty();
-        if (!isEmptyGameSet) {
-            return steamGameRepository.getLibraryDetails();
-        }
-        throw new ResourceNotFoundException("This user has not any game yet");
     }
 
 

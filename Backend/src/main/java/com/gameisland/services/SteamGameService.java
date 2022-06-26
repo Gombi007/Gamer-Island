@@ -1,6 +1,5 @@
 package com.gameisland.services;
 
-import com.gameisland.models.dto.GameLibraryDetailsDto;
 import com.gameisland.models.dto.SteamGameDTO;
 import org.springframework.data.domain.Page;
 
@@ -17,8 +16,6 @@ public interface SteamGameService {
     void saveSteamProductsFromFileDBToDatabase(Integer limit);
 
     void removeAGamePermanentlyFromTheDatabaseById(Long id);
-
-    Set<GameLibraryDetailsDto> libraryDetails();
 
     Set<SteamGameDTO> getAllCartGames(Long[] steamAppIds);
 }

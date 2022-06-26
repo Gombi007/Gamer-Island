@@ -1,7 +1,10 @@
 package com.gameisland.models.entities;
 
 import com.gameisland.models.dto.GameLibraryDetailsDto;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.NamedNativeQuery;
 
 import javax.persistence.*;
@@ -33,7 +36,7 @@ public class SteamGame extends BusinessObject {
     private Boolean isFree;
     private String headerImage;
     private String website;
-    private String price;
+    private Double price;
     private String developers;
     private String publishers;
     private String platforms;
@@ -59,7 +62,7 @@ public class SteamGame extends BusinessObject {
     private Set<User> users;
 
 
-    public SteamGame(Long steamAppId, Boolean success, String name, String requiredAge, Boolean isFree, String headerImage, String website, String price, String developers, String publishers, String platforms, String genres, String metacritic, String screenshots, String detailedDescription, String aboutTheGame, String shortDescription, String supportedLanguages) {
+    public SteamGame(Long steamAppId, Boolean success, String name, String requiredAge, Boolean isFree, String headerImage, String website, Double price, String developers, String publishers, String platforms, String genres, String metacritic, String screenshots, String detailedDescription, String aboutTheGame, String shortDescription, String supportedLanguages) {
         this.steamAppId = steamAppId;
         this.success = success;
         this.name = name;

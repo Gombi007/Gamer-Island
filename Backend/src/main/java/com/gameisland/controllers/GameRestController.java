@@ -7,8 +7,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Map;
-
 @RestController
 @RequestMapping("/api/games")
 @CrossOrigin(origins = "http://localhost:8080")
@@ -31,17 +29,10 @@ public class GameRestController {
     }
 
     @PreAuthorize("hasRole('USER')")
-    @GetMapping("/library")
-    public ResponseEntity<Object> getLibraryDetails() {
-        return ResponseEntity.status(HttpStatus.OK).body(gameService.libraryDetails());
-    }
-
-    @PreAuthorize("hasRole('USER')")
     @PostMapping("/cart")
     public ResponseEntity<Object> getAllCartGames(@RequestBody Long[] steamAppIds) {
         return ResponseEntity.status(HttpStatus.OK).body(gameService.getAllCartGames(steamAppIds));
     }
-
 
 
 }

@@ -1,10 +1,12 @@
 package com.gameisland.services;
 
+import com.gameisland.models.dto.GameLibraryDetailsDto;
 import com.gameisland.models.entities.Role;
 import com.gameisland.models.entities.User;
 
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.Set;
 
 public interface UserService {
 
@@ -25,5 +27,7 @@ public interface UserService {
     User getUserByName(String username);
 
     void userCartPurchase(String uuid, Long[] steamAppids);
+
+    Set<GameLibraryDetailsDto> libraryDetails(String uuid);
 
 }

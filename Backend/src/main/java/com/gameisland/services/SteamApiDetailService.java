@@ -90,7 +90,7 @@ public class SteamApiDetailService {
         } catch (Exception exception) {
             // Game is not success
             if (exception.getMessage().contains("Steam API is not responding 429 Too Many Requests")) {
-                 log.error("Error during game saving: {}", exception.getMessage());
+                log.error("Error during game saving: {}", exception.getMessage());
                 throw new SteamApiNotRespondingException(exception.getMessage());
             }
         }
@@ -103,7 +103,7 @@ public class SteamApiDetailService {
             Boolean isFree = gameData.getAsJsonPrimitive("is_free").getAsBoolean();
             String headerImage = gameData.getAsJsonPrimitive("header_image").getAsString();
             String website = ""; //ok
-            String price = ""; //ok
+            Double price = 0.0; //ok
             String developers = ""; //ok
             String publishers = ""; //ok
             String platforms = ""; //ok
@@ -123,9 +123,22 @@ public class SteamApiDetailService {
 
             //price
             JsonObject gameDataPrice = gameData.getAsJsonObject("price_overview");
+            String priceWithDot = "";
             if (gameDataPrice != null) {
-                price = gameDataPrice.getAsJsonPrimitive("final_formatted").getAsString();
+                priceWithDot = gameDataPrice.getAsJsonPrimitive("final_formatted").getAsString();
             }
+            if (!priceWithDot.isEmpty() && priceWithDot.contains(",")) {
+                priceWithDot = priceWithDot.replace(",", ".");
+                priceWithDot = priceWithDot.replace("€", "");
+            }
+            try {
+                if (!priceWithDot.isEmpty()) {
+                    price = Double.parseDouble(priceWithDot);
+                }
+            } catch (Exception e) {
+                log.error(e.getMessage());
+            }
+
 
             //developers
             JsonArray gameDataDevelopers = gameData.getAsJsonArray("developers");
