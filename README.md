@@ -3,8 +3,10 @@
 
 (this app was made due to improving my porgramming skills)
 
-#### AVAILABLE NOW
+[I'm an inline-style link with title](https://gamer-island.herokuapp.com/#/ "CHECK THE LATEST VERSION ON HEROKU")
+
 ------
+#### AVAILABLE NOW
 
 You can register an account and after this you able to login the page.
 
@@ -14,10 +16,9 @@ After purchase you can see these games in your own library.
 
 On the header you can see your username, avatar, balance and your cart. (if you put item in your cart, you will see the item counter how many items you put inside)
 
-------
 
-#### UNDER CONSTRUCTION
 ------
+#### UNDER CONSTRUCTION
 
 Achievement collecting in your library for example: you will get a badge because you owning this game
 
