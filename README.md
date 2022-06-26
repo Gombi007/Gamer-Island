@@ -3,7 +3,7 @@
 
 (this app was made due to improving my porgramming skills)
 
-[CHECK THE LATEST VERSION ON HEROKU (note: i have free tier on the heroku, so possible the first loading you have to wait a few second)](https://gamer-island.herokuapp.com/#/ "CHECK THE LATEST VERSION ON HEROKU")
+[CHECK THE LATEST VERSION ON HEROKU (note: i have free tier on the heroku, so possible on the first load you have to wait a few second)](https://gamer-island.herokuapp.com/#/ "CHECK THE LATEST VERSION ON HEROKU")
 
 ------
 #### AVAILABLE NOW
