@@ -71,6 +71,7 @@ public class SteamApiDetailService {
 
             //price limit
             JsonObject dataPrice = gameData.getAsJsonObject("price_overview");
+
             String priceString = "";
             Double priceInDouble = 0.0;
             if (dataPrice != null) {
@@ -155,7 +156,7 @@ public class SteamApiDetailService {
             if (gameDataDevelopers != null) {
                 for (int i = 0; i < gameDataDevelopers.size(); i++) {
                     developers += gameDataDevelopers.get(i).getAsString() + ";";
-                    if (developers.length()>180){
+                    if (developers.length() > 180) {
                         break;
                     }
                 }
