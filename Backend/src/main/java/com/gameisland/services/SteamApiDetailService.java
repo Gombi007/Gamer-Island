@@ -53,13 +53,11 @@ public class SteamApiDetailService {
 
     public SteamGame saveSteamGamesIntoTheDatabase(Long appid) {
 
-        boolean onlyGames = false;
         JsonObject gameData = null;
         boolean isSoundtrack = true;
         boolean isBeta = true;
         boolean isPlayTest = true;
-        boolean isAdultGame = true;
-        boolean isHighPriceGame = false;
+        boolean onlyGames = false;
         boolean isFreeGame = false;
         boolean freeOrHighPrice = false;
 
@@ -69,23 +67,35 @@ public class SteamApiDetailService {
             isSoundtrack = gameData.getAsJsonPrimitive("name").getAsString().toLowerCase(Locale.ROOT).contains("soundtrack");
             isBeta = gameData.getAsJsonPrimitive("name").getAsString().toLowerCase(Locale.ROOT).contains("beta");
             isPlayTest = gameData.getAsJsonPrimitive("name").getAsString().toLowerCase(Locale.ROOT).contains("playtest");
-            isAdultGame = gameData.getAsJsonPrimitive("required_age").getAsString().toLowerCase(Locale.ROOT).contains("18");
             isFreeGame = gameData.getAsJsonPrimitive("is_free").getAsBoolean();
 
             //price limit
-            JsonObject gameDataPrice = gameData.getAsJsonObject("price_overview");
-            if (gameDataPrice != null) {
-                String priceAbove40 = gameDataPrice.getAsJsonPrimitive("final_formatted").getAsString();
-                String[] tmp = priceAbove40.split(",");
-                Integer priceInNumber = Integer.parseInt(tmp[0]);
-                if (priceInNumber > 3) {
-                    freeOrHighPrice = true;
-                }
+            JsonObject dataPrice = gameData.getAsJsonObject("price_overview");
+            String priceString = "";
+            Double priceInDouble = 0.0;
+            if (dataPrice != null) {
+                priceString = dataPrice.getAsJsonPrimitive("final_formatted").getAsString();
             }
+            if (!priceString.isEmpty() && priceString.contains(",")) {
+                priceString = priceString.replace(",", ".");
+                priceString = priceString.replace("€", "");
+            }
+
+            try {
+                if (!priceString.isEmpty()) {
+                    priceInDouble = Double.parseDouble(priceString);
+                    if (priceInDouble > 0.01) {
+                        freeOrHighPrice = true;
+                    }
+                }
+            } catch (Exception e) {
+                log.error(e.getMessage());
+            }
+
             if (isFreeGame) {
                 freeOrHighPrice = true;
             }
-            // log.error("Filter game: gameData:{} onlyGames:{} isSoundtrack:{} isBeta:{} isPlayTest:{} isAdultGame:{} priceAbove30:{}", gameData.isJsonObject(), onlyGames, isSoundtrack, isBeta, isPlayTest, isAdultGame, isHighPriceGame);
+            //  log.error("isGameObject:{} isGame{} isSoundTest{} isBeta{} isTestGame{} isFreeOrAbove0.01€{}", gameData.isJsonObject(), onlyGames, isSoundtrack, isBeta, isPlayTest, freeOrHighPrice);
 
         } catch (Exception exception) {
             // Game is not success
@@ -94,7 +104,7 @@ public class SteamApiDetailService {
                 throw new SteamApiNotRespondingException(exception.getMessage());
             }
         }
-        if (gameData != null && onlyGames && freeOrHighPrice && !isSoundtrack && !isBeta && !isPlayTest && !isAdultGame) {
+        if (gameData != null && onlyGames && freeOrHighPrice && !isSoundtrack && !isBeta && !isPlayTest) {
 
             Long steamAppId = appid;
             Boolean success = true;
@@ -145,6 +155,9 @@ public class SteamApiDetailService {
             if (gameDataDevelopers != null) {
                 for (int i = 0; i < gameDataDevelopers.size(); i++) {
                     developers += gameDataDevelopers.get(i).getAsString() + ";";
+                    if (developers.length()>180){
+                        break;
+                    }
                 }
             }
 
