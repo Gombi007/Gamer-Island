@@ -53,6 +53,7 @@ export class CartComponent implements OnInit {
         this.global.experiedSession = true;
         this.router.navigate(['login']);
       }
+      this.isPending = false;
       return EMPTY;
     })
   );
@@ -78,6 +79,7 @@ export class CartComponent implements OnInit {
         this.global.experiedSession = true;
         this.router.navigate(['login']);
       }
+      this.isPending = false;
       return EMPTY;
     })
   );

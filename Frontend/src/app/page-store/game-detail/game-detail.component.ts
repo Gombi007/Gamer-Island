@@ -120,15 +120,15 @@ export class GameDetailComponent implements OnInit {
   }
 
   getGamePrice(game: GameDetails) {
-    if (game.price_in_final_formatted !== null && game.price_in_final_formatted !== 0) {
+    if (game.price_in_final_formatted > 0 && !game.is_free) {
       return 1;
     }
 
-    if (game.price_in_final_formatted === 0 && game.genres.includes('Free to Play')) {
+    if (game.price_in_final_formatted === 0 && game.is_free) {
       return 2;
     }
 
-    if (game.price_in_final_formatted === 0 && !(game.genres.includes('Free to Play'))) {
+    if (game.price_in_final_formatted === 0 && !game.is_free) {
       return 3;
     }
     return 0;
