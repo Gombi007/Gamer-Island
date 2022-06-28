@@ -44,25 +44,16 @@ Community page where you can read other users opinions for a game and you can wr
 
  <p align="center">  
  
- <img src="https://github.com/Gombi007/Gamer-Island/blob/development/Resources/gamer-island-001.JPG">
+  <img src="https://github.com/Gombi007/Gamer-Island/blob/development/Resources/gamer-island-000.JPG">
+  <img src="https://github.com/Gombi007/Gamer-Island/blob/development/Resources/gamer-island-001.JPG"> 
+  <img src="https://github.com/Gombi007/Gamer-Island/blob/development/Resources/gamer-island-002.JPG">
+  <img src="https://github.com/Gombi007/Gamer-Island/blob/development/Resources/gamer-island-003.JPG">
+  <img src="https://github.com/Gombi007/Gamer-Island/blob/development/Resources/gamer-island-004.JPG">
+  <img src="https://github.com/Gombi007/Gamer-Island/blob/development/Resources/gamer-island-005.JPG">
+  <img src="https://github.com/Gombi007/Gamer-Island/blob/development/Resources/gamer-island-006.JPG">
+  <img src="https://github.com/Gombi007/Gamer-Island/blob/development/Resources/gamer-island-007.JPG">
+  <img src="https://github.com/Gombi007/Gamer-Island/blob/development/Resources/gamer-island-008.JPG">
       
  </p>
 
-      
-![](https://github.com/Gombi007/Gamer-Island/blob/development/Resources/gamer-island-001.JPG)
-
-![](https://github.com/Gombi007/Gamer-Island/blob/development/Resources/gamer-island-002.JPG)
-
-![](https://github.com/Gombi007/Gamer-Island/blob/development/Resources/gamer-island-003.JPG)
-
-![](https://github.com/Gombi007/Gamer-Island/blob/development/Resources/gamer-island-004.JPG)
-
-![](https://github.com/Gombi007/Gamer-Island/blob/development/Resources/gamer-island-005.JPG)
-
-![](https://github.com/Gombi007/Gamer-Island/blob/development/Resources/gamer-island-006.JPG)
-
-![](https://github.com/Gombi007/Gamer-Island/blob/development/Resources/gamer-island-007.JPG)
-
-![](https://github.com/Gombi007/Gamer-Island/blob/development/Resources/gamer-island-008.JPG)
- 
 
