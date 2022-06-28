@@ -53,5 +53,7 @@ Community page where you can read other users opinions for a game and you can wr
   <img width="70%" src="https://github.com/Gombi007/Gamer-Island/blob/development/Resources/gamer-island-006.JPG">
   <img width="70%" src="https://github.com/Gombi007/Gamer-Island/blob/development/Resources/gamer-island-007.JPG">
   <img width="70%" src="https://github.com/Gombi007/Gamer-Island/blob/development/Resources/gamer-island-008.JPG">
-      
+     
+
  </p>
+
