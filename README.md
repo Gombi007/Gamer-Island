@@ -1,7 +1,7 @@
 # Gamer-Island
 ### This is a steam clone app with Angular frontend and  Springboot backend.
 
-(this app was made due to improving my porgramming skills)
+(this app was made due to improving my programming skills)
 
 [CHECK THE LATEST VERSION ON HEROKU (note: i have free tier on the heroku, so possible on the first load you have to wait a few second)](https://gamer-island.herokuapp.com/#/ "CHECK THE LATEST VERSION ON HEROKU")
 
@@ -42,23 +42,16 @@ Community page where you can read other users opinions for a game and you can wr
 
 - SQL
 
-  
-
-![](https://github.com/Gombi007/Gamer-Island/blob/development/Resources/gamer-island-001.JPG)
-
-![](https://github.com/Gombi007/Gamer-Island/blob/development/Resources/gamer-island-002.JPG)
-
-![](https://github.com/Gombi007/Gamer-Island/blob/development/Resources/gamer-island-003.JPG)
-
-![](https://github.com/Gombi007/Gamer-Island/blob/development/Resources/gamer-island-004.JPG)
-
-![](https://github.com/Gombi007/Gamer-Island/blob/development/Resources/gamer-island-005.JPG)
-
-![](https://github.com/Gombi007/Gamer-Island/blob/development/Resources/gamer-island-006.JPG)
-
-![](https://github.com/Gombi007/Gamer-Island/blob/development/Resources/gamer-island-007.JPG)
-
-![](https://github.com/Gombi007/Gamer-Island/blob/development/Resources/gamer-island-008.JPG)
-
-
-
+ <p align="center">  
+ 
+  <img width="70%" src="https://github.com/Gombi007/Gamer-Island/blob/development/Resources/gamer-island-000.JPG">
+  <img width="70%" src="https://github.com/Gombi007/Gamer-Island/blob/development/Resources/gamer-island-001.JPG"> 
+  <img width="70%" src="https://github.com/Gombi007/Gamer-Island/blob/development/Resources/gamer-island-002.JPG">
+  <img width="70%" src="https://github.com/Gombi007/Gamer-Island/blob/development/Resources/gamer-island-003.JPG">
+  <img width="70%" src="https://github.com/Gombi007/Gamer-Island/blob/development/Resources/gamer-island-004.JPG">
+  <img width="70%" src="https://github.com/Gombi007/Gamer-Island/blob/development/Resources/gamer-island-005.JPG">
+  <img width="70%" src="https://github.com/Gombi007/Gamer-Island/blob/development/Resources/gamer-island-006.JPG">
+  <img width="70%" src="https://github.com/Gombi007/Gamer-Island/blob/development/Resources/gamer-island-007.JPG">
+  <img width="70%" src="https://github.com/Gombi007/Gamer-Island/blob/development/Resources/gamer-island-008.JPG">
+      
+ </p>
