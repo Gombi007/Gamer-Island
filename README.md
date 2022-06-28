@@ -42,8 +42,7 @@ Community page where you can read other users opinions for a game and you can wr
 
 - SQL
 
-  
-
+ <p align="center">  
 ![](https://github.com/Gombi007/Gamer-Island/blob/development/Resources/gamer-island-001.JPG)
 
 ![](https://github.com/Gombi007/Gamer-Island/blob/development/Resources/gamer-island-002.JPG)
@@ -59,6 +58,5 @@ Community page where you can read other users opinions for a game and you can wr
 ![](https://github.com/Gombi007/Gamer-Island/blob/development/Resources/gamer-island-007.JPG)
 
 ![](https://github.com/Gombi007/Gamer-Island/blob/development/Resources/gamer-island-008.JPG)
-
-
+</p>
 
