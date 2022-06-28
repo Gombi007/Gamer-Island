@@ -1,7 +1,7 @@
 # Gamer-Island
 ### This is a steam clone app with Angular frontend and  Springboot backend.
 
-(this app was made due to improving my porgramming skills)
+(this app was made due to improving my programming skills)
 
 [CHECK THE LATEST VERSION ON HEROKU (note: i have free tier on the heroku, so possible on the first load you have to wait a few second)](https://gamer-island.herokuapp.com/#/ "CHECK THE LATEST VERSION ON HEROKU")
 
