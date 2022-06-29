@@ -131,4 +131,43 @@ public class FileDB {
             }
         }
     }
+
+    //adult section
+    public JsonObject getAdultFilterJsonObject() {
+        File file = initFileWriter("adult.json");
+        String result = "";
+
+        if (file != null) {
+            String temp;
+            try {
+                BufferedReader reader = new BufferedReader(new FileReader(file));
+                while ((temp = reader.readLine()) != null) {
+                    result += temp;
+                }
+                reader.close();
+            } catch (Exception exception) {
+                System.out.println("There is an issue with file reading");
+                System.out.println(exception.getMessage());
+            }
+        }
+        JsonObject jsonObject = JsonParser.parseString(result).getAsJsonObject();
+        return jsonObject;
+    }
+
+    public void collectAdultAppIDS(Long adultTaggedAppid) {
+        File file = initFileWriter("adult_tagged_steam_apps.txt");
+
+        if (file != null) {
+            try {
+                BufferedWriter writer = new BufferedWriter(new FileWriter(file, true));
+                writer.write(adultTaggedAppid.toString());
+                writer.newLine();
+                writer.close();
+
+            } catch (Exception exception) {
+                System.out.println("There is an issue with file writing");
+                System.out.println(exception.getMessage());
+            }
+        }
+    }
 }

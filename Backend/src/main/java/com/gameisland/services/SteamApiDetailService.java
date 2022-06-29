@@ -1,8 +1,6 @@
 package com.gameisland.services;
 
 import com.gameisland.enums.StaticStrings;
-import com.gameisland.exceptions.GameDetailsAreNotSuccessException;
-import com.gameisland.exceptions.ResourceNotFoundException;
 import com.gameisland.exceptions.SteamApiNotRespondingException;
 import com.gameisland.models.entities.SteamGame;
 import com.gameisland.repositories.FileDB;
@@ -15,6 +13,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 
@@ -28,85 +28,129 @@ public class SteamApiDetailService {
     private JsonObject getGameDetailsIfThatIsSuccess(Long appid) {
         JsonObject resultDataObject;
         JsonObject responseBodyGameAppIdObject;
+        Boolean successField = false;
 
 
         try {
             ResponseEntity<String> response = template.getForEntity(steamUrl.concat(appid.toString()), String.class);
             JsonObject responseBody = JsonParser.parseString(Objects.requireNonNull(response.getBody())).getAsJsonObject();
             responseBodyGameAppIdObject = responseBody.getAsJsonObject(appid.toString());
+            successField = responseBodyGameAppIdObject.getAsJsonPrimitive("success").getAsBoolean();
+            if (successField) {
+                resultDataObject = responseBodyGameAppIdObject.getAsJsonObject("data");
+                return resultDataObject;
+            } else {
+                log.error("Game is NOT success yet");
+                //collect all unsuccess  appid
+                fileDB.CollectAllUnSuccessAndNonGameApp(appid);
+            }
         } catch (Exception exception) {
-            throw new ResourceNotFoundException("Steam API is not responding " + exception.getMessage());
+            if (exception.getMessage() != null && exception.getMessage().contains("Steam API is not responding 429 Too Many Requests")) {
+                log.error("Error in custom game filter: {}", exception.getMessage());
+                throw new SteamApiNotRespondingException(exception.getMessage());
+            }
+
+            log.error("Error in game details is success method: {}", exception.getMessage());
 
         }
-
-        Boolean successField = responseBodyGameAppIdObject.getAsJsonPrimitive("success").getAsBoolean();
-        if (successField) {
-            resultDataObject = responseBodyGameAppIdObject.getAsJsonObject("data");
-            return resultDataObject;
-        } else {
-            //collect all unsuccess  appid
-            Long unSuccessAppId = responseBodyGameAppIdObject.getAsJsonObject("data").getAsJsonPrimitive("steam_appid").getAsLong();
-            fileDB.CollectAllUnSuccessAndNonGameApp(unSuccessAppId);
-        }
-        throw new GameDetailsAreNotSuccessException("Game is not done yet");
+        return null;
     }
 
-    public SteamGame saveSteamGamesIntoTheDatabase(Long appid) {
 
-        JsonObject gameData = null;
+    private boolean customGameFilter(JsonObject gameData, Long appid) {
         boolean isSoundtrack = true;
         boolean isBeta = true;
         boolean isPlayTest = true;
         boolean onlyGames = false;
         boolean isFreeGame = false;
         boolean freeOrHighPrice = false;
+        boolean isAdultGame = false;
 
         try {
-            gameData = getGameDetailsIfThatIsSuccess(appid);
-            onlyGames = gameData.getAsJsonPrimitive("type").getAsString().equalsIgnoreCase("game");
-            isSoundtrack = gameData.getAsJsonPrimitive("name").getAsString().toLowerCase(Locale.ROOT).contains("soundtrack");
-            isBeta = gameData.getAsJsonPrimitive("name").getAsString().toLowerCase(Locale.ROOT).contains("beta");
-            isPlayTest = gameData.getAsJsonPrimitive("name").getAsString().toLowerCase(Locale.ROOT).contains("playtest");
+            String gameType = gameData.getAsJsonPrimitive("type").getAsString();
+            String gameName = gameData.getAsJsonPrimitive("name").getAsString().toLowerCase(Locale.ROOT);
+            String gameDetailedDesc = gameData.getAsJsonPrimitive("detailed_description").getAsString().toLowerCase(Locale.ROOT);
+
+            //basic field section
+            onlyGames = gameType.equalsIgnoreCase("game");
+            isSoundtrack = gameName.contains("soundtrack");
+            isBeta = gameName.contains("beta");
+            isPlayTest = gameName.contains("playtest");
             isFreeGame = gameData.getAsJsonPrimitive("is_free").getAsBoolean();
 
-            //price limit
-            JsonObject dataPrice = gameData.getAsJsonObject("price_overview");
+            //adult section
+            List<String> adultTags = new ArrayList<>();
+            JsonObject adultJsonObject = fileDB.getAdultFilterJsonObject();
+            JsonArray adultJsonArrayWithTags = adultJsonObject.getAsJsonArray("adult");
+            adultJsonArrayWithTags.forEach(tag -> adultTags.add(tag.getAsString()));
 
+            for (int i = 0; i < adultTags.size(); i++) {
+                if (gameName.contains(adultTags.get(i)) || gameDetailedDesc.contains(adultTags.get(i))) {
+                    log.error("ADULT: {} APPID: {} TAG: {}", gameName, appid, adultTags.get(i));
+                    fileDB.collectAdultAppIDS(appid);
+                    isAdultGame = true;
+                    break;
+                }
+            }
+
+            //price limit or free game section
             String priceString = "";
-            Double priceInDouble = 0.0;
+            double priceInDouble = 0.0;
+            JsonObject dataPrice = gameData.getAsJsonObject("price_overview");
             if (dataPrice != null) {
                 priceString = dataPrice.getAsJsonPrimitive("final_formatted").getAsString();
             }
-            if (!priceString.isEmpty() && priceString.contains(",")) {
+
+            if (priceString.length() >= 3 && priceString.contains(",")) {
                 priceString = priceString.replace(",", ".");
                 priceString = priceString.replace("€", "");
             }
 
-            try {
-                if (!priceString.isEmpty()) {
-                    priceInDouble = Double.parseDouble(priceString);
-                    if (priceInDouble > 0.01) {
-                        freeOrHighPrice = true;
-                    }
+            if (!priceString.isEmpty()) {
+                priceInDouble = Double.parseDouble(priceString);
+                if (priceInDouble > 19.00) {
+                    freeOrHighPrice = true;
                 }
-            } catch (Exception e) {
-                log.error(e.getMessage());
             }
-
+/*
             if (isFreeGame) {
                 freeOrHighPrice = true;
             }
-            //  log.error("isGameObject:{} isGame{} isSoundTest{} isBeta{} isTestGame{} isFreeOrAbove0.01€{}", gameData.isJsonObject(), onlyGames, isSoundtrack, isBeta, isPlayTest, freeOrHighPrice);
+*/
+            //summary
+            if (onlyGames && freeOrHighPrice && !isAdultGame && !isBeta && !isPlayTest && !isSoundtrack) {
+                return true;
+            }
+            return false;
+
 
         } catch (Exception exception) {
-            // Game is not success
-            if (exception.getMessage().contains("Steam API is not responding 429 Too Many Requests")) {
-                log.error("Error during game saving: {}", exception.getMessage());
+            // Too many request from steam API (max about 160 request in every 6 min )
+            if (exception.getMessage() != null && exception.getMessage().contains("Steam API is not responding 429 Too Many Requests")) {
+                log.error("Error in custom game filter: {}", exception.getMessage());
                 throw new SteamApiNotRespondingException(exception.getMessage());
             }
-        }
-        if (gameData != null && onlyGames && freeOrHighPrice && !isSoundtrack && !isBeta && !isPlayTest) {
 
+            if (exception.getMessage() != null && !exception.getMessage().contains("Steam API is not responding 429 Too Many Requests")) {
+                log.error("Error in custom game filter: {}", exception.getMessage());
+            }
+
+            if (exception.getMessage() == null) {
+                log.error("Error in in custom game filter, no exception message...");
+            }
+        }
+        return false;
+    }
+
+    public SteamGame saveSteamGamesIntoTheDatabase(Long appid) {
+        JsonObject gameData = getGameDetailsIfThatIsSuccess(appid);
+        boolean customGameFilter = false;
+
+        if (gameData != null) {
+            customGameFilter = customGameFilter(gameData, appid);
+        }
+
+        if (gameData != null && customGameFilter) {
             Long steamAppId = appid;
             Boolean success = true;
             String name = gameData.getAsJsonPrimitive("name").getAsString();
