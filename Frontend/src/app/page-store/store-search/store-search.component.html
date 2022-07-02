@@ -1,3 +1,25 @@
 <div class="search" [ngStyle]="{'height.px': innerHeight}">
-    <p>store-search works!</p>
+    <div class="store-search">
+        <form class="search-form">
+            <div class="gap-3 d-flex justify-content-center align-items-center">
+                <i class="fa-solid fa-money-check-dollar"></i>
+                <h3>Store</h3>
+                <i class="fa-solid fa-cart-shopping"></i>
+            </div>
+            <div class="search-target gap-4 d-flex justify-content-center">
+                <div class="form-check-inline m-0">
+                    <input class="form-check-input" type="radio" name="searchTarget" id="searchTarget1">
+                    <label class="form-check-label ps-1" for="searchTarget">NAME</label>                    
+                </div>
+                <div class="form-check-inline m-0">
+                    <input class="form-check-input" type="radio" name="searchTarget" id="searchTarget2">
+                    <label class="form-check-label ps-1" for="searchTarget">DESCRIPTION</label>                    
+                </div>
+            </div>
+
+            <div class="store-search-input gap-2 d-flex justify-content-center align-items-center">
+                <input type="text" name="search" id="gameSearch">
+            </div>
+        </form>
+    </div>
 </div>

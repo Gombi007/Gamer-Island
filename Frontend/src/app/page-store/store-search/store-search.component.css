@@ -1,3 +1,29 @@
 .search{
     background-color: rgba(31, 36, 36,0.8);
 }
+.store-search {
+    background-image: linear-gradient(45deg, rgb(0, 0, 0), rgb(36, 75, 94));
+    padding: 0.6rem;
+}
+
+.store-search i {
+    font-size: 1.4rem;    
+}
+
+.store-search-input  {
+    padding: 0.2rem;  
+    height: fit-content;   
+}
+
+.store-search-input  input {  
+    background-color: rgb(36, 75, 94);
+    border: none;
+    color: antiquewhite;  
+    width: 13rem;
+}
+.store-search-input input:focus {
+   outline:0;
+}
+
+
+
