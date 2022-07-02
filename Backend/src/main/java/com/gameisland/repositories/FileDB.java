@@ -154,6 +154,7 @@ public class FileDB {
         return jsonObject;
     }
 
+    //only testing what kind of games are in
     public void collectAdultAppIDS(Long adultTaggedAppid) {
         File file = initFileWriter("adult_tagged_steam_apps.txt");
 

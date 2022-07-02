@@ -40,13 +40,12 @@ public class SteamApiDetailService {
                 resultDataObject = responseBodyGameAppIdObject.getAsJsonObject("data");
                 return resultDataObject;
             } else {
-                log.error("Game is NOT success yet");
-                //collect all unsuccess  appid
+                //collect all unsuccessful  appid
                 fileDB.CollectAllUnSuccessAndNonGameApp(appid);
             }
         } catch (Exception exception) {
-            if (exception.getMessage() != null && exception.getMessage().contains("Steam API is not responding 429 Too Many Requests")) {
-                log.error("Error in custom game filter: {}", exception.getMessage());
+            if (exception.getMessage() != null && exception.getMessage().contains("429 Too Many Requests")) {
+                log.error("STEAM API error: {}", exception.getMessage());
                 throw new SteamApiNotRespondingException(exception.getMessage());
             }
 
@@ -70,6 +69,19 @@ public class SteamApiDetailService {
             String gameType = gameData.getAsJsonPrimitive("type").getAsString();
             String gameName = gameData.getAsJsonPrimitive("name").getAsString().toLowerCase(Locale.ROOT);
             String gameDetailedDesc = gameData.getAsJsonPrimitive("detailed_description").getAsString().toLowerCase(Locale.ROOT);
+            String gameShortDesc = gameData.getAsJsonPrimitive("short_description").getAsString().toLowerCase(Locale.ROOT);
+
+
+            //publisher section currently just one
+            JsonArray gameDataPublishers = gameData.getAsJsonArray("publishers");
+            if (gameDataPublishers != null) {
+                String publisherBan = "wasabi";
+                for (int i = 0; i < gameDataPublishers.size(); i++) {
+                    if (gameDataPublishers.get(i).getAsString().toLowerCase(Locale.ROOT).contains(publisherBan)) {
+                        isAdultGame = true;
+                    }
+                }
+            }
 
             //basic field section
             onlyGames = gameType.equalsIgnoreCase("game");
@@ -85,9 +97,8 @@ public class SteamApiDetailService {
             adultJsonArrayWithTags.forEach(tag -> adultTags.add(tag.getAsString()));
 
             for (int i = 0; i < adultTags.size(); i++) {
-                if (gameName.contains(adultTags.get(i)) || gameDetailedDesc.contains(adultTags.get(i))) {
-                    log.error("ADULT: {} APPID: {} TAG: {}", gameName, appid, adultTags.get(i));
-                    fileDB.collectAdultAppIDS(appid);
+                if (gameName.contains(adultTags.get(i)) || gameShortDesc.contains(adultTags.get(i)) || gameDetailedDesc.contains(adultTags.get(i))) {
+                    //      log.error("ADULT: {} APPID: {} TAG: {}", gameName, appid, adultTags.get(i));
                     isAdultGame = true;
                     break;
                 }
