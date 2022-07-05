@@ -35,7 +35,7 @@
             </pagination-controls>
         </div>
     </div>
-    <div class="row flex-container" *ngIf="totalElements === 0"> 
+    <div class="row flex-container" *ngIf="!isPending && totalElements === 0"> 
         <div class="empty-result">
             <h4 class="pt-4 text-center"> Empty result with this filter</h4>
             <i class="fa-solid fa-face-frown"></i>

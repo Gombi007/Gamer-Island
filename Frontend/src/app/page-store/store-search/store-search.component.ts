@@ -6,6 +6,7 @@ import { catchError, EMPTY, Subject, switchMap, tap } from 'rxjs';
 import { GlobalService } from 'src/app/global.service';
 import { AuthorizationService } from 'src/app/login/service/authorization.service';
 import { STRINGS } from 'src/app/strings.enum';
+import { Options } from '@angular-slider/ngx-slider';
 
 @Component({
   selector: 'app-store-search',
@@ -24,6 +25,13 @@ export class StoreSearchComponent implements OnInit {
   genres = [];
   @Output()
   callFilterFunction = new EventEmitter<any>();
+
+  minValuePrice: number = 50;
+  maxValuePrice: number = 200;
+  optionsPrice: Options = {
+    floor: 0,
+    ceil: 250
+  };
 
   constructor(private author: AuthorizationService, private http: HttpClient, private global: GlobalService, private route: Router) { }
 

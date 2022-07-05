@@ -1,6 +1,11 @@
 .container-fluid{      
-    overflow-y: scroll;
+    overflow-y: hidden;
     background-color: rgba(56, 65, 94, 0.3);  
+}
+
+.container-fluid{      
+    overflow-y: auto;
+   
 }
 
 .flex-container{  

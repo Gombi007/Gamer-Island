@@ -1,4 +1,13 @@
+
+.search-container{ 
+    overflow: hidden; 
+
+}
+.search-container:hover{
+    overflow-y: auto;
+}
 .search {
+    width: 100%;
     background-color: rgba(31, 36, 36, 0.8);
 }
 
@@ -44,7 +53,7 @@
 .genres p {
     font-size: 0.9rem;
     cursor: pointer;
-    padding: 0.3rem;
+    padding: 0.22rem;
     margin: 0;
     background-color: rgba(65, 64, 64, 0.7);
 }
@@ -52,6 +61,21 @@
 .genres p:hover {
     background-color: rgba(24, 82, 105, 0.8);
 }
+
+.price-title {
+    background-image: linear-gradient(45deg, rgb(0, 0, 0), rgb(36, 75, 94));
+    padding: 1rem;
+    margin-top: 1rem;
+}
+
+.price {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    gap: 0.4rem;
+
+}
+
 
 .actual-filter {
     display: flex;
@@ -87,7 +111,7 @@
 }
 
 .validate {
-    padding-top: 0.5rem;  
+    padding-top: 0.5rem;
     display: flex;
     justify-content: center;
 }
@@ -100,3 +124,27 @@
     padding-left: 0.5rem;
     padding-right: 0.5rem;
 }
+
+
+/*custom scrollbar*/
+::-webkit-scrollbar {
+    width: 7px;
+}
+
+::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px grey;
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: grey;
+    border-radius: 5px;
+}
+
+@-moz-document url-prefix() {
+    .scroller {
+        scrollbar-width: thin;
+        scrollbar-color: grey;
+    }
+}
+
