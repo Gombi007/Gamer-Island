@@ -6,10 +6,7 @@ import com.gameisland.models.entities.SteamGame;
 import com.gameisland.repositories.SteamGameRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -34,19 +31,7 @@ public class SteamGameServiceImpl implements SteamGameService {
         Boolean isEmptyDatabase = steamGameRepository.findAll().isEmpty();
         if (!isEmptyDatabase) {
 
-            Sort sort = Sort.by(Sort.Direction.ASC, "name");
-            PageRequest pageRequest = PageRequest.of(page, size, sort);
-            Page<SteamGame> sortedAndPagedGames = steamGameRepository.findAll(pageRequest);
-            List<SteamGame> gamesInaPage = sortedAndPagedGames.getContent();
-
-            ArrayList<SteamGameDTO> concertToDto = new ArrayList<>();
-            for (int i = 0; i < gamesInaPage.size(); i++) {
-                concertToDto.add(SteamGameDTO.convertToGameDto(gamesInaPage.get(i)));
-            }
-
-            Page<SteamGameDTO> resultPageWithDto = new PageImpl<>(concertToDto, sortedAndPagedGames.getPageable(), sortedAndPagedGames.getTotalElements());
-
-            return resultPageWithDto;
+            return getGamesInPaginationByAttribute(page, size, "", "");
 
         }
         throw new ResourceNotFoundException("Empty database");
@@ -91,6 +76,35 @@ public class SteamGameServiceImpl implements SteamGameService {
             }
         }
         return allGenresInDB;
+    }
+
+    private Page<SteamGameDTO> getGamesInPaginationByAttribute(int page, int size, String attribute, String attributeValue) {
+        if (!attribute.isEmpty() && !attributeValue.isEmpty()) {
+            attribute = attribute.toLowerCase(Locale.ROOT);
+            attributeValue = attributeValue.toLowerCase(Locale.ROOT);
+        }
+
+        Page<SteamGame> sortedAndPagedGames = null;
+        Sort sort = Sort.by(Sort.Direction.ASC, "name");
+        // get all games
+        if (attribute.equals("")) {
+            Pageable pageRequest = PageRequest.of(page, size, sort);
+            sortedAndPagedGames = steamGameRepository.findAll(pageRequest);
+        }
+        // get games by name
+        if (attribute.equals("name")) {
+            Pageable pageRequest = PageRequest.of(page, size, sort);
+            sortedAndPagedGames = steamGameRepository.findAllByNameContainsIgnoreCase(attributeValue, pageRequest);
+        }
+
+        List<SteamGame> gamesInaPage = sortedAndPagedGames.getContent();
+        ArrayList<SteamGameDTO> concertToDto = new ArrayList<>();
+        for (int i = 0; i < gamesInaPage.size(); i++) {
+            concertToDto.add(SteamGameDTO.convertToGameDto(gamesInaPage.get(i)));
+        }
+        Page<SteamGameDTO> resultPageWithDto = new PageImpl<>(concertToDto, sortedAndPagedGames.getPageable(), sortedAndPagedGames.getTotalElements());
+
+        return resultPageWithDto;
     }
 
     // Services for admin only
