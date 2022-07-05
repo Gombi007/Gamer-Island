@@ -1,24 +1,26 @@
 <div class="search" [ngStyle]="{'height.px': innerHeight}">
     <div class="store-search">
-        <form class="search-form">
+        <form class="search-form" [formGroup]="Search">
             <div class="gap-3 d-flex justify-content-center align-items-center">
                 <i class="fa-solid fa-money-check-dollar"></i>
                 <h3>Store</h3>
                 <i class="fa-solid fa-cart-shopping"></i>
             </div>
-            <div class="search-target gap-4 d-flex justify-content-center">
+            <div class="search-target pt-2 gap-4 d-flex justify-content-center">
                 <div class="form-check-inline m-0">
-                    <input class="form-check-input" type="radio" name="searchTarget" id="searchTarget1">
-                    <label class="form-check-label ps-1" for="searchTarget">NAME</label>                    
+                    <input class="form-check-input" type="radio" value="name" formControlName="searchInNameOrDescription" checked>
+                    <label class="form-check-label ps-1" for="searchInNameOrDescription">NAME</label>
                 </div>
                 <div class="form-check-inline m-0">
-                    <input class="form-check-input" type="radio" name="searchTarget" id="searchTarget2">
-                    <label class="form-check-label ps-1" for="searchTarget">DESCRIPTION</label>                    
+                    <input class="form-check-input" type="radio" value="description" formControlName="searchInNameOrDescription">
+                    <label class="form-check-label ps-1" for="searchInNameOrDescription">DESCRIPTION</label>
                 </div>
             </div>
-
             <div class="store-search-input gap-2 d-flex justify-content-center align-items-center">
-                <input type="text" name="search" id="gameSearch">
+                <input type="text" name="search" id="gameSearch" formControlName="searchGameInput">
+            </div>
+            <div class="pt-2 d-flex justify-content-center align-items-center">
+                <button type="button" class="btn btn-secondary btn-sm" (click)="getSearchData()">Search</button>
             </div>
         </form>
     </div>

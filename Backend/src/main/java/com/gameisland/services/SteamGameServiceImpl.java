@@ -96,8 +96,8 @@ public class SteamGameServiceImpl implements SteamGameService {
         while (iterator.hasNext()) {
             SteamGame game = steamApiDetailService.saveSteamGamesIntoTheDatabase(iterator.next());
             if (game != null) {
-                log.warn("{}. Game saved: {}", counter, game.getName());
                 steamGameRepository.save(game);
+                log.warn("{}. Game saved: {}", counter, game.getName());
                 counter++;
             }
         }

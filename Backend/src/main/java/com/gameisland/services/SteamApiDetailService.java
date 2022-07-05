@@ -244,8 +244,10 @@ public class SteamApiDetailService {
             JsonArray gameDataScreenshots = gameData.getAsJsonArray("screenshots");
             if (gameDataScreenshots != null) {
                 for (int i = 0; i < gameDataScreenshots.size(); i++) {
-                    JsonObject screenshotObject = gameDataScreenshots.get(i).getAsJsonObject();
-                    screenshots += screenshotObject.get("path_full").getAsString() + ";";
+                    if (i<15) {
+                        JsonObject screenshotObject = gameDataScreenshots.get(i).getAsJsonObject();
+                        screenshots += screenshotObject.get("path_full").getAsString() + ";";
+                    }
                 }
             }
 
