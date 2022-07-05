@@ -14,6 +14,8 @@ You can browse in the store and buy games for fake money.
 
 After purchase you can see these games in your own library.
 
+Searching in the store based on genre, price or name.
+
 On the header you can see your username, avatar, balance and your cart. (if you put item in your cart, you will see the item counter how many items you put inside)
 
 
@@ -21,8 +23,6 @@ On the header you can see your username, avatar, balance and your cart. (if you 
 #### UNDER CONSTRUCTION
 
 Achievement collecting in your library for example: you will get a badge because you owning this game
-
-Searching in the store based on genre, price or name 
 
 Profile page where you able to modify your avatar and replenishment your balance with fake money
 
