@@ -1,5 +1,5 @@
-<div class="container-fluid" #scrollableDiv [ngStyle]="{'height.px': innerHeight}">
-    <div class="row flex-container" *ngIf="!isPending">
+<div class="container-fluid" #scrollableDiv [ngStyle]="{'height.px': innerHeight}" >
+    <div class="row flex-container" *ngIf="!isPending && totalElements !== 0">
         <ng-container *ngFor="let game of gamesFromDatabase | paginate
         : {
             itemsPerPage: itemsPerPage,
@@ -35,7 +35,12 @@
             </pagination-controls>
         </div>
     </div>
-
+    <div class="row flex-container" *ngIf="totalElements === 0"> 
+        <div class="empty-result">
+            <h4 class="pt-4 text-center"> Empty result with this filter</h4>
+            <i class="fa-solid fa-face-frown"></i>
+        </div>
+    </div>
     <div class="row flex-container" *ngIf="isPending">
         <div class="row">
             <h3 class="pending" *ngIf="isPending">

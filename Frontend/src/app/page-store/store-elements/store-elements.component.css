@@ -83,6 +83,16 @@
     background-image: linear-gradient(45deg, rgba(0, 0, 0,0.9), rgba(36, 75, 94,0.9));
 }
 
+.empty-result{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.empty-result i{
+    width: max-content;
+}
+
 /*custom scrollbar*/
 ::-webkit-scrollbar {
     width: 7px;
