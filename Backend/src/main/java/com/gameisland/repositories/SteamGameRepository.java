@@ -1,6 +1,5 @@
 package com.gameisland.repositories;
 
-import com.gameisland.models.dto.SteamGameDTO;
 import com.gameisland.models.entities.SteamGame;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -19,6 +18,10 @@ public interface SteamGameRepository extends JpaRepository<SteamGame, Long> {
     Page<SteamGame> findAll(Pageable pageable);
 
     Page<SteamGame> findAllByNameContainsIgnoreCase(String name, Pageable pageable);
+
+    Page<SteamGame> findAllByDetailedDescriptionContainsIgnoreCase(String name, Pageable pageable);
+
+    Page<SteamGame> findAllByGenresContainsIgnoreCase(String name, Pageable pageable);
 
 
     @Query(value = "SELECT steam_app_id FROM steam_games", nativeQuery = true)

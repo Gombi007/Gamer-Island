@@ -97,16 +97,27 @@ public class SteamGameServiceImpl implements SteamGameService {
 
         Page<SteamGame> sortedAndPagedGames = null;
         Sort sort = Sort.by(Sort.Direction.ASC, "name");
-        // get all games
+
         if (attribute.equals("")) {
             Pageable pageRequest = PageRequest.of(page, size, sort);
             sortedAndPagedGames = steamGameRepository.findAll(pageRequest);
         }
-        // get games by name
+
         if (attribute.equals("name")) {
             Pageable pageRequest = PageRequest.of(page, size, sort);
             sortedAndPagedGames = steamGameRepository.findAllByNameContainsIgnoreCase(attributeValue, pageRequest);
         }
+
+        if (attribute.equals("description")) {
+            Pageable pageRequest = PageRequest.of(page, size, sort);
+            sortedAndPagedGames = steamGameRepository.findAllByDetailedDescriptionContainsIgnoreCase(attributeValue, pageRequest);
+        }
+
+        if (attribute.equals("genre")) {
+            Pageable pageRequest = PageRequest.of(page, size, sort);
+            sortedAndPagedGames = steamGameRepository.findAllByGenresContainsIgnoreCase(attributeValue, pageRequest);
+        }
+
 
         List<SteamGame> gamesInaPage = sortedAndPagedGames.getContent();
         ArrayList<SteamGameDTO> concertToDto = new ArrayList<>();
