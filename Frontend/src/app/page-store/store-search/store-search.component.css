@@ -1,3 +1,150 @@
-.search{
-    background-color: rgba(31, 36, 36,0.8);
+
+.search-container{ 
+    overflow: hidden; 
+
 }
+.search-container:hover{
+    overflow-y: auto;
+}
+.search {
+    width: 100%;
+    background-color: rgba(31, 36, 36, 0.8);
+}
+
+.store-search {
+    background-image: linear-gradient(45deg, rgb(0, 0, 0), rgb(36, 75, 94));
+    padding: 0.6rem;
+}
+
+.store-search i {
+    font-size: 1.4rem;
+}
+
+.store-search-input {
+    padding: 0.2rem;
+    height: fit-content;
+}
+
+.store-search-input input {
+    background-color: rgb(36, 75, 94);
+    border: none;
+    color: antiquewhite;
+    width: 13rem;
+}
+
+.store-search-input input:focus {
+    outline: 0;
+}
+
+.genre-title {
+    background-image: linear-gradient(45deg, rgb(0, 0, 0), rgb(36, 75, 94));
+    padding: 1rem;
+    margin-top: 0.5rem;
+}
+
+.genres {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    gap: 0.4rem;
+
+}
+
+.genres p {
+    font-size: 0.9rem;
+    cursor: pointer;
+    padding: 0.22rem;
+    margin: 0;
+    background-color: rgba(65, 64, 64, 0.7);
+}
+
+.genres p:hover {
+    background-color: rgba(24, 82, 105, 0.8);
+}
+
+.price-title {
+    background-image: linear-gradient(45deg, rgb(0, 0, 0), rgb(36, 75, 94));
+    padding: 1rem;
+    margin-top: 0.5rem;
+}
+
+.price {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    gap: 0.4rem;
+
+}
+
+
+.actual-filter {
+    display: flex;
+    justify-content: space-between;
+    align-content: center;
+    padding: 0.5rem;
+    margin-bottom: 0.5rem;
+
+}
+
+.actual-filter i {
+    color: red;
+    font-size: 1.5rem;
+}
+
+.actual-filter p {
+    margin: 0;
+    padding: 0;
+}
+
+
+.actual-filter-empty {
+    background-image: linear-gradient(45deg, rgb(0, 0, 0), rgb(36, 75, 94));
+}
+
+.actual-filter-not-empty {
+    background-image: linear-gradient(45deg, rgb(0, 0, 0), rgb(94, 36, 36));
+}
+
+.actual-filter p {
+    padding-right: 0.5rem;
+    padding-left: 0.5rem;
+}
+
+.validate {
+    padding-top: 0.5rem;
+    display: flex;
+    justify-content: center;
+}
+
+.validate p {
+    width: max-content;
+    background-image: linear-gradient(45deg, rgb(70, 4, 4), rgb(226, 10, 10));
+    padding: 0;
+    margin: 0;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+}
+
+
+/*custom scrollbar*/
+::-webkit-scrollbar {
+    width: 7px;
+}
+
+::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px grey;
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: grey;
+    border-radius: 5px;
+}
+
+@-moz-document url-prefix() {
+    .scroller {
+        scrollbar-width: thin;
+        scrollbar-color: grey;
+    }
+}
+

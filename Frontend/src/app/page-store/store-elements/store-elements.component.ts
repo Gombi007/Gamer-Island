@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { AfterViewChecked, Component, ElementRef, EventEmitter, HostListener, OnChanges, OnDestroy, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
+import { AfterViewChecked, Component, ElementRef, EventEmitter, HostListener, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { catchError, EMPTY, Subject, switchMap, tap } from 'rxjs';
 import { GameDetails } from 'src/app/game-details.model';
@@ -13,6 +13,8 @@ import { STRINGS } from 'src/app/strings.enum';
   styleUrls: ['./store-elements.component.css']
 })
 export class StoreElementsComponent implements OnInit, AfterViewChecked {
+  @Input()
+  filterFromStoreSearch = [];
   @Output() selectedGameAppid = new EventEmitter<number>();
   //@ts-ignore
   @ViewChild('scrollableDiv', { read: ElementRef }) scrollableDiv: ElementRef<any>;
@@ -20,18 +22,37 @@ export class StoreElementsComponent implements OnInit, AfterViewChecked {
   headerHeight: number = STRINGS.HEADER_HEIGHT_FOR_CONTENT;
   gamesFromDatabase: GameDetails[] = [];
   isPending = false;
-  currentPage: number = this.global.storeCurrentPage;
   totalElements: number = 0;
   count: number = 0;
   itemsPerPage = 40;
+
 
   constructor(private http: HttpClient, private author: AuthorizationService, private route: Router, private global: GlobalService) { }
 
   ngOnInit(): void {
     this.innerHeight = window.innerHeight - this.headerHeight;
-    this.shopGames$.subscribe();
+    this.filteredShopGames$.subscribe();
     //@ts-ignore
-    this.shopGames$.next();
+    this.filteredShopGames$.next();
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    let filter = changes['filterFromStoreSearch'];
+    if (!filter.firstChange) {
+      this.filterByGenreOrSearchStoreComponent(filter.currentValue);
+    }
+  }
+
+  get actualFilterAttribute(): string {
+    return this.global.filteredShopGamesBy[0];
+  }
+
+  get actualFilterAttributeValue(): string {
+    return this.global.filteredShopGamesBy[1];
+  }
+
+  get currentPage(): number {
+    return this.global.storeCurrentPage;
   }
 
   ngAfterViewChecked() {
@@ -43,23 +64,12 @@ export class StoreElementsComponent implements OnInit, AfterViewChecked {
   onResize() {
     this.innerHeight = window.innerHeight - this.headerHeight;
   }
-
-  onTableDataChange(event: any) {
-    this.global.storeCurrentPage = event;
-    this.currentPage = this.global.storeCurrentPage;
-    //@ts-ignore
-    this.shopGames$.next();
-    this.scrollableDiv.nativeElement.scrollTop = 0
-    this.global.storeCurrentYPosition = 0;
-  }
-
-
-  shopGames$ = new Subject().pipe(
+  filteredShopGames$ = new Subject().pipe(
     tap(() => {
       this.isPending = true;
     }),
     switchMap(() =>
-      this.http.get(STRINGS.API_ALL_GAMES_FOR_SHOP + "?page=" + (this.global.storeCurrentPage - 1) + "&size=" + this.itemsPerPage, this.author.TokenForRequests())),
+      this.http.get(STRINGS.API_GAMES_FILTER_BY_ATTRIBUTE + "?page=" + (this.global.storeCurrentPage - 1) + "&size=" + this.itemsPerPage + "&attribute=" + this.actualFilterAttribute + "&attributeValue=" + this.actualFilterAttributeValue, this.author.TokenForRequests())),
     tap((data: any) => {
       this.totalElements = data.totalElements;
       this.gamesFromDatabase = data.content;
@@ -103,11 +113,34 @@ export class StoreElementsComponent implements OnInit, AfterViewChecked {
     }
     return 0;
   }
+  onTableDataChange(event: any) {
+    this.global.storeCurrentPage = event;
+    //@ts-ignore
+    this.filteredShopGames$.next();
+    this.scrollableDiv.nativeElement.scrollTop = 0
+    this.global.storeCurrentYPosition = 0;
+  }
+
 
   goToGameDeatil(steam_appid: number) {
     this.global.storeCurrentYPosition = this.scrollableDiv.nativeElement.scrollTop;
     this.selectedGameAppid.emit(steam_appid);
     this.route.navigate(["store/", steam_appid])
+  }
+
+  filterByGenreOrSearchStoreComponent(genreValueOrArray: any) {
+    this.global.filteredShopGamesBy = [];
+    this.global.storeCurrentPage = 1;
+    this.global.storeCurrentYPosition = 0;
+    if (Array.isArray(genreValueOrArray)) {
+      this.global.filteredShopGamesBy.push(genreValueOrArray[0]);
+      this.global.filteredShopGamesBy.push(genreValueOrArray[1]);
+    } else {
+      this.global.filteredShopGamesBy.push('genre');
+      this.global.filteredShopGamesBy.push(genreValueOrArray);
+    }
+    //@ts-ignore
+    this.filteredShopGames$.next();
   }
 
 }

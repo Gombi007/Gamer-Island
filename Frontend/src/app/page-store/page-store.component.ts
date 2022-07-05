@@ -9,10 +9,15 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrls: ['./page-store.component.css']
 })
 export class PageStoreComponent implements OnInit {
+  data = [];
   constructor() { }
 
   ngOnInit(): void {
 
+  }
+
+  parentCallFilterFunction(event: any) {
+    this.data = event;
   }
 
 }

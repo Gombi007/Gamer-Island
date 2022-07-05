@@ -50,9 +50,15 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
                     SecurityContextHolder.getContext().setAuthentication(authenticationToken);
                     filterChain.doFilter(request, response);
                 } catch (Exception exception) {
-                    log.error("Error: {}", exception.getMessage());
                     Map<String, String> map = new HashMap<>();
-                    map.put("error_message", exception.getMessage());
+                    if (exception.getMessage() == null) {
+                        map.put("error_message", "Error during authorization");
+                        log.error("Error: NULLPOINTER EXCEPTION IN AUTHOR CLASS");
+                    } else {
+                        log.error("Error: {}", exception.getMessage());
+                        map.put("error_message", exception.getMessage());
+
+                    }
                     response.setStatus(FORBIDDEN.value());
                     new ObjectMapper().writeValue(response.getOutputStream(), map);
 
