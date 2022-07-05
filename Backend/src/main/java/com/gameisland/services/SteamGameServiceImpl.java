@@ -26,16 +26,6 @@ public class SteamGameServiceImpl implements SteamGameService {
         this.steamGameRepository = steamGameRepository;
     }
 
-    @Override
-    public Page<SteamGameDTO> getAllGamesFromDatabaseAndConvertDto(int page, int size) {
-        Boolean isEmptyDatabase = steamGameRepository.findAll().isEmpty();
-        if (!isEmptyDatabase) {
-
-            return getGamesInPaginationByAttribute(page, size, "", "");
-
-        }
-        throw new ResourceNotFoundException("Empty database");
-    }
 
     @Override
     public Page<SteamGameDTO> getGamesByNameOrGenreOrDescriptionAndConvertDto(int page, int size, String attribute, String attributeVale) {
@@ -87,6 +77,22 @@ public class SteamGameServiceImpl implements SteamGameService {
             }
         }
         return allGenresInDB;
+    }
+
+    @Override
+    public Map<String, Double> getMinAndMaxPrice() {
+        Double minPrice = steamGameRepository.getMinPrice();
+        Double maxPrice = steamGameRepository.getMaxPrice();
+        Map<String, Double> result = new HashMap<>();
+        if (minPrice.isNaN()) {
+            minPrice = 0.0;
+        }
+        if (maxPrice.isNaN()) {
+            maxPrice = 999999.0;
+        }
+        result.put("min", minPrice);
+        result.put("max", maxPrice);
+        return result;
     }
 
     private Page<SteamGameDTO> getGamesInPaginationByAttribute(int page, int size, String attribute, String attributeValue) {

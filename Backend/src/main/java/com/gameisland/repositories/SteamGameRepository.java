@@ -37,4 +37,10 @@ public interface SteamGameRepository extends JpaRepository<SteamGame, Long> {
     @Query(value = "SELECT genres FROM steam_games", nativeQuery = true)
     List<String> allGenres();
 
+    @Query(value = "SELECT MIN(price) FROM steam_games", nativeQuery = true)
+    Double getMinPrice();
+
+    @Query(value = "SELECT MAX(price) FROM steam_games", nativeQuery = true)
+    Double getMaxPrice();
+
 }

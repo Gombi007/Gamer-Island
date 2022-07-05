@@ -26,7 +26,7 @@ export class StoreSearchComponent implements OnInit {
   @Output()
   callFilterFunction = new EventEmitter<any>();
 
-  minValuePrice: number = 50;
+  minValuePrice: number = 5;
   maxValuePrice: number = 200;
   optionsPrice: Options = {
     floor: 0,
