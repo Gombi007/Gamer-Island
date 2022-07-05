@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, EventEmitter, HostListener, OnInit, Output } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { catchError, EMPTY, Subject, switchMap, tap } from 'rxjs';
+import { catchError, EMPTY, map, Subject, switchMap, tap } from 'rxjs';
 import { GlobalService } from 'src/app/global.service';
 import { AuthorizationService } from 'src/app/login/service/authorization.service';
 import { STRINGS } from 'src/app/strings.enum';
@@ -30,7 +30,7 @@ export class StoreSearchComponent implements OnInit {
   maxValuePrice: number = 200;
   optionsPrice: Options = {
     floor: 0,
-    ceil: 250
+    ceil: 200
   };
 
   constructor(private author: AuthorizationService, private http: HttpClient, private global: GlobalService, private route: Router) { }
@@ -40,6 +40,7 @@ export class StoreSearchComponent implements OnInit {
     this.genres$.subscribe();
     //@ts-ignore
     this.genres$.next();
+    this.getMinMaxPrice();
 
   }
 
@@ -49,6 +50,20 @@ export class StoreSearchComponent implements OnInit {
   }
   get actualFilterAttributeValue(): string {
     return this.global.filteredShopGamesBy[1];
+  }
+
+  getMinMaxPrice() {
+    let price: any = { 'min': 0, 'max': 999999 }
+    this.http.get(STRINGS.API_GAMES_MIN_MAX_PRICE, this.author.TokenForRequests()).subscribe(
+      (data: any) => {
+        console.log(data.min)
+        this.minValuePrice = data.min;
+        this.maxValuePrice = data.max;
+        let newOptions: Options = Object.assign({}, this.optionsPrice);
+        newOptions.floor =  data.min;
+        newOptions.ceil =  data.max;
+        this.optionsPrice = newOptions;
+  });
   }
 
 
