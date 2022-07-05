@@ -3,16 +3,18 @@
         <form class="search-form" [formGroup]="Search">
             <div class="gap-3 d-flex justify-content-center align-items-center">
                 <i class="fa-solid fa-money-check-dollar"></i>
-                <h3>Store</h3>
+                <h4>STORE</h4>
                 <i class="fa-solid fa-cart-shopping"></i>
             </div>
             <div class="search-target pt-2 gap-4 d-flex justify-content-center">
                 <div class="form-check-inline m-0">
-                    <input class="form-check-input" type="radio" value="name" formControlName="searchInNameOrDescription" checked>
+                    <input class="form-check-input" type="radio" value="name"
+                        formControlName="searchInNameOrDescription" checked>
                     <label class="form-check-label ps-1" for="searchInNameOrDescription">NAME</label>
                 </div>
                 <div class="form-check-inline m-0">
-                    <input class="form-check-input" type="radio" value="description" formControlName="searchInNameOrDescription">
+                    <input class="form-check-input" type="radio" value="description"
+                        formControlName="searchInNameOrDescription">
                     <label class="form-check-label ps-1" for="searchInNameOrDescription">DESCRIPTION</label>
                 </div>
             </div>
@@ -23,5 +25,13 @@
                 <button type="button" class="btn btn-secondary btn-sm" (click)="getSearchData()">Search</button>
             </div>
         </form>
+    </div>
+    <div class="genre-title">
+        <h4 class="text-center mb-3">SEARCH BY GENRE</h4>
+        <div class="genres">
+            <ng-container *ngFor="let genre of genres">
+                <p>{{genre}}</p>
+            </ng-container>
+        </div>
     </div>
 </div>

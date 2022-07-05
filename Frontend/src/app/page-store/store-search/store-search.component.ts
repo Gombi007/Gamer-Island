@@ -21,6 +21,7 @@ export class StoreSearchComponent implements OnInit {
       searchInNameOrDescription: new FormControl("name"),
     }
   );
+  genres =[];
 
   constructor(private author: AuthorizationService, private http: HttpClient, private global: GlobalService,private route:Router) { }
 
@@ -35,8 +36,8 @@ export class StoreSearchComponent implements OnInit {
 
   genres$ = new Subject().pipe(
     switchMap(() => this.http.get(STRINGS.API_GAMES_GET_ALL_GENRES, this.author.TokenForRequests())),
-    tap((data: any) => {
-      console.log(data);
+    tap((data: any) => { 
+      this.genres = data;
     }),
     catchError(error => {
       let message = error.error.error_message;
