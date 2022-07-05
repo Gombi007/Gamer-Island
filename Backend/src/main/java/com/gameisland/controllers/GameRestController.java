@@ -40,5 +40,14 @@ public class GameRestController {
         return ResponseEntity.status(HttpStatus.OK).body(gameService.getAllGenres());
     }
 
+    @PreAuthorize("hasRole('USER')")
+    @GetMapping("/shop/filter")
+    public ResponseEntity<Object> getGamesByAttributeFilter(@RequestParam(name = "page", defaultValue = "0") int page,
+                                                            @RequestParam(name = "size", defaultValue = "1") int size,
+                                                            @RequestParam(name = "attribute", defaultValue = "") String attribute,
+                                                            @RequestParam(name = "attributeValue", defaultValue = "") String attributeValue) {
+        return ResponseEntity.status(HttpStatus.OK).body(gameService.getGamesByNameOrGenreOrDescriptionAndConvertDto(page, size, attribute, attributeValue));
+    }
+
 
 }

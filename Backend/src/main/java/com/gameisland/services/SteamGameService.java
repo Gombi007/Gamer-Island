@@ -9,6 +9,8 @@ public interface SteamGameService {
 
     Page<SteamGameDTO> getAllGamesFromDatabaseAndConvertDto(int page, int size);
 
+    Page<SteamGameDTO> getGamesByNameOrGenreOrDescriptionAndConvertDto(int page, int size, String attribute, String attributeVale);
+
     SteamGameDTO getGameDetailsByAppId(Long appId);
 
     public void saveProductsInAFileViaSteamApi();

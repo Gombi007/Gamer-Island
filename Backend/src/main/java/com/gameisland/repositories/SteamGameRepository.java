@@ -1,5 +1,6 @@
 package com.gameisland.repositories;
 
+import com.gameisland.models.dto.SteamGameDTO;
 import com.gameisland.models.entities.SteamGame;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
