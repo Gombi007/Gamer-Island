@@ -1,4 +1,10 @@
 <div class="search" [ngStyle]="{'height.px': innerHeight}">
+    <div class="actual-filter" [ngClass]=" actualFilterAttributeValue === '' ? 'actual-filter-empty':'actual-filter-not-empty'">
+        <p *ngIf="actualFilterAttributeValue !== ''">Filter: {{actualFilterAttribute}}<br> {{actualFilterAttributeValue}}</p>
+        <i class="fa-solid fa-xmark"  *ngIf="actualFilterAttributeValue !== ''" (click)="removeFilter()"></i>  
+        <p  *ngIf="actualFilterAttributeValue === ''">No Filter</p>      
+
+    </div>
     <div class="store-search">
         <form class="search-form" [formGroup]="Search">
             <div class="gap-3 d-flex justify-content-center align-items-center">
@@ -25,12 +31,15 @@
                 <button type="button" class="btn btn-secondary btn-sm" (click)="getSearchData()">Search</button>
             </div>
         </form>
+        <div class="validate">
+            <p *ngIf="searchInpuError['searchGameInput'].errors !== null">Min 3 and Max 22 lenght</p>              
+         </div>
     </div>
     <div class="genre-title">
         <h4 class="text-center mb-3">SEARCH BY GENRE</h4>
         <div class="genres">
             <ng-container *ngFor="let genre of genres">
-                <p>{{genre}}</p>
+                <p (click)="getGenre(genre)">{{genre}}</p>
             </ng-container>
         </div>
     </div>

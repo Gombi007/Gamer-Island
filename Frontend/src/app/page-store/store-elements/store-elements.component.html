@@ -1,5 +1,4 @@
 <div class="container-fluid" #scrollableDiv [ngStyle]="{'height.px': innerHeight}">
-    
     <div class="row flex-container" *ngIf="!isPending">
         <ng-container *ngFor="let game of gamesFromDatabase | paginate
         : {
@@ -15,7 +14,7 @@
                 </div>
                 <div class="genres">
                     <ng-container *ngFor="let gameGenre of game.genres">
-                        <p>{{gameGenre}}</p>
+                        <p (click)="filterByGenreOrSearchStoreComponent(gameGenre)">{{gameGenre}}</p>
                     </ng-container>
                 </div>
                 <div class="platforms_age">

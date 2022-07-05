@@ -13,7 +13,8 @@ export class GlobalService {
   experiedSession = false;
   usernameFromServer = 'PROFILE'
   uuid: any
-  cartItemsCounter = 0;
+  cartItemsCounter = 0; 
+  filteredShopGamesBy:string[] = ['',''];
 
   constructor(private http: HttpClient, private author: AuthorizationService) {
   }

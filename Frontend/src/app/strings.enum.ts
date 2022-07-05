@@ -9,6 +9,7 @@ export enum STRINGS {
     API_GAMES_DETAILS = 'http://localhost:8081/api/games/',
     API_GAMES_GET_ALL_CART_GAMES = 'http://localhost:8081/api/games/cart',
     API_GAMES_GET_ALL_GENRES = 'http://localhost:8081/api/games/genres',
+    API_GAMES_FILTER_BY_ATTRIBUTE = 'http://localhost:8081/api/games/shop/filter',
     HEADER_HEIGHT_FOR_CONTENT = 54,
     HEADER_HEIGHT_FOR_LEFT_SIDE = 153,
 }

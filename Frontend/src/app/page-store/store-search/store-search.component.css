@@ -47,6 +47,55 @@
     margin: 0;
     background-color: rgba(65, 64, 64, 0.7);
 }
-.genres p:hover{
+
+.genres p:hover {
     background-color: rgba(24, 82, 105, 0.8);
+}
+
+.actual-filter {
+    display: flex;
+    justify-content: space-between;
+    align-content: center;
+    padding: 0.5rem;
+    margin-bottom: 1rem;
+
+}
+
+.actual-filter i {
+    color: red;
+    font-size: 1.5rem;
+}
+
+.actual-filter p {
+    margin: 0;
+    padding: 0;
+}
+
+
+.actual-filter-empty {
+    background-image: linear-gradient(45deg, rgb(0, 0, 0), rgb(36, 75, 94));
+}
+
+.actual-filter-not-empty {
+    background-image: linear-gradient(45deg, rgb(0, 0, 0), rgb(94, 36, 36));
+}
+
+.actual-filter p {
+    padding-right: 0.5rem;
+    padding-left: 0.5rem;
+}
+
+.validate {
+    padding-top: 0.5rem;  
+    display: flex;
+    justify-content: center;
+}
+
+.validate p {
+    width: max-content;
+    background-image: linear-gradient(45deg, rgb(70, 4, 4), rgb(226, 10, 10));
+    padding: 0;
+    margin: 0;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
 }
