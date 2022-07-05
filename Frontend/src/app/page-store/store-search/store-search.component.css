@@ -39,7 +39,7 @@
 .genre-title {
     background-image: linear-gradient(45deg, rgb(0, 0, 0), rgb(36, 75, 94));
     padding: 1rem;
-    margin-top: 1rem;
+    margin-top: 0.5rem;
 }
 
 .genres {
@@ -65,7 +65,7 @@
 .price-title {
     background-image: linear-gradient(45deg, rgb(0, 0, 0), rgb(36, 75, 94));
     padding: 1rem;
-    margin-top: 1rem;
+    margin-top: 0.5rem;
 }
 
 .price {
@@ -82,7 +82,7 @@
     justify-content: space-between;
     align-content: center;
     padding: 0.5rem;
-    margin-bottom: 1rem;
+    margin-bottom: 0.5rem;
 
 }
 

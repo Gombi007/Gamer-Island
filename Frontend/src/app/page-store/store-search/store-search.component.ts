@@ -25,12 +25,11 @@ export class StoreSearchComponent implements OnInit {
   genres = [];
   @Output()
   callFilterFunction = new EventEmitter<any>();
-
-  minValuePrice: number = 5;
-  maxValuePrice: number = 200;
+  minValuePrice: number = 30;
+  maxValuePrice: number = 130;
   optionsPrice: Options = {
     floor: 0,
-    ceil: 200
+    ceil: 170
   };
 
   constructor(private author: AuthorizationService, private http: HttpClient, private global: GlobalService, private route: Router) { }
@@ -41,7 +40,6 @@ export class StoreSearchComponent implements OnInit {
     //@ts-ignore
     this.genres$.next();
     this.getMinMaxPrice();
-
   }
 
   get actualFilterAttribute(): string {
@@ -56,14 +54,11 @@ export class StoreSearchComponent implements OnInit {
     let price: any = { 'min': 0, 'max': 999999 }
     this.http.get(STRINGS.API_GAMES_MIN_MAX_PRICE, this.author.TokenForRequests()).subscribe(
       (data: any) => {
-        console.log(data.min)
-        this.minValuePrice = data.min;
-        this.maxValuePrice = data.max;
         let newOptions: Options = Object.assign({}, this.optionsPrice);
-        newOptions.floor =  data.min;
-        newOptions.ceil =  data.max;
+        newOptions.floor = data.min;
+        newOptions.ceil = data.max;
         this.optionsPrice = newOptions;
-  });
+      });
   }
 
 
@@ -99,6 +94,13 @@ export class StoreSearchComponent implements OnInit {
   //convenience getter for easy access to form fields
   get searchInpuError(): { [key: string]: AbstractControl; } {
     return this.Search.controls;
+  }
+
+  priceFilter() {
+
+    let attributeAndValue = ['price', this.minValuePrice+" - "+this.maxValuePrice];
+    this.callFilterFunction.emit(attributeAndValue);
+
   }
 
 

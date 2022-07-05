@@ -23,6 +23,8 @@ public interface SteamGameRepository extends JpaRepository<SteamGame, Long> {
 
     Page<SteamGame> findAllByGenresContainsIgnoreCase(String name, Pageable pageable);
 
+    Page<SteamGame> findAllByPriceBetween(Double min, Double max, Pageable pageable);
+
 
     @Query(value = "SELECT steam_app_id FROM steam_games", nativeQuery = true)
     Set<Long> allExistingSteamAppId();

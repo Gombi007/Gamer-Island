@@ -124,6 +124,20 @@ public class SteamGameServiceImpl implements SteamGameService {
             sortedAndPagedGames = steamGameRepository.findAllByGenresContainsIgnoreCase(attributeValue, pageRequest);
         }
 
+        if (attribute.equals("price")) {
+            Sort sortByLowToHighPrice = Sort.by(Sort.Direction.ASC, "price");
+            Pageable pageRequest = PageRequest.of(page, size, sortByLowToHighPrice);
+            String[] minAndMaxPrice = attributeValue.toLowerCase(Locale.ROOT).split("-");
+            Double minPrice = 0.0;
+            Double maxPrice = 0.0;
+            try {
+                minPrice = Double.parseDouble(minAndMaxPrice[0]);
+                maxPrice = Double.parseDouble(minAndMaxPrice[1]);
+            } catch (Exception exception) {
+                log.error("Error in parsing prices: {}", exception.getMessage());
+            }
+            sortedAndPagedGames = steamGameRepository.findAllByPriceBetween(minPrice, maxPrice, pageRequest);
+        }
 
         List<SteamGame> gamesInaPage = sortedAndPagedGames.getContent();
         ArrayList<SteamGameDTO> concertToDto = new ArrayList<>();
