@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -24,5 +25,8 @@ public interface SteamGameRepository extends JpaRepository<SteamGame, Long> {
     @Modifying
     @Query(value = "DELETE FROM user_game WHERE game_id = :gameId", nativeQuery = true)
     void deleteUserGameEntriesByGameId(Long gameId);
+
+    @Query(value = "SELECT genres FROM steam_games", nativeQuery = true)
+    List<String> allGenres();
 
 }

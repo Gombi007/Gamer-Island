@@ -78,6 +78,19 @@ public class SteamGameServiceImpl implements SteamGameService {
         return result;
     }
 
+    @Override
+    public Set<String> getAllGenres() {
+        Set<String> allGenresInDB = new TreeSet<>();
+        List<String> genres = steamGameRepository.allGenres();
+        for (int i = 0; i < genres.size(); i++) {
+            System.out.println(genres.get(i));
+            String[] tmp = genres.get(i).split(";");
+            for (int j = 0; j < tmp.length; j++) {
+                allGenresInDB.add(tmp[j]);
+            }
+        }
+        return allGenresInDB;
+    }
 
     // Services for admin only
     @Override

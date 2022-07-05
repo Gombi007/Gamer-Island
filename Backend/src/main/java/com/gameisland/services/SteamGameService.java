@@ -18,4 +18,6 @@ public interface SteamGameService {
     void removeAGamePermanentlyFromTheDatabaseById(Long id);
 
     Set<SteamGameDTO> getAllCartGames(Long[] steamAppIds);
+
+    Set<String> getAllGenres();
 }

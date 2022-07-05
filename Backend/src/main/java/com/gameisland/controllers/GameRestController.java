@@ -34,5 +34,11 @@ public class GameRestController {
         return ResponseEntity.status(HttpStatus.OK).body(gameService.getAllCartGames(steamAppIds));
     }
 
+    @PreAuthorize("hasRole('USER')")
+    @GetMapping("/genres")
+    public ResponseEntity<Object> getAllGenres() {
+        return ResponseEntity.status(HttpStatus.OK).body(gameService.getAllGenres());
+    }
+
 
 }
