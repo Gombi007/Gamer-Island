@@ -49,9 +49,9 @@ export class LibraryComponent implements OnInit {
       this.gamesClone = this.games;
     }),
     catchError(error => {
-      this.global.experiedSession = true;
       let message = error.error.error_message;
       if (message.includes("Token has expired")) {
+        this.global.experiedSession = true;
         this.route.navigate(['login']);
       }
       return EMPTY;

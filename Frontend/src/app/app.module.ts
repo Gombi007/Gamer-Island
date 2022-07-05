@@ -9,7 +9,7 @@ import { LibrarySearchComponent } from './page-library/library-search/library-se
 import { HttpClientModule } from '@angular/common/http';
 import { PageLibraryComponent } from './page-library/page-library.component';
 import { LoginComponent } from './login/login.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PageStoreComponent } from './page-store/page-store.component';
 import { PageCommunityComponent } from './page-community/page-community.component';
 import { PageProfileComponent } from './page-profile/page-profile.component';
@@ -18,6 +18,7 @@ import { StoreElementsComponent } from './page-store/store-elements/store-elemen
 import { GameDetailComponent } from './page-store/game-detail/game-detail.component';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { CartComponent } from './page-store/cart/cart.component';
+import { NgxSliderModule } from '@angular-slider/ngx-slider';
 
 
 @NgModule({
@@ -42,7 +43,9 @@ import { CartComponent } from './page-store/cart/cart.component';
     AppRoutingModule,
     HttpClientModule,
     ReactiveFormsModule, 
-    NgxPaginationModule
+    NgxPaginationModule,
+    NgxSliderModule,
+    FormsModule
 
    
   ],

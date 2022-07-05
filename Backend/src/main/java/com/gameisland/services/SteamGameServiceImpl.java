@@ -6,10 +6,7 @@ import com.gameisland.models.entities.SteamGame;
 import com.gameisland.repositories.SteamGameRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,24 +26,13 @@ public class SteamGameServiceImpl implements SteamGameService {
         this.steamGameRepository = steamGameRepository;
     }
 
+
     @Override
-    public Page<SteamGameDTO> getAllGamesFromDatabaseAndConvertDto(int page, int size) {
+    public Page<SteamGameDTO> getGamesByNameOrGenreOrDescriptionAndConvertDto(int page, int size, String attribute, String attributeVale) {
         Boolean isEmptyDatabase = steamGameRepository.findAll().isEmpty();
         if (!isEmptyDatabase) {
 
-            Sort sort = Sort.by(Sort.Direction.ASC, "name");
-            PageRequest pageRequest = PageRequest.of(page, size, sort);
-            Page<SteamGame> sortedAndPagedGames = steamGameRepository.findAll(pageRequest);
-            List<SteamGame> gamesInaPage = sortedAndPagedGames.getContent();
-
-            ArrayList<SteamGameDTO> concertToDto = new ArrayList<>();
-            for (int i = 0; i < gamesInaPage.size(); i++) {
-                concertToDto.add(SteamGameDTO.convertToGameDto(gamesInaPage.get(i)));
-            }
-
-            Page<SteamGameDTO> resultPageWithDto = new PageImpl<>(concertToDto, sortedAndPagedGames.getPageable(), sortedAndPagedGames.getTotalElements());
-
-            return resultPageWithDto;
+            return getGamesInPaginationByAttribute(page, size, attribute, attributeVale);
 
         }
         throw new ResourceNotFoundException("Empty database");
@@ -78,6 +64,90 @@ public class SteamGameServiceImpl implements SteamGameService {
         return result;
     }
 
+    @Override
+    public Set<String> getAllGenres() {
+        Set<String> allGenresInDB = new TreeSet<>();
+        List<String> genres = steamGameRepository.allGenres();
+        for (int i = 0; i < genres.size(); i++) {
+            String[] tmp = genres.get(i).split(";");
+            for (int j = 0; j < tmp.length; j++) {
+                if (tmp[j].length() > 1) {
+                    allGenresInDB.add(tmp[j]);
+                }
+            }
+        }
+        return allGenresInDB;
+    }
+
+    @Override
+    public Map<String, Double> getMinAndMaxPrice() {
+        Double minPrice = steamGameRepository.getMinPrice();
+        Double maxPrice = steamGameRepository.getMaxPrice();
+        Map<String, Double> result = new HashMap<>();
+        if (minPrice.isNaN()) {
+            minPrice = 0.0;
+        }
+        if (maxPrice.isNaN()) {
+            maxPrice = 999999.0;
+        }
+        result.put("min", minPrice);
+        result.put("max", maxPrice);
+        return result;
+    }
+
+    private Page<SteamGameDTO> getGamesInPaginationByAttribute(int page, int size, String attribute, String attributeValue) {
+        if (!attribute.isEmpty() && !attributeValue.isEmpty()) {
+            attribute = attribute.toLowerCase(Locale.ROOT);
+            attributeValue = attributeValue.toLowerCase(Locale.ROOT);
+        }
+
+        Page<SteamGame> sortedAndPagedGames = null;
+        Sort sort = Sort.by(Sort.Direction.ASC, "name");
+
+        if (attribute.equals("")) {
+            Pageable pageRequest = PageRequest.of(page, size, sort);
+            sortedAndPagedGames = steamGameRepository.findAll(pageRequest);
+        }
+
+        if (attribute.equals("name")) {
+            Pageable pageRequest = PageRequest.of(page, size, sort);
+            sortedAndPagedGames = steamGameRepository.findAllByNameContainsIgnoreCase(attributeValue, pageRequest);
+        }
+
+        if (attribute.equals("description")) {
+            Pageable pageRequest = PageRequest.of(page, size, sort);
+            sortedAndPagedGames = steamGameRepository.findAllByDetailedDescriptionContainsIgnoreCase(attributeValue, pageRequest);
+        }
+
+        if (attribute.equals("genre")) {
+            Pageable pageRequest = PageRequest.of(page, size, sort);
+            sortedAndPagedGames = steamGameRepository.findAllByGenresContainsIgnoreCase(attributeValue, pageRequest);
+        }
+
+        if (attribute.equals("price")) {
+            Sort sortByLowToHighPrice = Sort.by(Sort.Direction.ASC, "price");
+            Pageable pageRequest = PageRequest.of(page, size, sortByLowToHighPrice);
+            String[] minAndMaxPrice = attributeValue.toLowerCase(Locale.ROOT).split("-");
+            Double minPrice = 0.0;
+            Double maxPrice = 0.0;
+            try {
+                minPrice = Double.parseDouble(minAndMaxPrice[0]);
+                maxPrice = Double.parseDouble(minAndMaxPrice[1]);
+            } catch (Exception exception) {
+                log.error("Error in parsing prices: {}", exception.getMessage());
+            }
+            sortedAndPagedGames = steamGameRepository.findAllByPriceBetween(minPrice, maxPrice, pageRequest);
+        }
+
+        List<SteamGame> gamesInaPage = sortedAndPagedGames.getContent();
+        ArrayList<SteamGameDTO> concertToDto = new ArrayList<>();
+        for (int i = 0; i < gamesInaPage.size(); i++) {
+            concertToDto.add(SteamGameDTO.convertToGameDto(gamesInaPage.get(i)));
+        }
+        Page<SteamGameDTO> resultPageWithDto = new PageImpl<>(concertToDto, sortedAndPagedGames.getPageable(), sortedAndPagedGames.getTotalElements());
+
+        return resultPageWithDto;
+    }
 
     // Services for admin only
     @Override
@@ -96,8 +166,8 @@ public class SteamGameServiceImpl implements SteamGameService {
         while (iterator.hasNext()) {
             SteamGame game = steamApiDetailService.saveSteamGamesIntoTheDatabase(iterator.next());
             if (game != null) {
-                log.warn("{}. Game saved: {}", counter, game.getName());
                 steamGameRepository.save(game);
+                log.warn("{}. Game saved: {}", counter, game.getName());
                 counter++;
             }
         }
