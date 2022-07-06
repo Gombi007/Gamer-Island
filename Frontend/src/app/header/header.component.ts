@@ -16,7 +16,7 @@ export class HeaderComponent implements OnInit {
   @Input()
   userObject = { username: '', balance: 0, avatar: '' };
 
-  constructor(private auth: AuthenticateService, private global: GlobalService) { }
+  constructor(private auth: AuthenticateService, private global: GlobalService, private route:Router) { }
 
   ngOnInit(): void {
   }
@@ -29,6 +29,10 @@ export class HeaderComponent implements OnInit {
     this.global.isThereAnyItemInTheCart();
     return this.global.cartItemsCounter;
 
+  }
+
+  goToProfile(){
+    this.route.navigate(['profile']);
   }
 
 

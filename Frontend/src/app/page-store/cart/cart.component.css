@@ -3,7 +3,7 @@
 .cart {
     overflow-y: auto !important;
     width: 70%;
-    background-image: linear-gradient(45deg, rgba(0, 0, 0, 0.9), rgba(5, 105, 155, 0.9));
+    background-image: linear-gradient(45deg, rgb(0, 0, 0), rgb(36, 75, 94));
     padding-right: 10rem;
     padding-left: 10rem;
     padding-bottom: 10rem;
