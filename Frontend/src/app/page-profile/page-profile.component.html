@@ -1,1 +1,35 @@
-<p>page-profile works!</p>
+<div class="container-fluid" [ngStyle]="{'height.px': innerHeight}">
+    <div class="row d-flex justify-content-center text-center pt-4">
+        <div class="profile-container">
+            <h3>Profile</h3>
+            <form class="form">
+                <div class="row g-3 align-items-center pt-3">
+                    <div class="col">
+                        <h5>Avatar:</h5>                     
+                    </div>
+                    <div class="col-auto">
+                        <input type="text" id="inputPassword6" class="form-control" aria-describedby="passwordHelpInline">
+                    </div>
+                </div>    
+                <div class="row g-3 align-items-center pt-3">
+                    <div class="col">
+                        <h5>Username:</h5>                     
+                    </div>
+                    <div class="col-auto">
+                        <input type="text" id="inputPassword6" class="form-control" aria-describedby="passwordHelpInline">
+                    </div>
+                </div>        
+                <div class="row g-3 align-items-center pt-3">
+                    <div class="col">
+                        <h5>Email:</h5>                     
+                    </div>
+                    <div class="col-auto">
+                        <input type="text" id="inputPassword6" class="form-control" aria-describedby="passwordHelpInline">
+                    </div>
+                </div>    
+            </form>
+            <div class="buttons">
+                <button class="btn btn-secondary">Save</button>
+            </div>
+        </div>
+    </div>
