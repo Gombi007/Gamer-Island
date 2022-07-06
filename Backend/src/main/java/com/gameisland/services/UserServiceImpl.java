@@ -21,6 +21,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Slf4j
@@ -197,9 +199,21 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         if (!isExistingUer) {
             throw new ResourceNotFoundException("User doesn't exist with this UUID: " + uuid);
         }
-        User user = userRepository.getUserByUUID(uuid).get();
 
-        if (user != null) {
+        User user = userRepository.getUserByUUID(uuid).get();
+        Timestamp userLastBalanceUpdateTimestamp = user.getLastBalanceUpdate();
+
+        if (userLastBalanceUpdateTimestamp != null) {
+            LocalDateTime currentDateTime = LocalDateTime.now();
+            LocalDateTime userLastBalanceUpdated = userLastBalanceUpdateTimestamp.toLocalDateTime();
+            boolean limitHasExpired = userLastBalanceUpdated.plusSeconds(30).isBefore(currentDateTime);
+            if (limitHasExpired) {
+                user.setLastBalanceUpdate(Timestamp.valueOf(currentDateTime));
+                userRepository.save(user);
+            }
+
+        } else {
+            user.setLastBalanceUpdate(Timestamp.valueOf(LocalDateTime.now()));
             user.setBalance(1500.0);
             userRepository.save(user);
         }
