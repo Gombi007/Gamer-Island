@@ -59,3 +59,18 @@
     text-shadow: 2px 2px 5px #000000;
 
 }
+
+.validition-error-message{
+    margin-top: 1rem;
+    color: red;
+}
+.pending{
+    text-align: center;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+}
+.spinner{     
+    font-size: 4rem;
+    color: rgb(0, 0, 0);
+    text-shadow: 0px 0px 50px rgb(255, 255, 255)
+}

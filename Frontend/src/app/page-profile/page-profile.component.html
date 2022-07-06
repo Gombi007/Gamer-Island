@@ -1,6 +1,8 @@
 <div class="container-fluid" [ngStyle]="{'height.px': innerHeight}">
-    <div class="row d-flex justify-content-center text-center pt-4">
-        <div class="profile-container">
+    <ng-container *ngIf="!isPending">
+
+        <div class="row d-flex justify-content-center text-center pt-4">
+            <div class="profile-container">
             <h3 class="username">{{user.userName}}</h3>
             <div>
                 <img class="avatar" [src]="user.avatar" alt="avatar">
@@ -29,14 +31,15 @@
                     <div class="col-7">
                         <input type="text" id="inputPassword6" class="form-control input-sm"   [formControl]="emailInput">
                     </div>
-                </div>
+                </div>                            
             </form>
             <div class="buttons">
                 <button class="btn btn-secondary" (click)="saveNewUserData()">Save</button>
             </div>
+            <p class="validition-error-message" *ngIf="isInvalid">{{invalidMessage}}</p>              
         </div>
     </div>
-
+    
     <div class="row d-flex justify-content-center text-center pt-4">
         <div class="profile-container">
             <i class="fa-solid fa-euro-sign"></i>
@@ -45,5 +48,14 @@
             <div class="buttons p-0">
                 <button class="btn btn-secondary" (click)="balanceTopup()">Transfer</button>
             </div>
+        </div>
+    </div>
+</ng-container>
+
+    <div class="d-flex justify-content-center pt-4" *ngIf="isPending">
+        <div class="row">
+            <h3 class="pending" *ngIf="isPending">
+                <i class="fa fa-hurricane fa-spin spinner"></i>
+            </h3>
         </div>
     </div>
