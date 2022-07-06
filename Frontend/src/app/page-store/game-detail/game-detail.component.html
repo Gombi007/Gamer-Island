@@ -1,5 +1,5 @@
 <div class="row">
-    <div class="col-md-4 col-xl-3 col-xxl-2 ps-0 pe-1 ">
+    <div class="col-md-4 col-xl-3 col-xxl-2 ps-0 pe-1">
         <app-store-search></app-store-search>
     </div>
 
@@ -69,9 +69,20 @@
                     <i class="fa-solid fa-cart-plus" (click)="addToCart(game.steam_appid)"></i>
                 </div>
             </div>
+
             <div class="details-content">
                 <div class="card card-deteails">
                     <p class="detailed-description-container" [innerHTML]="game.detailed_description"></p>
+                </div>
+            </div>
+
+            <div class="cart" *ngIf="getGamePrice(game) !== 3">
+                <h5 class="m-0">Buy {{game.name}}</h5>
+                <div class="cart-icon">
+                    <h4 class="m-0" *ngIf="getGamePrice(game) === 1">{{game.price_in_final_formatted}} €</h4>
+                    <h4 class="m-0" *ngIf="getGamePrice(game) === 2">Free</h4>
+                    <h4 class="m-0" *ngIf="getGamePrice(game) === 3">N/A</h4>
+                    <i class="fa-solid fa-cart-plus" (click)="addToCart(game.steam_appid)"></i>
                 </div>
             </div>
 
