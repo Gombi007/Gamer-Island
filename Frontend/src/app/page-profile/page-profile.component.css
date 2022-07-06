@@ -1,0 +1,80 @@
+.profile-container {
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    padding-left: 2rem;
+    padding-right: 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 50rem;
+    background-image: linear-gradient(45deg, rgb(0, 0, 0), rgb(36, 75, 94));
+}
+
+.buttons {
+    padding-top: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.avatar {
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+    border-radius: 50%;
+    width: 10rem;
+    border: 2px solid whitesmoke;
+    box-shadow: 2px 0px 15px lightblue;
+}
+
+
+.form {
+    max-width: 1000px;
+}
+
+.form input {
+    background-color: rgb(36, 75, 94);
+    border: none;
+    color: antiquewhite;
+
+}
+
+.form input:focus {
+    box-shadow: 0 0 3px 3px rgba(4, 236, 16, 0.801);
+}
+
+.disabled-input {
+    background-color: rgb(44, 56, 61) !important;
+
+}
+
+
+.fa-euro-sign {
+    color: rgb(16, 97, 190);
+
+}
+
+.username {
+    color: whitesmoke;
+    text-shadow: 2px 2px 5px #000000;
+
+}
+
+.validition-error-message{
+    margin-top: 1rem;
+    color: red;
+}
+.pending{
+    text-align: center;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+}
+.spinner{     
+    font-size: 4rem;
+    color: rgb(0, 0, 0);
+    text-shadow: 0px 0px 50px rgb(255, 255, 255)
+}
+.update-success{
+    padding-top: 1rem;
+    color: greenyellow;
+}

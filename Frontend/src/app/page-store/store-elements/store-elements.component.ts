@@ -64,6 +64,7 @@ export class StoreElementsComponent implements OnInit, AfterViewChecked {
   onResize() {
     this.innerHeight = window.innerHeight - this.headerHeight;
   }
+  
   filteredShopGames$ = new Subject().pipe(
     tap(() => {
       this.isPending = true;

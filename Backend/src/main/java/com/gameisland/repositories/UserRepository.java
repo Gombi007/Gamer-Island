@@ -1,5 +1,6 @@
 package com.gameisland.repositories;
 
+import com.gameisland.models.dto.UserDTO;
 import com.gameisland.models.entities.User;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -43,4 +44,7 @@ public interface UserRepository extends CrudRepository<User, Long> {
     void deleteUserGameEntriesByUserId(Long userId);
 
     User findByUserName(String username);
+
+    @Query(nativeQuery = true)
+    UserDTO findUserDTOByUserUUID(String UUID);
 }

@@ -1,26 +1,12 @@
 package com.gameisland.models.entities;
 
-import com.gameisland.models.dto.GameLibraryDetailsDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.NamedNativeQuery;
 
 import javax.persistence.*;
 import java.util.Set;
-
-@NamedNativeQuery(name = "SteamGame.getLibraryDetails",
-        query = "SELECT id as id, steam_app_id as appId, name as name, header_image as headerImage FROM steam_games",
-        resultSetMapping = "Mapping.GameLibraryDetailsDto")
-
-@SqlResultSetMapping(name = "Mapping.GameLibraryDetailsDto",
-        classes = @ConstructorResult(targetClass = GameLibraryDetailsDto.class,
-                columns = {
-                        @ColumnResult(name = "id", type = Long.class),
-                        @ColumnResult(name = "appId", type = Long.class),
-                        @ColumnResult(name = "name", type = String.class),
-                        @ColumnResult(name = "headerImage", type = String.class)}))
 
 @Entity
 @Table(name = "steam_games")
