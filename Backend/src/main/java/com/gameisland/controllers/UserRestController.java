@@ -1,5 +1,6 @@
 package com.gameisland.controllers;
 
+import com.gameisland.models.dto.UserDTO;
 import com.gameisland.models.entities.User;
 import com.gameisland.services.UserService;
 import lombok.RequiredArgsConstructor;
@@ -44,6 +45,12 @@ public class UserRestController {
     @GetMapping("/profile/{uuid}")
     public ResponseEntity<Object> getUserDataForProfile(@PathVariable String uuid) {
         return ResponseEntity.status(HttpStatus.OK).body(userService.getUserDataForProfile(uuid));
+    }
+
+    @PostMapping("/profile/update")
+    public ResponseEntity<Object> updateUserData(@RequestBody UserDTO userDTO) {
+        userService.updateUserData(userDTO);
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 
 

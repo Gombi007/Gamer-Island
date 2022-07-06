@@ -176,6 +176,23 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         return userDTO;
     }
 
+    @Override
+    public void updateUserData(UserDTO userDTO) {
+        boolean isExistingUer = userRepository.getUserByUUID(userDTO.getUserUUID()).isPresent();
+        if (!isExistingUer) {
+            throw new ResourceNotFoundException("User doesn't exist with this UUID: " + userDTO.getUserUUID());
+        }
+        User user = userRepository.getUserByUUID(userDTO.getUserUUID()).get();
+
+        if (user != null) {
+            user.setAvatar(userDTO.getAvatar());
+            user.setEmail(userDTO.getEmail());
+            user.setBalance(userDTO.getBalance());
+            userRepository.save(user);
+        }
+
+    }
+
     //Only Admin methods
 
     @Override

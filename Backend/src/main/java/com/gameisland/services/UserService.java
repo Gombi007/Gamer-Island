@@ -1,6 +1,7 @@
 package com.gameisland.services;
 
 import com.gameisland.models.dto.GameLibraryDetailsDto;
+import com.gameisland.models.dto.UserDTO;
 import com.gameisland.models.entities.Role;
 import com.gameisland.models.entities.User;
 
@@ -31,6 +32,8 @@ public interface UserService {
     Set<GameLibraryDetailsDto> libraryDetails(String uuid);
 
     Object getUserDataForProfile(String uuid);
+
+    void updateUserData(UserDTO userDTO);
 
 
 }
