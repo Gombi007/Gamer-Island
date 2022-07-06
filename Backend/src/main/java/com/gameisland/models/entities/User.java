@@ -1,5 +1,7 @@
 package com.gameisland.models.entities;
 
+
+import com.gameisland.models.dto.UserDTO;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,6 +11,20 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+
+
+@NamedNativeQuery(name = "User.findUserDTOByUserUUID",
+        query = "SELECT user_name AS userName, email, avatar, balance, useruuid AS userUUID FROM users WHERE useruuid = :UUID",
+        resultSetMapping = "Mapping.UserDTO")
+
+@SqlResultSetMapping(name = "Mapping.UserDTO",
+        classes = @ConstructorResult(targetClass = UserDTO.class,
+                columns = {
+                        @ColumnResult(name = "userName", type = String.class),
+                        @ColumnResult(name = "email", type = String.class),
+                        @ColumnResult(name = "avatar", type = String.class),
+                        @ColumnResult(name = "balance", type = Double.class),
+                        @ColumnResult(name = "userUUID", type = String.class)}))
 
 @Entity
 @Table(name = "users")

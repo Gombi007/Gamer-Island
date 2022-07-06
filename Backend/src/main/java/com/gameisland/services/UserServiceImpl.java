@@ -4,6 +4,7 @@ import com.gameisland.exceptions.ResourceAlreadyExistsException;
 import com.gameisland.exceptions.ResourceNotFoundException;
 import com.gameisland.exceptions.UserBalanceNotEnoughEception;
 import com.gameisland.models.dto.GameLibraryDetailsDto;
+import com.gameisland.models.dto.UserDTO;
 import com.gameisland.models.entities.Role;
 import com.gameisland.models.entities.SteamGame;
 import com.gameisland.models.entities.User;
@@ -163,6 +164,16 @@ public class UserServiceImpl implements UserService, UserDetailsService {
             result.add(dto);
         }
         return result;
+    }
+
+    @Override
+    public Object getUserDataForProfile(String uuid) {
+        boolean isExistingUer = userRepository.getUserByUUID(uuid).isPresent();
+        if (!isExistingUer) {
+            throw new ResourceNotFoundException("User doesn't exist with this UUID: " + uuid);
+        }
+        UserDTO userDTO = userRepository.findUserDTOByUserUUID(uuid);
+        return userDTO;
     }
 
     //Only Admin methods

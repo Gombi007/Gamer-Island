@@ -30,4 +30,7 @@ public interface UserService {
 
     Set<GameLibraryDetailsDto> libraryDetails(String uuid);
 
+    Object getUserDataForProfile(String uuid);
+
+
 }
