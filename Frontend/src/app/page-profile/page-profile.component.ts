@@ -1,4 +1,5 @@
 import { Component, HostListener, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { STRINGS } from '../strings.enum';
 
 @Component({
@@ -10,6 +11,14 @@ export class PageProfileComponent implements OnInit {
   innerHeight!: number;
   headerHeight: number = STRINGS.HEADER_HEIGHT_FOR_CONTENT;
 
+  userData = new FormGroup(
+    {
+      avatarURL: new FormControl("", Validators.required),
+      username: new FormControl("", Validators.required),
+      email: new FormControl("", Validators.required),
+    }
+  );
+
   constructor() { }
 
   ngOnInit(): void {
@@ -20,6 +29,10 @@ export class PageProfileComponent implements OnInit {
     @HostListener('window:resize', ['$event'])
     onResize() {
       this.innerHeight = window.innerHeight - this.headerHeight;
+    }
+
+    saveNewUserData(){
+      console.log(this.userData.value);
     }
 
 }
