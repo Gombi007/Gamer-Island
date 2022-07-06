@@ -6,6 +6,7 @@ import com.gameisland.models.entities.Role;
 import com.gameisland.models.entities.User;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
@@ -35,7 +36,7 @@ public interface UserService {
 
     void updateUserData(UserDTO userDTO);
 
-    void updateUserBalance(String uuid);
+    HashMap<String, String> updateUserBalance(String uuid);
 
 
 }

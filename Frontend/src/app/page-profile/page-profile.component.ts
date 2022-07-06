@@ -26,6 +26,7 @@ export class PageProfileComponent implements OnInit {
   invalidMessage = '';
   wasUpdateSuccessfully = false;
   wasBalanceUpdateSuccessfully = false;
+  balanceUpdateMessage: {balanceUpdate:string} = {balanceUpdate:''};
 
   constructor(private http: HttpClient, private global: GlobalService, private route: Router, private author: AuthorizationService) { }
 
@@ -67,11 +68,11 @@ export class PageProfileComponent implements OnInit {
     }),
     switchMap(() =>
       this.http.post(STRINGS.API_USER_UPDATE_USER_DATA, this.user, this.author.TokenForRequests())),
-    tap((data: any) => {      
+    tap((data: any) => {
       this.isPending = false;
       this.wasUpdateSuccessfully = true;
     }),
-    catchError(error => {     
+    catchError(error => {
       let message = error.error.error_message;
       if (message.includes("Token has expired")) {
         this.global.experiedSession = true;
@@ -86,12 +87,14 @@ export class PageProfileComponent implements OnInit {
       this.isPending = true;
     }),
     switchMap(() =>
-      this.http.get(STRINGS.API_USER_UPDATE_USER_BALANCE+this.global.getUUIDFromLocalStore(), this.author.TokenForRequests())),
-    tap((data: any) => {      
+      this.http.get(STRINGS.API_USER_UPDATE_USER_BALANCE + this.global.getUUIDFromLocalStore(), this.author.TokenForRequests())),
+    tap((data: any) => {
+
+      this.balanceUpdateMessage = data;
       this.isPending = false;
-      this.wasBalanceUpdateSuccessfully = true;
+      console.log(this.balanceUpdateMessage.balanceUpdate)
     }),
-    catchError(error => {     
+    catchError(error => {
       let message = error.error.error_message;
       if (message.includes("Token has expired")) {
         this.global.experiedSession = true;
@@ -110,7 +113,7 @@ export class PageProfileComponent implements OnInit {
 
   saveNewUserData() {
     this.isInvalid = false;
-    this.wasUpdateSuccessfully = false;
+    this.wasUpdateSuccessfully  = false;
 
     if (this.avatarInput.valid && this.emailInput.valid) {
       this.user.avatar = this.avatarInput.value;
@@ -131,9 +134,8 @@ export class PageProfileComponent implements OnInit {
   }
 
   balanceTopup() {
-    this.wasBalanceUpdateSuccessfully = false;
-      //@ts-ignore
-      this.updateUserBalance$.next();
+    //@ts-ignore
+    this.updateUserBalance$.next();
   }
 
 }

@@ -23,6 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @Slf4j
@@ -194,7 +195,9 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public void updateUserBalance(String uuid) {
+    public HashMap<String, String> updateUserBalance(String uuid) {
+        HashMap<String, String> result = new HashMap<>();
+        long timeLimit = 24;
         boolean isExistingUer = userRepository.getUserByUUID(uuid).isPresent();
         if (!isExistingUer) {
             throw new ResourceNotFoundException("User doesn't exist with this UUID: " + uuid);
@@ -206,16 +209,27 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         if (userLastBalanceUpdateTimestamp != null) {
             LocalDateTime currentDateTime = LocalDateTime.now();
             LocalDateTime userLastBalanceUpdated = userLastBalanceUpdateTimestamp.toLocalDateTime();
-            boolean limitHasExpired = userLastBalanceUpdated.plusSeconds(30).isBefore(currentDateTime);
+            boolean limitHasExpired = userLastBalanceUpdated.plusHours(timeLimit).isBefore(currentDateTime);
             if (limitHasExpired) {
                 user.setLastBalanceUpdate(Timestamp.valueOf(currentDateTime));
                 userRepository.save(user);
+                result.put("balanceUpdate", "Balance top up was success");
+                return result;
+            } else {
+                String limitWillExpired = "";
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+                limitWillExpired = userLastBalanceUpdated.plusHours(timeLimit).format(formatter);
+                result.put("balanceUpdate", limitWillExpired);
+                return result;
+
             }
 
         } else {
             user.setLastBalanceUpdate(Timestamp.valueOf(LocalDateTime.now()));
             user.setBalance(1500.0);
             userRepository.save(user);
+            result.put("balanceUpdate", "Balance top up was success");
+            return result;
         }
     }
 

@@ -56,8 +56,7 @@ public class UserRestController {
     @PreAuthorize("hasRole('USER')")
     @GetMapping("/profile/balance/{uuid}")
     public ResponseEntity<Object> updateUserBalance(@PathVariable String uuid) {
-        userService.updateUserBalance(uuid);
-        return ResponseEntity.status(HttpStatus.OK).build();
+        return ResponseEntity.status(HttpStatus.OK).body(userService.updateUserBalance(uuid));
     }
 
 
