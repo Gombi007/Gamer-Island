@@ -187,10 +187,22 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         if (user != null) {
             user.setAvatar(userDTO.getAvatar());
             user.setEmail(userDTO.getEmail());
-            user.setBalance(userDTO.getBalance());
             userRepository.save(user);
         }
+    }
 
+    @Override
+    public void updateUserBalance(String uuid) {
+        boolean isExistingUer = userRepository.getUserByUUID(uuid).isPresent();
+        if (!isExistingUer) {
+            throw new ResourceNotFoundException("User doesn't exist with this UUID: " + uuid);
+        }
+        User user = userRepository.getUserByUUID(uuid).get();
+
+        if (user != null) {
+            user.setBalance(1500.0);
+            userRepository.save(user);
+        }
     }
 
     //Only Admin methods

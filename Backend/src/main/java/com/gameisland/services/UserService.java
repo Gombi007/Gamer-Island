@@ -35,5 +35,7 @@ public interface UserService {
 
     void updateUserData(UserDTO userDTO);
 
+    void updateUserBalance(String uuid);
+
 
 }
