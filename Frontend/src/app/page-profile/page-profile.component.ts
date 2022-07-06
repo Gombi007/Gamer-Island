@@ -24,7 +24,7 @@ export class PageProfileComponent implements OnInit {
   emailInput = new FormControl('email', [Validators.required, Validators.email]);
   isInvalid = false;
   invalidMessage = '';
-
+  wasUpdateSuccessfully = false;
 
   constructor(private http: HttpClient, private global: GlobalService, private route: Router, private author: AuthorizationService) { }
 
@@ -65,11 +65,11 @@ export class PageProfileComponent implements OnInit {
     }),
     switchMap(() =>
       this.http.post(STRINGS.API_USER_UPDATE_USER_DATA, this.user, this.author.TokenForRequests())),
-    tap((data: any) => {
-      console.log(data)
+    tap((data: any) => {      
       this.isPending = false;
+      this.wasUpdateSuccessfully = true;
     }),
-    catchError(error => {
+    catchError(error => {     
       let message = error.error.error_message;
       if (message.includes("Token has expired")) {
         this.global.experiedSession = true;
@@ -87,6 +87,7 @@ export class PageProfileComponent implements OnInit {
 
   saveNewUserData() {
     this.isInvalid = false;
+    this.wasUpdateSuccessfully = false;
 
     if (this.avatarInput.valid && this.emailInput.valid) {
       this.user.avatar = this.avatarInput.value;

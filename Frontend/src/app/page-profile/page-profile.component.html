@@ -36,7 +36,9 @@
             <div class="buttons">
                 <button class="btn btn-secondary" (click)="saveNewUserData()">Save</button>
             </div>
-            <p class="validition-error-message" *ngIf="isInvalid">{{invalidMessage}}</p>              
+            <p class="validition-error-message" *ngIf="isInvalid">{{invalidMessage}}</p> 
+            <i class="fa-solid fa-check update-success" *ngIf="wasUpdateSuccessfully"></i>           
+                      
         </div>
     </div>
     
@@ -52,7 +54,7 @@
     </div>
 </ng-container>
 
-    <div class="d-flex justify-content-center pt-4" *ngIf="isPending">
+<div class="d-flex justify-content-center pt-4" *ngIf="isPending">
         <div class="row">
             <h3 class="pending" *ngIf="isPending">
                 <i class="fa fa-hurricane fa-spin spinner"></i>
