@@ -1,17 +1,17 @@
 <div class="row">
-    <div class="col-md-4 col-xl-3 col-xxl-2 ps-0 pe-1 ">
+    <div class="col-md-4 col-xl-3 col-xxl-2 ps-0 pe-1">
         <app-store-search></app-store-search>
     </div>
 
-    <div class="col-md-8 col-xl-9 col-xxl-10  ps-0 pe-0 detail" [ngStyle]="{'height.px': innerHeight}">
-
+    <div class="col-md-8 col-xl-9 col-xxl-10  ps-0 pe-0 detail game-details-container"
+        [ngStyle]="{'height.px': innerHeight}">
         <ng-container *ngIf="!isPending">
 
             <h3 class="text-center pt-4 title">{{game.name}}</h3>
 
             <div class="details-content">
-                <div class="card" style="width: 45%;">
-                    <img src="{{firstScreenshot}}" class="card-img-top" alt="header-image" style="height: 300px;">                   
+                <div class="card card-gallery">
+                    <img src="{{firstScreenshot}}" class="card-img-top" alt="header-image" style="height: 400px;">
                     <div class="card-body">
                         <div class="thumbnails">
                             <ng-container *ngFor="let imgSource of screenshots; let i = index;">
@@ -32,43 +32,60 @@
                         </div>
                     </div>
                 </div>
-                <div class="card" style="width: 25%;">
+                <div class="card card-info">
                     <img src="{{game.header_image}}" class="card-img-top" alt="header-image">
                     <div class="card-body card-content">
-                        <p class="card-text text-start">{{game.short_description}}</p>
+                        <p class="card-text text-start" [innerHTML]="game.short_description"></p>
                         <p class="card-text text-start">
                             <b> Publishers:</b> {{game.publishers}}
                             <br>
                             <b>Developers:</b> {{game.developers}}
-                        </p>                 
+                        </p>
 
-                            <div class="platforms_age">
-                                <p>Required Age: <span>{{game.required_age}}</span></p>
-                                <div class="platforms">
-                                    <i *ngIf="getPlatform(game,'Windows')" class="fa-brands fa-windows"></i>
-                                    <i *ngIf="getPlatform(game,'Mac')" class="fa-brands fa-apple"></i>
-                                    <i *ngIf="getPlatform(game,'Linux')" class="fa-brands fa-linux"></i>
-                                </div>
+                        <div class="platforms_age">
+                            <p>Required Age: <span>{{game.required_age}}</span></p>
+                            <div class="platforms">
+                                <i *ngIf="getPlatform(game,'Windows')" class="fa-brands fa-windows"></i>
+                                <i *ngIf="getPlatform(game,'Mac')" class="fa-brands fa-apple"></i>
+                                <i *ngIf="getPlatform(game,'Linux')" class="fa-brands fa-linux"></i>
                             </div>
-                            <div class="price">
-                                <h4 class="m-0" *ngIf="getGamePrice(game) === 1">{{game.price_in_final_formatted}} €</h4>
-                                <h4 class="m-0" *ngIf="getGamePrice(game) === 2">Free</h4>
-                                <h4 class="m-0" *ngIf="getGamePrice(game) === 3">N/A</h4>
-                            </div>
+                        </div>
+                        <div class="price">
+                            <h4 class="m-0" *ngIf="getGamePrice(game) === 1">{{game.price_in_final_formatted}} €</h4>
+                            <h4 class="m-0" *ngIf="getGamePrice(game) === 2">Free</h4>
+                            <h4 class="m-0" *ngIf="getGamePrice(game) === 3">N/A</h4>
                         </div>
                     </div>
                 </div>
-       
-          
-                <div class="cart"  *ngIf="getGamePrice(game) !== 3">
-                    <h5 class="m-0">Buy {{game.name}}</h5>
-                    <div class="cart-icon">
-                        <h4 class="m-0" *ngIf="getGamePrice(game) === 1">{{game.price_in_final_formatted}} €</h4>
-                        <h4 class="m-0" *ngIf="getGamePrice(game) === 2">Free</h4>
-                        <h4 class="m-0" *ngIf="getGamePrice(game) === 3">N/A</h4>
-                        <i class="fa-solid fa-cart-plus" (click)="addToCart(game.steam_appid)" ></i>
-                    </div>
-                </div>         
+            </div>
+
+
+            <div class="cart" *ngIf="getGamePrice(game) !== 3">
+                <h5 class="m-0">Buy {{game.name}}</h5>
+                <div class="cart-icon">
+                    <h4 class="m-0" *ngIf="getGamePrice(game) === 1">{{game.price_in_final_formatted}} €</h4>
+                    <h4 class="m-0" *ngIf="getGamePrice(game) === 2">Free</h4>
+                    <h4 class="m-0" *ngIf="getGamePrice(game) === 3">N/A</h4>
+                    <i class="fa-solid fa-cart-plus" (click)="addToCart(game.steam_appid)"></i>
+                </div>
+            </div>
+
+            <div class="details-content">
+                <div class="card card-deteails">
+                    <p class="detailed-description-container" [innerHTML]="game.detailed_description"></p>
+                </div>
+            </div>
+
+            <div class="cart" *ngIf="getGamePrice(game) !== 3">
+                <h5 class="m-0">Buy {{game.name}}</h5>
+                <div class="cart-icon">
+                    <h4 class="m-0" *ngIf="getGamePrice(game) === 1">{{game.price_in_final_formatted}} €</h4>
+                    <h4 class="m-0" *ngIf="getGamePrice(game) === 2">Free</h4>
+                    <h4 class="m-0" *ngIf="getGamePrice(game) === 3">N/A</h4>
+                    <i class="fa-solid fa-cart-plus" (click)="addToCart(game.steam_appid)"></i>
+                </div>
+            </div>
+
         </ng-container>
 
         <ng-container *ngIf="isPending">
@@ -79,3 +96,4 @@
 
 
     </div>
+</div>
