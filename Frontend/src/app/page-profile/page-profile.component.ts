@@ -25,6 +25,7 @@ export class PageProfileComponent implements OnInit {
   isInvalid = false;
   invalidMessage = '';
   wasUpdateSuccessfully = false;
+  wasBalanceUpdateSuccessfully = false;
 
   constructor(private http: HttpClient, private global: GlobalService, private route: Router, private author: AuthorizationService) { }
 
@@ -32,6 +33,7 @@ export class PageProfileComponent implements OnInit {
     this.innerHeight = window.innerHeight - this.headerHeight;
     this.getUserInformationByUUID$.subscribe();
     this.updateUserData$.subscribe();
+    this.updateUserBalance$.subscribe();
     //@ts-ignore
     this.getUserInformationByUUID$.next();
   }
@@ -79,6 +81,27 @@ export class PageProfileComponent implements OnInit {
     })
   );
 
+  updateUserBalance$ = new Subject().pipe(
+    tap(() => {
+      this.isPending = true;
+    }),
+    switchMap(() =>
+      this.http.get(STRINGS.API_USER_UPDATE_USER_BALANCE+this.global.getUUIDFromLocalStore(), this.author.TokenForRequests())),
+    tap((data: any) => {      
+      this.isPending = false;
+      this.wasBalanceUpdateSuccessfully = true;
+    }),
+    catchError(error => {     
+      let message = error.error.error_message;
+      if (message.includes("Token has expired")) {
+        this.global.experiedSession = true;
+        this.route.navigate(['login']);
+      }
+      return EMPTY;
+    })
+  );
+
+
   // update value when resize
   @HostListener('window:resize', ['$event'])
   onResize() {
@@ -108,7 +131,9 @@ export class PageProfileComponent implements OnInit {
   }
 
   balanceTopup() {
-
+    this.wasBalanceUpdateSuccessfully = false;
+      //@ts-ignore
+      this.updateUserBalance$.next();
   }
 
 }
