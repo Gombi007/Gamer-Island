@@ -12,3 +12,25 @@ i {
     font-size: 2.5rem;
 }
 
+/*custom scrollbar*/
+::-webkit-scrollbar {
+    width: 7px;
+    height: 7px;
+}
+
+::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px grey;
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: grey;
+    border-radius: 5px;
+}
+
+@-moz-document url-prefix() {
+    .scroller {
+        scrollbar-width: thin;
+        scrollbar-color: grey;
+    }
+}

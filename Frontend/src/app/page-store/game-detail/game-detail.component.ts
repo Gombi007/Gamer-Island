@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, HostListener, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, HostListener, OnInit, Input, OnChanges, SimpleChanges, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { catchError, EMPTY, Subject, switchMap, tap, timeout } from 'rxjs';
 import { GameDetails } from 'src/app/game-details.model';
@@ -10,7 +10,7 @@ import { STRINGS } from 'src/app/strings.enum';
 @Component({
   selector: 'app-game-detail',
   templateUrl: './game-detail.component.html',
-  styleUrls: ['./game-detail.component.css']
+  styleUrls: ['./game-detail.component.css'] 
 })
 export class GameDetailComponent implements OnInit {
   innerHeight!: number;
@@ -80,10 +80,10 @@ export class GameDetailComponent implements OnInit {
       if (id >= 0 && id < screenshotsLength - 1) {
         id += 1;
         this.firstScreenshot = this.screenshots[id]
-        document.getElementById(String(id))?.scrollIntoView({ behavior: "smooth", block: "center", inline: "center" });
+        document.getElementById(String(id))?.scrollIntoView({ behavior: "smooth", block: "end", inline: "end" });
       } else {
         this.firstScreenshot = this.screenshots[0]
-        document.getElementById(String(0))?.scrollIntoView({ behavior: "smooth", block: "center", inline: "center" });
+        document.getElementById(String(0))?.scrollIntoView({ behavior: "smooth", block: "end", inline: "end" });
       }
     }
   }
@@ -97,10 +97,10 @@ export class GameDetailComponent implements OnInit {
       if (id > 0 && id < screenshotsLength) {
         id -= 1;
         this.firstScreenshot = this.screenshots[id];
-        document.getElementById(String(id))?.scrollIntoView({ behavior: "smooth", block: "center", inline: "center" });
+        document.getElementById(String(id))?.scrollIntoView({ behavior: "smooth", block: "end", inline: "end" });
       } else {
         this.firstScreenshot = this.screenshots[screenshotsLength - 1];
-        document.getElementById(String(screenshotsLength - 1))?.scrollIntoView({ behavior: "smooth", block: "center", inline: "center" });
+        document.getElementById(String(screenshotsLength - 1))?.scrollIntoView({ behavior: "smooth", block: "end", inline: "end" });
       }
     }
   }
