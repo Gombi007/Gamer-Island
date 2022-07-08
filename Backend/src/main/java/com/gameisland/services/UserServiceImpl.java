@@ -212,6 +212,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
             boolean limitHasExpired = userLastBalanceUpdated.plusHours(timeLimit).isBefore(currentDateTime);
             if (limitHasExpired) {
                 user.setLastBalanceUpdate(Timestamp.valueOf(currentDateTime));
+                user.setBalance(1500.0);
                 userRepository.save(user);
                 result.put("balanceUpdate", "Balance top up was success");
                 return result;
