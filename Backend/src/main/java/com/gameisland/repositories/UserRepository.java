@@ -47,4 +47,6 @@ public interface UserRepository extends CrudRepository<User, Long> {
 
     @Query(nativeQuery = true)
     UserDTO findUserDTOByUserUUID(String UUID);
+
+
 }

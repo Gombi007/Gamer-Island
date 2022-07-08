@@ -175,8 +175,8 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         if (!isExistingUer) {
             throw new ResourceNotFoundException("User doesn't exist with this UUID: " + uuid);
         }
-        UserDTO userDTO = userRepository.findUserDTOByUserUUID(uuid);
-        return userDTO;
+        User user = userRepository.getUserByUUID(uuid).get();
+        return UserDTO.convertToDTO(user);
     }
 
     @Override
@@ -246,8 +246,14 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     //Only Admin methods
 
     @Override
-    public ArrayList<User> getAllUserFromDatabase() {
-        return userRepository.findAll();
+    public List<UserDTO> getAllUserFromDatabase() {
+        List<UserDTO> userDTOList = new ArrayList<>();
+        ArrayList<User> allUser = userRepository.findAll();
+
+        for (User user : allUser) {
+            userDTOList.add(UserDTO.convertToDTO(user));
+        }
+        return userDTOList;
     }
 
     @Override

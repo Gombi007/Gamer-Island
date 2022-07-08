@@ -5,10 +5,7 @@ import com.gameisland.models.dto.UserDTO;
 import com.gameisland.models.entities.Role;
 import com.gameisland.models.entities.User;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public interface UserService {
 
@@ -18,7 +15,7 @@ public interface UserService {
 
     void removeAUserPermanently(String uuid);
 
-    ArrayList<User> getAllUserFromDatabase();
+    List<UserDTO> getAllUserFromDatabase();
 
     Role saveRole(Role role);
 
