@@ -59,5 +59,11 @@ public class UserRestController {
         return ResponseEntity.status(HttpStatus.OK).body(userService.updateUserBalance(uuid));
     }
 
+    @PreAuthorize("hasRole('USER')")
+    @GetMapping("/wishlist/{uuid}")
+    public ResponseEntity<Object> getUserWishlist(@PathVariable String uuid) {
+        return ResponseEntity.status(HttpStatus.OK).body(userService.getUserWishlist(uuid));
+    }
+
 
 }

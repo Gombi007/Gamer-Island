@@ -234,6 +234,15 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         }
     }
 
+    @Override
+    public Object getUserWishlist(String uuid) {
+        boolean isExistingUer = userRepository.getUserByUUID(uuid).isPresent();
+        if (!isExistingUer) {
+            throw new ResourceNotFoundException("User doesn't exist with this UUID: " + uuid);
+        }
+        return null;
+    }
+
     //Only Admin methods
 
     @Override

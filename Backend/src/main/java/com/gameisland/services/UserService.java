@@ -38,5 +38,7 @@ public interface UserService {
 
     HashMap<String, String> updateUserBalance(String uuid);
 
+    Object getUserWishlist(String uuid);
+
 
 }
