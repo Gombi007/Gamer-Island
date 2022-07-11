@@ -12,6 +12,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 @Slf4j
 @RestController
 @RequestMapping("/api/admin")
@@ -65,6 +67,12 @@ public class AdminRestController {
     @PostMapping("/roles/save")
     public ResponseEntity<Object> saveRole(@RequestBody Role role) {
         return ResponseEntity.status(HttpStatus.CREATED).body(userService.saveRole(role));
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @DeleteMapping("/roles/remove")
+    public ResponseEntity<Object> removeRole(@RequestBody Map<String, String> roleName) {
+        return ResponseEntity.status(HttpStatus.OK).body(userService.removeRole(roleName));
     }
 
     @PreAuthorize("hasRole('ADMIN')")

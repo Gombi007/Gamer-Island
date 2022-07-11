@@ -270,14 +270,33 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Override
     public void addRoleToUser(String uuid, String roleName) {
-        User user = userRepository.getUserByUUID(uuid).get();
-        Role role = roleRepository.findByName(roleName);
-        Set<Role> roleSet = new HashSet<>();
-        user.getRoles().forEach(r -> roleSet.add(r));
-        roleSet.add(role);
-        roleSet.forEach(r -> user.getRoles().add(r));
+        User user = null;
+        Role role = null;
+        try {
+            user = userRepository.getUserByUUID(uuid).get();
+            role = roleRepository.findByName(roleName);
+        } catch (NoSuchElementException exception) {
+            throw new ResourceNotFoundException("No user with this uuid: " + uuid);
+        }
+        if (role == null) {
+            throw new ResourceNotFoundException("No role with this name: " + roleName);
+        }
+
         user.getRoles().add(role);
         userRepository.save(user);
+    }
+
+    @Override
+    public Map<String, String> removeRole(Map<String, String> roleName) {
+        Map<String, String> result = new HashMap<>();
+        Role role = roleRepository.findByName(roleName.get("roleName"));
+        if (role != null) {
+            roleRepository.deleteRoleEntriesFromUsersRolesTable(role.getId());
+            roleRepository.delete(role);
+            result.put(roleName.get("roleName"), "Role was removed");
+            return result;
+        }
+        throw new ResourceNotFoundException("There is no role with this name: " + roleName.get("roleName"));
     }
 
     @Override

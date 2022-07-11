@@ -19,6 +19,8 @@ public interface UserService {
 
     Role saveRole(Role role);
 
+    Map<String, String> removeRole(Map<String, String> roleName);
+
     void addRoleToUser(String uuid, String roleName);
 
     ArrayList<Role> getAllRoles();
