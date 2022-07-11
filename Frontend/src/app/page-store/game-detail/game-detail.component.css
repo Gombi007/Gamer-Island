@@ -162,3 +162,8 @@
     padding: 1rem;
     text-align: center;
 }
+
+.steam-link{
+    text-decoration: none;
+    color: blueviolet;
+}

@@ -14,6 +14,7 @@ export enum STRINGS {
     API_GAMES_GET_ALL_GENRES = 'http://localhost:8081/api/games/genres',
     API_GAMES_FILTER_BY_ATTRIBUTE = 'http://localhost:8081/api/games/shop/filter',
     API_GAMES_MIN_MAX_PRICE = 'http://localhost:8081/api/games/shop/min-max-price',
+    STEAM_GE_TO_APP_STORE ='https://store.steampowered.com/app/',
     HEADER_HEIGHT_FOR_CONTENT = 54,
     HEADER_HEIGHT_FOR_LEFT_SIDE = 153,
 }

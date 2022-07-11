@@ -36,7 +36,9 @@
                     <img src="{{game.header_image}}" class="card-img-top" alt="header-image">
                     <div class="card-body card-content">
                         <p class="card-text text-start" [innerHTML]="game.short_description"></p>
-                        <p class="card-text text-start">
+                        <p class="card-text text-start">                            
+                            <a class="steam-link" href="{{steamLink}} {{game.steam_appid}}">Go to Steam and check this Game: {{game.steam_appid}}</a>
+                            <br>
                             <b> Publishers:</b> {{game.publishers}}
                             <br>
                             <b>Developers:</b> {{game.developers}}
