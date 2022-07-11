@@ -1,5 +1,6 @@
 package com.gameisland.controllers;
 
+import com.gameisland.exceptions.ResourceNotFoundException;
 import com.gameisland.services.SteamGameService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -16,7 +17,12 @@ public class GameRestController {
     @PreAuthorize("hasRole('USER')")
     @GetMapping("/{id}")
     public ResponseEntity<Object> getGameDetailsById(@PathVariable String id) {
-        Long appId = Long.parseLong(id);
+        Long appId = null;
+        try {
+            appId = Long.parseLong(id);
+        } catch (NumberFormatException exception) {
+            throw new ResourceNotFoundException("Please add a number instead of this: " + id);
+        }
         return ResponseEntity.status(HttpStatus.OK).body(gameService.getGameDetailsByAppId(appId));
     }
 
@@ -33,6 +39,12 @@ public class GameRestController {
     }
 
     @PreAuthorize("hasRole('USER')")
+    @GetMapping("/shop/min-max-price")
+    public ResponseEntity<Object> getMinAndMaxPrice() {
+        return ResponseEntity.status(HttpStatus.OK).body(gameService.getMinAndMaxPrice());
+    }
+
+    @PreAuthorize("hasRole('USER')")
     @GetMapping("/shop/filter")
     public ResponseEntity<Object> getGamesByAttributeFilter(@RequestParam(name = "page", defaultValue = "0") int page,
                                                             @RequestParam(name = "size", defaultValue = "1") int size,
@@ -41,11 +53,6 @@ public class GameRestController {
         return ResponseEntity.status(HttpStatus.OK).body(gameService.getGamesByNameOrGenreOrDescriptionAndConvertDto(page, size, attribute, attributeValue));
     }
 
-    @PreAuthorize("hasRole('USER')")
-    @GetMapping("/shop/min-max-price")
-    public ResponseEntity<Object> getMinAndMaxPrice() {
-        return ResponseEntity.status(HttpStatus.OK).body(gameService.getMinAndMaxPrice());
-    }
 
 
 }
