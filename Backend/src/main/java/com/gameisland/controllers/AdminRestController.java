@@ -43,19 +43,6 @@ public class AdminRestController {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
-    @DeleteMapping("/steam/{appid}")
-    public ResponseEntity<Object> removeAGameFromTheDatabasePermanently(@PathVariable String appid) {
-        Long gameAppid;
-        try {
-            gameAppid = Long.parseLong(appid);
-        } catch (Exception exception) {
-            throw new ResourceNotFoundException("This is not a valid appid");
-        }
-
-        return ResponseEntity.status(HttpStatus.OK).body(gameService.removeAGamePermanentlyFromTheDatabaseByAppId(gameAppid));
-    }
-
     // ROLES
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/roles/all")
@@ -82,7 +69,7 @@ public class AdminRestController {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
-    // USERS
+    // USERS AND GAMES
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/users/all")
     public ResponseEntity<Object> getAllUserFromTheDatabase() {
@@ -94,6 +81,19 @@ public class AdminRestController {
     public ResponseEntity<Object> deleteAUser(@PathVariable String uuid) {
         userService.removeAUserPermanently(uuid);
         return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @DeleteMapping("/steam/{appid}")
+    public ResponseEntity<Object> removeAGameFromTheDatabasePermanently(@PathVariable String appid) {
+        Long gameAppid;
+        try {
+            gameAppid = Long.parseLong(appid);
+        } catch (Exception exception) {
+            throw new ResourceNotFoundException("This is not a valid appid");
+        }
+
+        return ResponseEntity.status(HttpStatus.OK).body(gameService.removeAGamePermanentlyFromTheDatabaseByAppId(gameAppid));
     }
 
 
