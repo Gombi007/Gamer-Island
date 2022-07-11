@@ -16,8 +16,8 @@ export class PageProfileComponent implements OnInit {
   innerHeight!: number;
   headerHeight: number = STRINGS.HEADER_HEIGHT_FOR_CONTENT;
   isPending = false;
-  user: { avatar: string, balance: number, email: string, userName: string, userUUID: string } =
-    { 'avatar': '', 'balance': 0.0, 'email': '', 'userName': '', 'userUUID': '' };
+  user: { avatar: string, balance: number, email: string, userName: string, userUUID: string, userGames:object } =
+    { 'avatar': '', 'balance': 0.0, 'email': '', 'userName': '', 'userUUID': '' , 'userGames':{}};
 
   usernameInput = new FormControl({ value: 'username', disabled: true }, Validators.required);
   avatarInput = new FormControl('avatarURL', [Validators.required, Validators.pattern('^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$')]);
@@ -46,7 +46,7 @@ export class PageProfileComponent implements OnInit {
     switchMap(() =>
       this.http.get(STRINGS.API_USER_GET_USER_DATA + this.global.getUUIDFromLocalStore(), this.author.TokenForRequests())),
     tap((data: any) => {
-      this.user = data;
+      this.user = data;    
       this.usernameInput.setValue(this.user.userName);
       this.avatarInput.setValue(this.user.avatar);
       this.emailInput.setValue(this.user.email);
@@ -64,7 +64,7 @@ export class PageProfileComponent implements OnInit {
 
   updateUserData$ = new Subject().pipe(
     tap(() => {
-      this.isPending = true;
+      this.isPending = true;   
     }),
     switchMap(() =>
       this.http.post(STRINGS.API_USER_UPDATE_USER_DATA, this.user, this.author.TokenForRequests())),

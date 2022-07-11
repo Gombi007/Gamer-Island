@@ -52,11 +52,19 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         return new org.springframework.security.core.userdetails.User(user.getUserName(), user.getPassword(), authorities);
     }
 
+    @Override
+    public User getUserByName(String username) {
+        boolean isExistingUer = userRepository.findByUserName(username) != null;
+        if (!isExistingUer) {
+            throw new ResourceNotFoundException("User doesn't exist with this name: " + username);
+        }
+        return userRepository.findByUserName(username);
+    }
 
     @Override
-    public Map<String, String> createANewUser(User user) {
-        boolean isExistingUser = userRepository.findExistByName(user.getUserName());
-        if (isExistingUser) {
+    public Map<String, String> createUser(User user) {
+        User existingUser = userRepository.findByUserName(user.getUserName());
+        if (existingUser != null) {
             throw new ResourceAlreadyExistsException("This username is taken. Please choose another one.");
         }
 
@@ -101,15 +109,6 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public User getUserByName(String username) {
-        boolean isExistingUer = userRepository.findByUserName(username) != null;
-        if (!isExistingUer) {
-            throw new ResourceNotFoundException("User doesn't exist with this UUID: " + username);
-        }
-        return userRepository.findByUserName(username);
-    }
-
-    @Override
     public void userCartPurchase(String uuid, Long[] steamAppids) {
 
         if (steamAppids == null || steamAppids.length == 0) {
@@ -149,8 +148,8 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public Set<GameLibraryDetailsDto> libraryDetails(String uuid) {
-        Set<GameLibraryDetailsDto> result = new HashSet<>();
+    public List<GameLibraryDetailsDto> libraryDetails(String uuid) {
+        List<GameLibraryDetailsDto> result = new ArrayList<>();
         User user = userRepository.getUserByUUID(uuid).get();
         if (user == null) {
             throw new ResourceNotFoundException("No user with this UUID: " + uuid);
@@ -166,17 +165,19 @@ public class UserServiceImpl implements UserService, UserDetailsService {
             dto.setId(game.getId());
             result.add(dto);
         }
+
+        result.sort(Comparator.comparing(game -> game.getName().toLowerCase(Locale.ROOT)));
         return result;
     }
 
     @Override
-    public Object getUserDataForProfile(String uuid) {
+    public UserDTO getUserDataForProfile(String uuid) {
         boolean isExistingUer = userRepository.getUserByUUID(uuid).isPresent();
         if (!isExistingUer) {
             throw new ResourceNotFoundException("User doesn't exist with this UUID: " + uuid);
         }
-        UserDTO userDTO = userRepository.findUserDTOByUserUUID(uuid);
-        return userDTO;
+        User user = userRepository.getUserByUUID(uuid).get();
+        return UserDTO.convertToDTO(user);
     }
 
     @Override
@@ -212,6 +213,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
             boolean limitHasExpired = userLastBalanceUpdated.plusHours(timeLimit).isBefore(currentDateTime);
             if (limitHasExpired) {
                 user.setLastBalanceUpdate(Timestamp.valueOf(currentDateTime));
+                user.setBalance(1500.0);
                 userRepository.save(user);
                 result.put("balanceUpdate", "Balance top up was success");
                 return result;
@@ -233,11 +235,26 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         }
     }
 
+    @Override
+    public Object getUserWishlist(String uuid) {
+        boolean isExistingUer = userRepository.getUserByUUID(uuid).isPresent();
+        if (!isExistingUer) {
+            throw new ResourceNotFoundException("User doesn't exist with this UUID: " + uuid);
+        }
+        return null;
+    }
+
     //Only Admin methods
 
     @Override
-    public ArrayList<User> getAllUserFromDatabase() {
-        return userRepository.findAll();
+    public List<UserDTO> getAllUserFromDatabase() {
+        List<UserDTO> userDTOList = new ArrayList<>();
+        ArrayList<User> allUser = userRepository.findAll();
+
+        for (User user : allUser) {
+            userDTOList.add(UserDTO.convertToDTO(user));
+        }
+        return userDTOList;
     }
 
     @Override
@@ -254,20 +271,51 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Override
     public void addRoleToUser(String uuid, String roleName) {
-        User user = userRepository.getUserByUUID(uuid).get();
-        Role role = roleRepository.findByName(roleName);
-        Set<Role> roleSet = new HashSet<>();
-        user.getRoles().forEach(r -> roleSet.add(r));
-        roleSet.add(role);
-        roleSet.forEach(r -> user.getRoles().add(r));
+        User user = null;
+        Role role = null;
+        try {
+            user = userRepository.getUserByUUID(uuid).get();
+            role = roleRepository.findByName(roleName);
+        } catch (NoSuchElementException exception) {
+            throw new ResourceNotFoundException("No user with this uuid: " + uuid);
+        }
+        if (role == null) {
+            throw new ResourceNotFoundException("No role with this name: " + roleName);
+        }
+
         user.getRoles().add(role);
         userRepository.save(user);
     }
 
     @Override
-    public ArrayList<Role> getAllRoles() {
-        return roleRepository.findAll();
+    public Map<String, String> removeRole(Map<String, String> roleName) {
+        Map<String, String> result = new HashMap<>();
+        Role role = roleRepository.findByName(roleName.get("roleName"));
+        if (role != null) {
+            roleRepository.deleteRoleEntriesFromUsersRolesTable(role.getId());
+            roleRepository.delete(role);
+            result.put(roleName.get("roleName"), "Role was removed");
+            return result;
+        }
+        throw new ResourceNotFoundException("There is no role with this name: " + roleName.get("roleName"));
     }
 
+    @Override
+    public List<Object> getAllRoles() {
+        ArrayList<Role> allRole = roleRepository.findAll();
+        List<Object> result = new ArrayList();
+        for (Role role : allRole) {
+            HashMap<String, Object> roleInfo = new HashMap<>();
+            roleInfo.put(role.getId().toString(), role.getName());
+            HashMap<String, String> userInfo = new HashMap<>();
+            for (User user : role.getUsers()) {
+                userInfo.put(user.getUserName(), user.getUserUUID());
+            }
+            roleInfo.put("Users", userInfo);
+            result.add(roleInfo);
+
+        }
+        return result;
+    }
 
 }
