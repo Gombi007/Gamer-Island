@@ -5,7 +5,10 @@ import com.gameisland.models.dto.UserDTO;
 import com.gameisland.models.entities.Role;
 import com.gameisland.models.entities.User;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public interface UserService {
 
@@ -23,7 +26,7 @@ public interface UserService {
 
     void addRoleToUser(String uuid, String roleName);
 
-    ArrayList<Role> getAllRoles();
+    List<Object> getAllRoles();
 
     User getUserByName(String username);
 

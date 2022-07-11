@@ -300,8 +300,21 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public ArrayList<Role> getAllRoles() {
-        return roleRepository.findAll();
+    public List<Object> getAllRoles() {
+        ArrayList<Role> allRole = roleRepository.findAll();
+        List<Object> result = new ArrayList();
+        for (Role role : allRole) {
+            HashMap<String, Object> roleInfo = new HashMap<>();
+            roleInfo.put(role.getId().toString(), role.getName());
+            HashMap<String, String> userInfo = new HashMap<>();
+            for (User user : role.getUsers()) {
+                userInfo.put(user.getUserName(), user.getUserUUID());
+            }
+            roleInfo.put("Users", userInfo);
+            result.add(roleInfo);
+
+        }
+        return result;
     }
 
 

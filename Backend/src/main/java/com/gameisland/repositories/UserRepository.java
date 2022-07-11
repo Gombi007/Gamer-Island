@@ -40,7 +40,7 @@ public interface UserRepository extends CrudRepository<User, Long> {
 
 
     @Modifying
-    @Query(value = "DELETE FROM user_game WHERE user_id = :userId", nativeQuery = true)
+    @Query(value = "DELETE FROM users_games WHERE user_id = :userId", nativeQuery = true)
     void deleteUserGameEntriesByUserId(Long userId);
 
     User findByUserName(String username);

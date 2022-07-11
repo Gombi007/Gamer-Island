@@ -1,10 +1,10 @@
 package com.gameisland.controllers;
 
 import com.gameisland.exceptions.ResourceNotFoundException;
+import com.gameisland.models.dto.RoleToUserFormDTO;
 import com.gameisland.models.entities.Role;
 import com.gameisland.services.SteamGameService;
 import com.gameisland.services.UserService;
-import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -77,7 +77,7 @@ public class AdminRestController {
 
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/roles/add-to-user")
-    public ResponseEntity<Object> addRoleToUser(@RequestBody RoleToUserForm form) {
+    public ResponseEntity<Object> addRoleToUser(@RequestBody RoleToUserFormDTO form) {
         userService.addRoleToUser(form.getUuid(), form.getRole());
         return ResponseEntity.status(HttpStatus.OK).build();
     }
@@ -99,9 +99,5 @@ public class AdminRestController {
 
 }
 
-@Data
-class RoleToUserForm {
-    private String uuid;
-    private String role;
-}
+
 
