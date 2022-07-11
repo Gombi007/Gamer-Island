@@ -1,5 +1,6 @@
 package com.gameisland.controllers;
 
+import com.gameisland.exceptions.ResourceNotFoundException;
 import com.gameisland.models.entities.Role;
 import com.gameisland.services.SteamGameService;
 import com.gameisland.services.UserService;
@@ -41,11 +42,16 @@ public class AdminRestController {
     }
 
     @PreAuthorize("hasRole('ADMIN')")
-    @DeleteMapping("/steam/{id}")
-    public ResponseEntity<Object> removeAGameFromTheDatabasePermanently(@PathVariable String id) {
-        Long gameId = Long.parseLong(id);
-        gameService.removeAGamePermanentlyFromTheDatabaseById(gameId);
-        return ResponseEntity.status(HttpStatus.OK).build();
+    @DeleteMapping("/steam/{appid}")
+    public ResponseEntity<Object> removeAGameFromTheDatabasePermanently(@PathVariable String appid) {
+        Long gameAppid;
+        try {
+            gameAppid = Long.parseLong(appid);
+        } catch (Exception exception) {
+            throw new ResourceNotFoundException("This is not a valid appid");
+        }
+
+        return ResponseEntity.status(HttpStatus.OK).body(gameService.removeAGamePermanentlyFromTheDatabaseByAppId(gameAppid));
     }
 
     // ROLES

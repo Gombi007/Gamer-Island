@@ -14,6 +14,7 @@ import java.util.*;
 
 @Service
 @Slf4j
+@Transactional
 public class SteamGameServiceImpl implements SteamGameService {
     private final SteamApiAllProductsService steamApiAllProductsService;
     private final SteamApiDetailService steamApiDetailService;
@@ -176,15 +177,22 @@ public class SteamGameServiceImpl implements SteamGameService {
     }
 
     @Override
-    @Transactional
-    public void removeAGamePermanentlyFromTheDatabaseById(Long id) {
-        boolean isExistingGame = steamGameRepository.existsById(id);
-        if (isExistingGame) {
-            SteamGame game = steamGameRepository.findById(id).get();
+    public Map<String, String> removeAGamePermanentlyFromTheDatabaseByAppId(Long appid) {
+        SteamGame game = null;
+        Map<String, String> result = new HashMap<>();
+        try {
+            game = steamGameRepository.gameByAppId(appid).get();
+        } catch (NoSuchElementException exception) {
+            throw new ResourceNotFoundException("The game is not exist with this appid: " + appid);
+        }
+
+        if (game != null) {
             steamGameRepository.deleteUserGameEntriesByGameId(game.getId());
             steamGameRepository.delete(game);
+            result.put(game.getSteamAppId().toString(), "Game was removed from the DB");
+            return result;
         }
+        throw new ResourceNotFoundException("The game is not exist with this appid: " + game.getSteamAppId());
+
     }
-
-
 }

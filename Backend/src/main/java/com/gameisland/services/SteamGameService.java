@@ -16,7 +16,7 @@ public interface SteamGameService {
 
     void saveSteamProductsFromFileDBToDatabase(Integer limit);
 
-    void removeAGamePermanentlyFromTheDatabaseById(Long id);
+    Map<String, String> removeAGamePermanentlyFromTheDatabaseByAppId(Long id);
 
     Set<SteamGameDTO> getAllCartGames(Long[] steamAppIds);
 
