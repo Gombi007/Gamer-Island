@@ -55,8 +55,8 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Override
     public Map<String, String> createANewUser(User user) {
-        boolean isExistingUser = userRepository.findExistByName(user.getUserName());
-        if (isExistingUser) {
+        User existingUser = userRepository.findByUserName(user.getUserName());
+        if (existingUser != null) {
             throw new ResourceAlreadyExistsException("This username is taken. Please choose another one.");
         }
 

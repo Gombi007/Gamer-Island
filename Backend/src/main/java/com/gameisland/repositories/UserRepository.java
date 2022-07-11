@@ -17,18 +17,6 @@ public interface UserRepository extends CrudRepository<User, Long> {
     @Override
     ArrayList<User> findAll();
 
-    @Query(value = "SELECT count(user_name) = 1 FROM users WHERE user_name = :userName", nativeQuery = true)
-    boolean findExistByName(String userName);
-
-    @Query(value = "SELECT count(user_name) = 1 FROM users WHERE user_name = :userName AND password = :password", nativeQuery = true)
-    boolean loginDataValidate(String userName, String password);
-
-    @Query(value = "SELECT password FROM users WHERE user_name = :userName", nativeQuery = true)
-    String getPasswordHash(String userName);
-
-    @Query(value = "SELECT useruuid FROM users WHERE user_name = :userName", nativeQuery = true)
-    String getUserUUID(String userName);
-
     @Query(value = "SELECT * FROM users WHERE useruuid = :UUID", nativeQuery = true)
     Optional<User> getUserByUUID(String UUID);
 
@@ -38,7 +26,6 @@ public interface UserRepository extends CrudRepository<User, Long> {
     @Query(value = "SELECT useruuid FROM users", nativeQuery = true)
     Set<String> getAllExistingUUID();
 
-
     @Modifying
     @Query(value = "DELETE FROM users_games WHERE user_id = :userId", nativeQuery = true)
     void deleteUserGameEntriesByUserId(Long userId);
@@ -47,6 +34,5 @@ public interface UserRepository extends CrudRepository<User, Long> {
 
     @Query(nativeQuery = true)
     UserDTO findUserDTOByUserUUID(String UUID);
-
 
 }
