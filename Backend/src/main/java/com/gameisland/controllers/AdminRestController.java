@@ -17,7 +17,6 @@ import java.util.Map;
 @Slf4j
 @RestController
 @RequestMapping("/api/admin")
-@CrossOrigin(origins = "http://localhost:8080")
 @RequiredArgsConstructor
 public class AdminRestController {
     private final SteamGameService gameService;

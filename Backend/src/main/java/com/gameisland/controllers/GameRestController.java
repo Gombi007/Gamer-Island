@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/games")
-@CrossOrigin(origins = "http://localhost:8080")
 @RequiredArgsConstructor
 public class GameRestController {
     private final SteamGameService gameService;
