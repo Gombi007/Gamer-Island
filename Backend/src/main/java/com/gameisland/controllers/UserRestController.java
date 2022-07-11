@@ -18,7 +18,7 @@ public class UserRestController {
 
     @PostMapping("/registration")
     public ResponseEntity<Object> createANewUser(@RequestBody User user) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(userService.createANewUser(user));
+        return ResponseEntity.status(HttpStatus.CREATED).body(userService.createUser(user));
     }
 
     @PreAuthorize("hasRole('USER')")
@@ -63,6 +63,4 @@ public class UserRestController {
     public ResponseEntity<Object> getUserWishlist(@PathVariable String uuid) {
         return ResponseEntity.status(HttpStatus.OK).body(userService.getUserWishlist(uuid));
     }
-
-
 }

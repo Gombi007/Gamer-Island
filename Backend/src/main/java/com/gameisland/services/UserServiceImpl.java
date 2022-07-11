@@ -52,9 +52,17 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         return new org.springframework.security.core.userdetails.User(user.getUserName(), user.getPassword(), authorities);
     }
 
+    @Override
+    public User getUserByName(String username) {
+        boolean isExistingUer = userRepository.findByUserName(username) != null;
+        if (!isExistingUer) {
+            throw new ResourceNotFoundException("User doesn't exist with this name: " + username);
+        }
+        return userRepository.findByUserName(username);
+    }
 
     @Override
-    public Map<String, String> createANewUser(User user) {
+    public Map<String, String> createUser(User user) {
         User existingUser = userRepository.findByUserName(user.getUserName());
         if (existingUser != null) {
             throw new ResourceAlreadyExistsException("This username is taken. Please choose another one.");
@@ -101,15 +109,6 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public User getUserByName(String username) {
-        boolean isExistingUer = userRepository.findByUserName(username) != null;
-        if (!isExistingUer) {
-            throw new ResourceNotFoundException("User doesn't exist with this UUID: " + username);
-        }
-        return userRepository.findByUserName(username);
-    }
-
-    @Override
     public void userCartPurchase(String uuid, Long[] steamAppids) {
 
         if (steamAppids == null || steamAppids.length == 0) {
@@ -149,8 +148,8 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public Set<GameLibraryDetailsDto> libraryDetails(String uuid) {
-        Set<GameLibraryDetailsDto> result = new HashSet<>();
+    public List<GameLibraryDetailsDto> libraryDetails(String uuid) {
+        List<GameLibraryDetailsDto> result = new ArrayList<>();
         User user = userRepository.getUserByUUID(uuid).get();
         if (user == null) {
             throw new ResourceNotFoundException("No user with this UUID: " + uuid);
@@ -166,11 +165,13 @@ public class UserServiceImpl implements UserService, UserDetailsService {
             dto.setId(game.getId());
             result.add(dto);
         }
+
+        result.sort(Comparator.comparing(game -> game.getName().toLowerCase(Locale.ROOT)));
         return result;
     }
 
     @Override
-    public Object getUserDataForProfile(String uuid) {
+    public UserDTO getUserDataForProfile(String uuid) {
         boolean isExistingUer = userRepository.getUserByUUID(uuid).isPresent();
         if (!isExistingUer) {
             throw new ResourceNotFoundException("User doesn't exist with this UUID: " + uuid);
@@ -316,6 +317,5 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         }
         return result;
     }
-
 
 }
