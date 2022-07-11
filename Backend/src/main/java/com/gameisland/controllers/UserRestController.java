@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/users")
-@CrossOrigin(origins = "http://localhost:8080")
 @RequiredArgsConstructor
 public class UserRestController {
     private final UserService userService;
@@ -19,7 +18,7 @@ public class UserRestController {
 
     @PostMapping("/registration")
     public ResponseEntity<Object> createANewUser(@RequestBody User user) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(userService.createANewUser(user));
+        return ResponseEntity.status(HttpStatus.CREATED).body(userService.createUser(user));
     }
 
     @PreAuthorize("hasRole('USER')")
@@ -59,5 +58,9 @@ public class UserRestController {
         return ResponseEntity.status(HttpStatus.OK).body(userService.updateUserBalance(uuid));
     }
 
-
+    @PreAuthorize("hasRole('USER')")
+    @GetMapping("/wishlist/{uuid}")
+    public ResponseEntity<Object> getUserWishlist(@PathVariable String uuid) {
+        return ResponseEntity.status(HttpStatus.OK).body(userService.getUserWishlist(uuid));
+    }
 }

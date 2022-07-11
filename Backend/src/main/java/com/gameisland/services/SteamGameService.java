@@ -8,19 +8,21 @@ import java.util.Set;
 
 public interface SteamGameService {
 
-    Page<SteamGameDTO> getGamesByNameOrGenreOrDescriptionAndConvertDto(int page, int size, String attribute, String attributeVale);
-
     SteamGameDTO getGameDetailsByAppId(Long appId);
-
-    public void saveProductsInAFileViaSteamApi();
-
-    void saveSteamProductsFromFileDBToDatabase(Integer limit);
-
-    void removeAGamePermanentlyFromTheDatabaseById(Long id);
 
     Set<SteamGameDTO> getAllCartGames(Long[] steamAppIds);
 
     Set<String> getAllGenres();
 
     Map<String, Double> getMinAndMaxPrice();
+
+    Page<SteamGameDTO> getGamesByNameOrGenreOrDescriptionAndConvertDto(int page, int size, String attribute, String attributeVale);
+
+    void saveProductsInAFileViaSteamApi();
+
+    void saveSteamProductsFromFileDBToDatabase(Integer limit);
+
+    Map<String, String> removeAGamePermanentlyFromTheDatabaseByAppId(Long id);
+
+
 }

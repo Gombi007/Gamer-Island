@@ -33,7 +33,7 @@ public interface SteamGameRepository extends JpaRepository<SteamGame, Long> {
     Optional<SteamGame> gameByAppId(Long appId);
 
     @Modifying
-    @Query(value = "DELETE FROM user_game WHERE game_id = :gameId", nativeQuery = true)
+    @Query(value = "DELETE FROM users_games WHERE game_id = :gameId", nativeQuery = true)
     void deleteUserGameEntriesByGameId(Long gameId);
 
     @Query(value = "SELECT genres FROM steam_games", nativeQuery = true)

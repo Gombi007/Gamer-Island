@@ -1,9 +1,10 @@
 package com.gameisland.controllers;
 
+import com.gameisland.exceptions.ResourceNotFoundException;
+import com.gameisland.models.dto.RoleToUserFormDTO;
 import com.gameisland.models.entities.Role;
 import com.gameisland.services.SteamGameService;
 import com.gameisland.services.UserService;
-import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -11,10 +12,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 @Slf4j
 @RestController
 @RequestMapping("/api/admin")
-@CrossOrigin(origins = "http://localhost:8080")
 @RequiredArgsConstructor
 public class AdminRestController {
     private final SteamGameService gameService;
@@ -40,14 +42,6 @@ public class AdminRestController {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
-    @DeleteMapping("/steam/{id}")
-    public ResponseEntity<Object> removeAGameFromTheDatabasePermanently(@PathVariable String id) {
-        Long gameId = Long.parseLong(id);
-        gameService.removeAGamePermanentlyFromTheDatabaseById(gameId);
-        return ResponseEntity.status(HttpStatus.OK).build();
-    }
-
     // ROLES
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/roles/all")
@@ -62,13 +56,19 @@ public class AdminRestController {
     }
 
     @PreAuthorize("hasRole('ADMIN')")
+    @DeleteMapping("/roles/remove")
+    public ResponseEntity<Object> removeRole(@RequestBody Map<String, String> roleName) {
+        return ResponseEntity.status(HttpStatus.OK).body(userService.removeRole(roleName));
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/roles/add-to-user")
-    public ResponseEntity<Object> addRoleToUser(@RequestBody RoleToUserForm form) {
+    public ResponseEntity<Object> addRoleToUser(@RequestBody RoleToUserFormDTO form) {
         userService.addRoleToUser(form.getUuid(), form.getRole());
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
-    // USERS
+    // USERS AND GAMES
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/users/all")
     public ResponseEntity<Object> getAllUserFromTheDatabase() {
@@ -82,12 +82,21 @@ public class AdminRestController {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
+    @DeleteMapping("/steam/{appid}")
+    public ResponseEntity<Object> removeAGameFromTheDatabasePermanently(@PathVariable String appid) {
+        Long gameAppid;
+        try {
+            gameAppid = Long.parseLong(appid);
+        } catch (Exception exception) {
+            throw new ResourceNotFoundException("This is not a valid appid");
+        }
+
+        return ResponseEntity.status(HttpStatus.OK).body(gameService.removeAGamePermanentlyFromTheDatabaseByAppId(gameAppid));
+    }
+
 
 }
 
-@Data
-class RoleToUserForm {
-    private String uuid;
-    private String role;
-}
+
 

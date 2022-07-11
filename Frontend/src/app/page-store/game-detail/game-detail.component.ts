@@ -23,6 +23,8 @@ export class GameDetailComponent implements OnInit {
   firstScreenshot: string="";
   gameName?: string;
 
+  steamLink:string = STRINGS.STEAM_GE_TO_APP_STORE;
+
 
   constructor(private route: ActivatedRoute, private router: Router, private global: GlobalService, private http: HttpClient, private author: AuthorizationService) { }
 
@@ -137,8 +139,4 @@ export class GameDetailComponent implements OnInit {
   addToCart(steamAppId:number){
   this.global.addgamesToCart(steamAppId);
   }
-
-
-
-
 }
