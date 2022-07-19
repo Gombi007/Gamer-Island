@@ -20,14 +20,12 @@ export class GameDetailComponent implements OnInit {
   errorMessage = ''
   isPendingWishlist = false
   wishlistSteamAppid: number[] = []
+  checkUserOwnedTheGameOrOnWishlist = { library: false, wishlist: false }
 
   game: GameDetails = new GameDetails()
   screenshots: string[] = []
   firstScreenshot: string = "";
   gameName?: string;
-
-  steamLink: string = STRINGS.STEAM_GE_TO_APP_STORE;
-
 
   constructor(private route: ActivatedRoute, private router: Router, private global: GlobalService, private http: HttpClient, private author: AuthorizationService) { }
 
@@ -38,8 +36,11 @@ export class GameDetailComponent implements OnInit {
     });
     this.getGameByAppid$.subscribe();
     this.addGameToWishlist$.subscribe();
+    this.checkGameOwnedOrOnWishlist$.subscribe();
     //@ts-ignore
     this.getGameByAppid$.next();
+    //@ts-ignore
+    this.checkGameOwnedOrOnWishlist$.next();
 
   }
 
@@ -63,7 +64,7 @@ export class GameDetailComponent implements OnInit {
       this.firstScreenshot = this.screenshots[0]
     }),
     catchError(error => {
-      let message = error.error.error_message;    
+      let message = error.error.error_message;
       if (message.includes("Token has expired")) {
         this.global.experiedSession = true;
         this.router.navigate(['login']);
@@ -78,7 +79,30 @@ export class GameDetailComponent implements OnInit {
     }),
     switchMap(() =>
       this.http.post(STRINGS.API_USER_WISHLIST + this.global.getUUIDFromLocalStore(), this.wishlistSteamAppid, this.author.TokenForRequests())),
-    tap((data: any) => {  
+    tap((data: any) => {
+      this.isPendingWishlist = false;
+    }),
+    catchError(error => {
+      let message = error.error.error_message;
+      if (message === undefined) {
+        this.errorMessage = error.error;
+      } else if (message.includes("Token has expired")) {
+        this.global.experiedSession = true;
+        this.router.navigate(['login']);
+      }
+      this.isPendingWishlist = false;
+      return EMPTY;
+    })
+  );
+
+  checkGameOwnedOrOnWishlist$ = new Subject().pipe(
+    tap(() => {
+      this.isPendingWishlist = true;
+    }),
+    switchMap(() =>
+      this.http.get(STRINGS.API_USER_CHECK_WISHLIST_OR_OWNED + this.global.getUUIDFromLocalStore() + '/' + this.gameSteamAppid, this.author.TokenForRequests())),
+    tap((data: any) => {
+      this.checkUserOwnedTheGameOrOnWishlist = data;
       this.isPendingWishlist = false;
     }),
     catchError(error => {
@@ -165,13 +189,13 @@ export class GameDetailComponent implements OnInit {
   addToCart(steamAppId: number) {
     this.global.addgamesToCart(steamAppId);
   }
-  
+
   addToWishlist(steamAppId: number) {
-    this.wishlistSteamAppid.push(steamAppId);   
+    this.wishlistSteamAppid.push(steamAppId);
     //@ts-ignore
     this.addGameToWishlist$.next();
 
-    
+
 
   }
 }
