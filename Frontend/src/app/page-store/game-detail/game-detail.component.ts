@@ -39,8 +39,6 @@ export class GameDetailComponent implements OnInit {
     this.checkGameOwnedOrOnWishlist$.subscribe();
     //@ts-ignore
     this.getGameByAppid$.next();
-    //@ts-ignore
-    this.checkGameOwnedOrOnWishlist$.next();
 
   }
 
@@ -58,6 +56,8 @@ export class GameDetailComponent implements OnInit {
     switchMap(() =>
       this.http.get(STRINGS.API_GAMES_DETAILS + this.gameSteamAppid, this.author.TokenForRequests())),
     tap((data: any) => {
+      //@ts-ignore
+      this.checkGameOwnedOrOnWishlist$.next();
       this.isPending = false;
       this.game = data;
       this.screenshots = data.screenshot_urls
@@ -81,7 +81,7 @@ export class GameDetailComponent implements OnInit {
       this.http.post(STRINGS.API_USER_WISHLIST + this.global.getUUIDFromLocalStore(), this.wishlistSteamAppid, this.author.TokenForRequests())),
     tap((data: any) => {
       //@ts-ignore
-      this.checkGameOwnedOrOnWishlist$.next();     
+      this.checkGameOwnedOrOnWishlist$.next();
     }),
     catchError(error => {
       let message = error.error.error_message;
