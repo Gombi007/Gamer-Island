@@ -8,6 +8,9 @@
     background-color:  rgb(36, 75, 94);
     color: whitesmoke;    
 }
+.table td img{
+    width: 10rem;
+}
 
 .table td i{
     color: red;

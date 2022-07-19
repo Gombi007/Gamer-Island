@@ -8,6 +8,7 @@ export enum STRINGS {
     API_USER_GET_USER_DATA = 'http://localhost:8081/api/users/profile/',
     API_USER_UPDATE_USER_DATA = 'http://localhost:8081/api/users/profile/update',
     API_USER_UPDATE_USER_BALANCE = 'http://localhost:8081/api/users/profile/balance/',
+    API_USER_GET_WISHLIST = 'http://localhost:8081/api/users/wishlist/',
 
     API_ALL_GAMES_FOR_SHOP = 'http://localhost:8081/api/games/shop/',
     API_GAMES_DETAILS = 'http://localhost:8081/api/games/',
