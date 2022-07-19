@@ -1,5 +1,6 @@
-.container-fluid{    
-    overflow-y: hidden;  
+.container-fluid{   
+  
+    overflow-y: auto;  
 }
 .table{  
     max-width: 70%; 

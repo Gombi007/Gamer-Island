@@ -1,8 +1,8 @@
-<div class="container-fluid"[ngStyle]="{'height.px': innerHeight}" > 
+<div class="container-fluid" [ngStyle]="{'height.px': innerHeight}" > 
     <div class="row flex-container justify-content-center pt-3">
-        <ng-container *ngFor="let game of wishlist">
-            <table class="table table-dark table-borderless table-hover">
-              <tbody>
+      <ng-container *ngFor="let game of wishlist">
+          <table class="table table-dark table-borderless table-hover">
+          <tbody>
                 <tr>
 
                   <td class="w-25 p-0"><img src="{{game.headerImage}}" alt="image"></td>
@@ -18,6 +18,6 @@
                 </tr>
               </tbody>
             </table>
-          </ng-container>
+              </ng-container>
     </div>
 </div>
