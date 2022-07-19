@@ -63,7 +63,7 @@ export class GameDetailComponent implements OnInit {
       this.firstScreenshot = this.screenshots[0]
     }),
     catchError(error => {
-      let message = error.error.error_message;
+      let message = error.error.error_message;    
       if (message.includes("Token has expired")) {
         this.global.experiedSession = true;
         this.router.navigate(['login']);
@@ -78,8 +78,7 @@ export class GameDetailComponent implements OnInit {
     }),
     switchMap(() =>
       this.http.post(STRINGS.API_USER_WISHLIST + this.global.getUUIDFromLocalStore(), this.wishlistSteamAppid, this.author.TokenForRequests())),
-    tap((data: any) => {
-      console.log(data)
+    tap((data: any) => {  
       this.isPendingWishlist = false;
     }),
     catchError(error => {
