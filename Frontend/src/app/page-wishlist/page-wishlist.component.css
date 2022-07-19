@@ -1,0 +1,15 @@
+.container-fluid{    
+    overflow-y: hidden;  
+}
+.table{  
+    max-width: 70%; 
+}
+.table td{
+    background-color:  rgb(36, 75, 94);
+    color: whitesmoke;    
+}
+
+.table td i{
+    color: red;
+    font-size: 2rem;
+}
