@@ -35,14 +35,11 @@
                 <div class="card card-info">
                     <img src="{{game.header_image}}" class="card-img-top" alt="header-image">
                     <div class="card-body card-content">
-                        <p class="card-text text-start" [innerHTML]="game.short_description"></p>
-                        <div class="d-flex justify-content-between me-2">
-                            <b> Steam ID: {{game.steam_appid}}</b>
-                            <a class="steam-link" href="{{steamLink}} {{game.steam_appid}}" target="_blank">Go to Steam and check this Game</a>
-                        </div>                        
+                        <p class="card-text text-start" [innerHTML]="game.short_description"></p>                                        
                         <p class="card-text text-start">    
+                            <b>Steam ID:</b> {{game.steam_appid}}
                             <br>
-                            <b> Publishers:</b> {{game.publishers}}
+                            <b>Publishers:</b> {{game.publishers}}
                             <br>
                             <b>Developers:</b> {{game.developers}}
                         </p>

@@ -58,9 +58,19 @@ public class UserRestController {
         return ResponseEntity.status(HttpStatus.OK).body(userService.updateUserBalance(uuid));
     }
 
+    //wishlist
     @PreAuthorize("hasRole('USER')")
     @GetMapping("/wishlist/{uuid}")
     public ResponseEntity<Object> getUserWishlist(@PathVariable String uuid) {
         return ResponseEntity.status(HttpStatus.OK).body(userService.getUserWishlist(uuid));
     }
+
+    @PreAuthorize("hasRole('USER')")
+    @PostMapping("/wishlist/{uuid}")
+    public ResponseEntity<Object> addGamesToWishlist(@PathVariable String uuid, @RequestBody Long[] steamAppids) {
+        userService.addGamesToWishlist(uuid, steamAppids);
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
+
 }
