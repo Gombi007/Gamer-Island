@@ -53,8 +53,8 @@
     justify-content: space-between;
 }
 
-.cart {
-    margin: 2rem;
+.cart {   
+    margin-top: 1rem;   
     padding: 1rem;
     border-radius: 5px;
     background-image: linear-gradient(45deg, rgb(0, 0, 0), rgb(36, 75, 94));
@@ -67,7 +67,7 @@
     text-shadow: 2px 2px 2px rgb(14, 14, 14);
     width: 8rem;
     display: flex;
-    margin-left: 5rem;
+    margin-left: 4.6rem;
     align-items: center;
     justify-content: space-between;
 
@@ -81,6 +81,45 @@
 .fa-cart-plus:hover {
     color: greenyellow;
 }
+.buy-game-name{
+    color: rgb(211, 172, 124);
+}
+
+
+.wishlist {
+    margin-top: 1rem;   
+    padding: 1rem;
+    border-radius: 5px;
+    background-image: linear-gradient(45deg, rgb(0, 0, 0), rgb(36, 75, 94));
+    display: flex;
+    justify-content: center;
+    align-items: center;
+   
+}
+
+.wishlist-icon {
+    cursor: pointer;
+    font-size: 1.6rem;
+    text-shadow: 2px 2px 2px rgb(14, 14, 14);  
+}
+.wishlist-icon:hover{
+    color: greenyellow;
+}
+.wishlist-spinner-icon { 
+    font-size: 1.6rem;
+    text-shadow: 2px 2px 2px rgb(14, 14, 14);  
+}
+.wishlist-game-name{
+    padding-right: 2rem;
+    color: rgb(211, 172, 124);
+}
+
+.owned-game-icon{
+    font-size: 1.6rem;
+    text-shadow: 2px 2px 2px rgb(14, 14, 14);  
+    color: greenyellow;
+}
+
 
 .thumbnails {
     overflow-x: scroll;

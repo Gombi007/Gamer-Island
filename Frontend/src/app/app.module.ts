@@ -19,6 +19,7 @@ import { GameDetailComponent } from './page-store/game-detail/game-detail.compon
 import { NgxPaginationModule } from 'ngx-pagination';
 import { CartComponent } from './page-store/cart/cart.component';
 import { NgxSliderModule } from '@angular-slider/ngx-slider';
+import { PageWishlistComponent } from './page-wishlist/page-wishlist.component';
 
 
 @NgModule({
@@ -36,7 +37,8 @@ import { NgxSliderModule } from '@angular-slider/ngx-slider';
     StoreSearchComponent,
     StoreElementsComponent,
     GameDetailComponent,
-    CartComponent
+    CartComponent,
+    PageWishlistComponent
   ],
   imports: [
     BrowserModule,

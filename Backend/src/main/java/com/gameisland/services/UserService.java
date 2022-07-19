@@ -29,6 +29,12 @@ public interface UserService {
 
     Object getUserWishlist(String uuid);
 
+    Object addGamesToWishlist(String uuid, Long[] steamAppids);
+
+    Object removeGameFromWishlist(String uuid, Long[] steamAppids);
+
+    Object isUserOwnTheGameOrOnTheWishlist(String uuid, Long steamAppid);
+
     List<UserDTO> getAllUserFromDatabase();
 
     void removeAUserPermanently(String uuid);
