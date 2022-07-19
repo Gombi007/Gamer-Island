@@ -280,7 +280,28 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         return null;
     }
 
-//Only Admin methods
+    @Override
+    public Object removeGameFromWishlist(String uuid, Long[] steamAppids) {
+        boolean isExistingUer = userRepository.getUserByUUID(uuid).isPresent();
+        if (!isExistingUer) {
+            throw new ResourceNotFoundException("User doesn't exist with this UUID: " + uuid);
+        }
+        User user = userRepository.getUserByUUID(uuid).get();
+
+        for (Long steamAppid : steamAppids) {
+            try {
+                SteamGame game = gameRepository.gameByAppId(steamAppid).get();
+                user.getWishlist().remove(game);
+
+            } catch (NoSuchElementException exception) {
+                log.error("This game is not exist with this steam appid: {}", steamAppid);
+            }
+        }
+        userRepository.save(user);
+        return null;
+    }
+
+    //Only Admin methods
 
     @Override
     public List<UserDTO> getAllUserFromDatabase() {
