@@ -8,11 +8,13 @@ import { PageProfileComponent } from './page-profile/page-profile.component';
 import { CartComponent } from './page-store/cart/cart.component';
 import { GameDetailComponent } from './page-store/game-detail/game-detail.component';
 import { PageStoreComponent } from './page-store/page-store.component';
+import { PageWishlistComponent } from './page-wishlist/page-wishlist.component';
 
 const routes: Routes = [
   { path: "", redirectTo: 'store', pathMatch: 'full' },
   { path: "store", component: PageStoreComponent, canActivate: [AuthGuard] },
   { path: "library", component: PageLibraryComponent, canActivate: [AuthGuard] },
+  { path: "wishlist", component: PageWishlistComponent, canActivate: [AuthGuard] },
   { path: "community", component: PageCommunityComponent, canActivate: [AuthGuard] },
   { path: "profile", component: PageProfileComponent, canActivate: [AuthGuard] },
   { path: "store/:steamAppid", component: GameDetailComponent, canActivate: [AuthGuard] },
