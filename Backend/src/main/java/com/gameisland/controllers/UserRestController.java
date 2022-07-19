@@ -69,14 +69,14 @@ public class UserRestController {
     @PostMapping("/wishlist/{uuid}")
     public ResponseEntity<Object> addGamesToWishlist(@PathVariable String uuid, @RequestBody Long[] steamAppids) {
         userService.addGamesToWishlist(uuid, steamAppids);
-        return ResponseEntity.status(HttpStatus.OK).build();
+        return ResponseEntity.status(HttpStatus.OK).body("GAME WAS ADDED TO WISHLIST");
     }
 
     @PreAuthorize("hasRole('USER')")
     @DeleteMapping("/wishlist/{uuid}")
     public ResponseEntity<Object> removeGameFromWishlist(@PathVariable String uuid, @RequestBody Long[] steamAppids) {
         userService.removeGameFromWishlist(uuid, steamAppids);
-        return ResponseEntity.status(HttpStatus.OK).build();
+        return ResponseEntity.status(HttpStatus.OK).body("GAME WAS REMOVED");
     }
 
 
