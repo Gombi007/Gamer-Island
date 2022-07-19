@@ -113,6 +113,12 @@
     color: rgb(211, 172, 124);
 }
 
+.owned-game-icon{
+    font-size: 1.6rem;
+    text-shadow: 2px 2px 2px rgb(14, 14, 14);  
+    color: greenyellow;
+}
+
 
 .thumbnails {
     overflow-x: scroll;

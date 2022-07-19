@@ -64,7 +64,8 @@
             <div class="wishlist" *ngIf="getGamePrice(game) !== 3">
                 <h5 class="m-0">Add to your wishlist <b class="wishlist-game-name">{{game.name}}</b></h5>
                 <i class="fa-solid fa-plus wishlist-icon" (click)="addToWishlist(game.steam_appid)"
-                    *ngIf="!isPendingWishlist"></i>
+                    *ngIf="!isPendingWishlist && !checkUserOwnedTheGameOrOnWishlist.wishlist"></i>
+                    <i class="fa-solid fa-check  owned-game-icon"*ngIf="!isPendingWishlist && checkUserOwnedTheGameOrOnWishlist.wishlist"></i> 
                 <i class="fa fa-hurricane fa-spin spinner wishlist-spinner-icon" *ngIf="isPendingWishlist"></i>
 
             </div>
@@ -75,7 +76,8 @@
                     <h4 class="m-0" *ngIf="getGamePrice(game) === 1">{{game.price_in_final_formatted}} €</h4>
                     <h4 class="m-0" *ngIf="getGamePrice(game) === 2">Free</h4>
                     <h4 class="m-0" *ngIf="getGamePrice(game) === 3">N/A</h4>
-                    <i class="fa-solid fa-cart-plus" (click)="addToCart(game.steam_appid)"></i>
+                    <i class="fa-solid fa-cart-plus" (click)="addToCart(game.steam_appid)" *ngIf="!checkUserOwnedTheGameOrOnWishlist.library"></i>
+                    <i class="fa-solid fa-check  owned-game-icon" *ngIf="checkUserOwnedTheGameOrOnWishlist.library"></i>
                 </div>
             </div>
 

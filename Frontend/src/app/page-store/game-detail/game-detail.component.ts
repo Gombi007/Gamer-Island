@@ -80,7 +80,8 @@ export class GameDetailComponent implements OnInit {
     switchMap(() =>
       this.http.post(STRINGS.API_USER_WISHLIST + this.global.getUUIDFromLocalStore(), this.wishlistSteamAppid, this.author.TokenForRequests())),
     tap((data: any) => {
-      this.isPendingWishlist = false;
+      //@ts-ignore
+      this.checkGameOwnedOrOnWishlist$.next();     
     }),
     catchError(error => {
       let message = error.error.error_message;
@@ -194,8 +195,6 @@ export class GameDetailComponent implements OnInit {
     this.wishlistSteamAppid.push(steamAppId);
     //@ts-ignore
     this.addGameToWishlist$.next();
-
-
 
   }
 }
