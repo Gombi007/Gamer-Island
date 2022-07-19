@@ -1,5 +1,6 @@
 package com.gameisland.controllers;
 
+import com.gameisland.exceptions.ResourceNotFoundException;
 import com.gameisland.models.dto.UserDTO;
 import com.gameisland.models.entities.User;
 import com.gameisland.services.UserService;
@@ -25,6 +26,18 @@ public class UserRestController {
     @GetMapping("/username/{uuid}")
     public ResponseEntity<Object> getUsernameAndBalanceAndAvatarByUUID(@PathVariable String uuid) {
         return ResponseEntity.status(HttpStatus.OK).body(userService.getUsernameAndBalanceAndAvatarByUUID(uuid));
+    }
+
+    @PreAuthorize("hasRole('USER')")
+    @GetMapping("/wishlist-library/{uuid}/{steamAppid}")
+    public ResponseEntity<Object> isUserOwnTheGameOrOnTheWishlist(@PathVariable String uuid, @PathVariable String steamAppid) {
+        Long steamAppidNumber = null;
+        try {
+            steamAppidNumber = Long.parseLong(steamAppid);
+        } catch (NumberFormatException exception) {
+            throw new ResourceNotFoundException("Please add a number instead of this: " + steamAppid);
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(userService.isUserOwnTheGameOrOnTheWishlist(uuid, steamAppidNumber));
     }
 
     @PreAuthorize("hasRole('USER')")
@@ -58,9 +71,26 @@ public class UserRestController {
         return ResponseEntity.status(HttpStatus.OK).body(userService.updateUserBalance(uuid));
     }
 
+    //wishlist
     @PreAuthorize("hasRole('USER')")
     @GetMapping("/wishlist/{uuid}")
     public ResponseEntity<Object> getUserWishlist(@PathVariable String uuid) {
         return ResponseEntity.status(HttpStatus.OK).body(userService.getUserWishlist(uuid));
     }
+
+    @PreAuthorize("hasRole('USER')")
+    @PostMapping("/wishlist/{uuid}")
+    public ResponseEntity<Object> addGamesToWishlist(@PathVariable String uuid, @RequestBody Long[] steamAppids) {
+        userService.addGamesToWishlist(uuid, steamAppids);
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
+    @PreAuthorize("hasRole('USER')")
+    @DeleteMapping("/wishlist/{uuid}")
+    public ResponseEntity<Object> removeGameFromWishlist(@PathVariable String uuid, @RequestBody Long[] steamAppids) {
+        userService.removeGameFromWishlist(uuid, steamAppids);
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
+
 }

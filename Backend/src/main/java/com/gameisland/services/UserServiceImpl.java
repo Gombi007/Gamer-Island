@@ -237,11 +237,95 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Override
     public Object getUserWishlist(String uuid) {
+        List<GameLibraryDetailsDto> result = new ArrayList<>();
         boolean isExistingUer = userRepository.getUserByUUID(uuid).isPresent();
         if (!isExistingUer) {
             throw new ResourceNotFoundException("User doesn't exist with this UUID: " + uuid);
         }
+        User user = userRepository.getUserByUUID(uuid).get();
+        Iterator<SteamGame> iterator = user.getWishlist().iterator();
+        while (iterator.hasNext()) {
+            SteamGame game = iterator.next();
+            GameLibraryDetailsDto dto = new GameLibraryDetailsDto();
+            dto.setId(game.getId());
+            dto.setName(game.getName());
+            dto.setAppId(game.getSteamAppId());
+            dto.setHeaderImage(game.getHeaderImage());
+            result.add(dto);
+        }
+        result.sort(Comparator.comparing(game -> game.getName().toLowerCase(Locale.ROOT)));
+        return result;
+    }
+
+    @Override
+    public Object addGamesToWishlist(String uuid, Long[] steamAppids) {
+        boolean isExistingUer = userRepository.getUserByUUID(uuid).isPresent();
+        if (!isExistingUer) {
+            throw new ResourceNotFoundException("User doesn't exist with this UUID: " + uuid);
+        }
+        User user = userRepository.getUserByUUID(uuid).get();
+
+        for (Long steamAppid : steamAppids) {
+            try {
+                SteamGame game = gameRepository.gameByAppId(steamAppid).get();
+                if (!user.getOwnedGames().contains(game)) {
+                    user.getWishlist().add(game);
+                }
+
+            } catch (NoSuchElementException exception) {
+                log.error("This game is not exist: {}", steamAppid);
+            }
+        }
+        userRepository.save(user);
         return null;
+    }
+
+    @Override
+    public Object removeGameFromWishlist(String uuid, Long[] steamAppids) {
+        boolean isExistingUer = userRepository.getUserByUUID(uuid).isPresent();
+        if (!isExistingUer) {
+            throw new ResourceNotFoundException("User doesn't exist with this UUID: " + uuid);
+        }
+        User user = userRepository.getUserByUUID(uuid).get();
+
+        for (Long steamAppid : steamAppids) {
+            try {
+                SteamGame game = gameRepository.gameByAppId(steamAppid).get();
+                user.getWishlist().remove(game);
+
+            } catch (NoSuchElementException exception) {
+                log.error("This game is not exist with this steam appid: {}", steamAppid);
+            }
+        }
+        userRepository.save(user);
+        return null;
+    }
+
+    @Override
+    public Object isUserOwnTheGameOrOnTheWishlist(String uuid, Long steamAppid) {
+        boolean isExistingUer = userRepository.getUserByUUID(uuid).isPresent();
+        boolean isExistingGame = gameRepository.gameByAppId(steamAppid).isPresent();
+        if (!isExistingUer) {
+            throw new ResourceNotFoundException("User doesn't exist with this UUID: " + uuid);
+        }
+        if (!isExistingGame) {
+            throw new ResourceNotFoundException("Game doesn't exist with this id: " + steamAppid);
+        }
+        User user = userRepository.getUserByUUID(uuid).get();
+        SteamGame game = gameRepository.gameByAppId(steamAppid).get();
+        Map<String, Boolean> result = new HashMap<>();
+        if (user.getWishlist().contains(game)) {
+            result.put("wishlist", true);
+        } else {
+            result.put("wishlist", false);
+        }
+
+        if (user.getOwnedGames().contains(game)) {
+            result.put("library", true);
+        } else {
+            result.put("library", false);
+        }
+        return result;
     }
 
     //Only Admin methods

@@ -47,6 +47,9 @@ public class SteamGame extends BusinessObject {
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "ownedGames")
     private Set<User> users;
 
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "wishlist")
+    private Set<User> wishlistUsers;
+
 
     public SteamGame(Long steamAppId, Boolean success, String name, String requiredAge, Boolean isFree, String headerImage, String website, Double price, String developers, String publishers, String platforms, String genres, String metacritic, String screenshots, String detailedDescription, String aboutTheGame, String shortDescription, String supportedLanguages) {
         this.steamAppId = steamAppId;

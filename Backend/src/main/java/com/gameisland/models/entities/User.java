@@ -41,6 +41,7 @@ public class User extends BusinessObject {
     private String userUUID;
     private Timestamp lastBalanceUpdate;
 
+
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "users_games",
@@ -51,15 +52,20 @@ public class User extends BusinessObject {
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
+            name = "users_wishlist_games",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "game_id")
+    )
+    private Set<SteamGame> wishlist;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
             name = "users_roles",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
     private Set<Role> roles = new HashSet<>();
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "wishlist_id", referencedColumnName = "id")
-    private Wishlist wishlist;
 
 }
 
