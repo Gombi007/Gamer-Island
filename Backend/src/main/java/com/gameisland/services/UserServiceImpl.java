@@ -301,6 +301,33 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         return null;
     }
 
+    @Override
+    public Object isUserOwnTheGameOrOnTheWishlist(String uuid, Long steamAppid) {
+        boolean isExistingUer = userRepository.getUserByUUID(uuid).isPresent();
+        boolean isExistingGame = gameRepository.gameByAppId(steamAppid).isPresent();
+        if (!isExistingUer) {
+            throw new ResourceNotFoundException("User doesn't exist with this UUID: " + uuid);
+        }
+        if (!isExistingGame) {
+            throw new ResourceNotFoundException("Game doesn't exist with this id: " + steamAppid);
+        }
+        User user = userRepository.getUserByUUID(uuid).get();
+        SteamGame game = gameRepository.gameByAppId(steamAppid).get();
+        Map<String, Boolean> result = new HashMap<>();
+        if (user.getWishlist().contains(game)) {
+            result.put("wishlist", true);
+        } else {
+            result.put("wishlist", false);
+        }
+
+        if (user.getOwnedGames().contains(game)) {
+            result.put("library", true);
+        } else {
+            result.put("library", false);
+        }
+        return result;
+    }
+
     //Only Admin methods
 
     @Override

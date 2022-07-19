@@ -33,6 +33,8 @@ public interface UserService {
 
     Object removeGameFromWishlist(String uuid, Long[] steamAppids);
 
+    Object isUserOwnTheGameOrOnTheWishlist(String uuid, Long steamAppid);
+
     List<UserDTO> getAllUserFromDatabase();
 
     void removeAUserPermanently(String uuid);
