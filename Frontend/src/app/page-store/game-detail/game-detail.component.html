@@ -35,8 +35,8 @@
                 <div class="card card-info">
                     <img src="{{game.header_image}}" class="card-img-top" alt="header-image">
                     <div class="card-body card-content">
-                        <p class="card-text text-start" [innerHTML]="game.short_description"></p>                                        
-                        <p class="card-text text-start">    
+                        <p class="card-text text-start" [innerHTML]="game.short_description"></p>
+                        <p class="card-text text-start">
                             <b>Steam ID:</b> {{game.steam_appid}}
                             <br>
                             <b>Publishers:</b> {{game.publishers}}
@@ -61,9 +61,16 @@
                 </div>
             </div>
 
+            <div class="wishlist" *ngIf="getGamePrice(game) !== 3">
+                <h5 class="m-0">Add to your wishlist <b class="wishlist-game-name">{{game.name}}</b></h5>
+                <i class="fa-solid fa-plus wishlist-icon" (click)="addToWishlist(game.steam_appid)"
+                    *ngIf="!isPendingWishlist"></i>
+                <i class="fa fa-hurricane fa-spin spinner wishlist-spinner-icon" *ngIf="isPendingWishlist"></i>
+
+            </div>
 
             <div class="cart" *ngIf="getGamePrice(game) !== 3">
-                <h5 class="m-0">Buy {{game.name}}</h5>
+                <h5 class="m-0">Buy <b class="buy-game-name">{{game.name}} </b></h5>
                 <div class="cart-icon">
                     <h4 class="m-0" *ngIf="getGamePrice(game) === 1">{{game.price_in_final_formatted}} €</h4>
                     <h4 class="m-0" *ngIf="getGamePrice(game) === 2">Free</h4>

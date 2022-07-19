@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Component, HostListener, OnInit, Input, OnChanges, SimpleChanges, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { catchError, EMPTY, Subject, switchMap, tap, timeout } from 'rxjs';
@@ -10,20 +10,23 @@ import { STRINGS } from 'src/app/strings.enum';
 @Component({
   selector: 'app-game-detail',
   templateUrl: './game-detail.component.html',
-  styleUrls: ['./game-detail.component.css'] 
+  styleUrls: ['./game-detail.component.css']
 })
 export class GameDetailComponent implements OnInit {
   innerHeight!: number;
   headerHeight: number = STRINGS.HEADER_HEIGHT_FOR_CONTENT;
   gameSteamAppid: number = 0;
   isPending = false
+  errorMessage = ''
+  isPendingWishlist = false
+  wishlistSteamAppid: number[] = []
 
   game: GameDetails = new GameDetails()
-  screenshots:string[] = []
-  firstScreenshot: string="";
+  screenshots: string[] = []
+  firstScreenshot: string = "";
   gameName?: string;
 
-  steamLink:string = STRINGS.STEAM_GE_TO_APP_STORE;
+  steamLink: string = STRINGS.STEAM_GE_TO_APP_STORE;
 
 
   constructor(private route: ActivatedRoute, private router: Router, private global: GlobalService, private http: HttpClient, private author: AuthorizationService) { }
@@ -34,8 +37,9 @@ export class GameDetailComponent implements OnInit {
       this.gameSteamAppid = params['steamAppid']
     });
     this.getGameByAppid$.subscribe();
-     //@ts-ignore
-     this.getGameByAppid$.next();
+    this.addGameToWishlist$.subscribe();
+    //@ts-ignore
+    this.getGameByAppid$.next();
 
   }
 
@@ -48,7 +52,7 @@ export class GameDetailComponent implements OnInit {
 
   getGameByAppid$ = new Subject().pipe(
     tap(() => {
-      this.isPending = true;   
+      this.isPending = true;
     }),
     switchMap(() =>
       this.http.get(STRINGS.API_GAMES_DETAILS + this.gameSteamAppid, this.author.TokenForRequests())),
@@ -56,7 +60,7 @@ export class GameDetailComponent implements OnInit {
       this.isPending = false;
       this.game = data;
       this.screenshots = data.screenshot_urls
-      this.firstScreenshot = this.screenshots[0]    
+      this.firstScreenshot = this.screenshots[0]
     }),
     catchError(error => {
       let message = error.error.error_message;
@@ -68,6 +72,29 @@ export class GameDetailComponent implements OnInit {
     })
   );
 
+  addGameToWishlist$ = new Subject().pipe(
+    tap(() => {
+      this.isPendingWishlist = true;
+    }),
+    switchMap(() =>
+      this.http.post(STRINGS.API_USER_WISHLIST + this.global.getUUIDFromLocalStore(), this.wishlistSteamAppid, this.author.TokenForRequests())),
+    tap((data: any) => {
+      console.log(data)
+      this.isPendingWishlist = false;
+    }),
+    catchError(error => {
+      let message = error.error.error_message;
+      if (message === undefined) {
+        this.errorMessage = error.error;
+      } else if (message.includes("Token has expired")) {
+        this.global.experiedSession = true;
+        this.router.navigate(['login']);
+      }
+      this.isPendingWishlist = false;
+      return EMPTY;
+    })
+  );
+
   changePic(i: number) {
     this.firstScreenshot = this.screenshots[i];
 
@@ -75,7 +102,7 @@ export class GameDetailComponent implements OnInit {
 
   nextPic() {
     var screenshotsLength = this.screenshots.length;
-    var selectedPicId = this.screenshots.indexOf(this.firstScreenshot);    
+    var selectedPicId = this.screenshots.indexOf(this.firstScreenshot);
 
     if (selectedPicId !== undefined) {
       var id: number = selectedPicId;
@@ -92,7 +119,7 @@ export class GameDetailComponent implements OnInit {
 
   prevPic() {
     var screenshotsLength = this.screenshots.length;
-    var selectedPicId = this.screenshots.indexOf(this.firstScreenshot);    
+    var selectedPicId = this.screenshots.indexOf(this.firstScreenshot);
 
     if (selectedPicId !== undefined) {
       var id: number = selectedPicId;
@@ -136,7 +163,16 @@ export class GameDetailComponent implements OnInit {
     return 0;
   }
 
-  addToCart(steamAppId:number){
-  this.global.addgamesToCart(steamAppId);
+  addToCart(steamAppId: number) {
+    this.global.addgamesToCart(steamAppId);
+  }
+  
+  addToWishlist(steamAppId: number) {
+    this.wishlistSteamAppid.push(steamAppId);   
+    //@ts-ignore
+    this.addGameToWishlist$.next();
+
+    
+
   }
 }

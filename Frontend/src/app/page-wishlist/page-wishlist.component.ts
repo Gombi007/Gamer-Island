@@ -38,7 +38,7 @@ export class PageWishlistComponent implements OnInit {
         this.isPending = true;
       }),
       switchMap(() =>
-        this.http.get(STRINGS.API_USER_GET_WISHLIST+this.global.getUUIDFromLocalStore(), this.author.TokenForRequests())),
+        this.http.get(STRINGS.API_USER_WISHLIST+this.global.getUUIDFromLocalStore(), this.author.TokenForRequests())),
       tap((data: any) => {
         this.isPending = false;
         this.wishlist = data;
