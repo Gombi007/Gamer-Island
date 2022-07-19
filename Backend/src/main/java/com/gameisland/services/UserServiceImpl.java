@@ -237,11 +237,24 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Override
     public Object getUserWishlist(String uuid) {
+        List<GameLibraryDetailsDto> result = new ArrayList<>();
         boolean isExistingUer = userRepository.getUserByUUID(uuid).isPresent();
         if (!isExistingUer) {
             throw new ResourceNotFoundException("User doesn't exist with this UUID: " + uuid);
         }
-        return null;
+        User user = userRepository.getUserByUUID(uuid).get();
+        Iterator<SteamGame> iterator = user.getWishlist().iterator();
+        while (iterator.hasNext()) {
+            SteamGame game = iterator.next();
+            GameLibraryDetailsDto dto = new GameLibraryDetailsDto();
+            dto.setId(game.getId());
+            dto.setName(game.getName());
+            dto.setAppId(game.getSteamAppId());
+            dto.setHeaderImage(game.getHeaderImage());
+            result.add(dto);
+        }
+        result.sort(Comparator.comparing(game -> game.getName().toLowerCase(Locale.ROOT)));
+        return result;
     }
 
     @Override
@@ -255,13 +268,15 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         for (Long steamAppid : steamAppids) {
             try {
                 SteamGame game = gameRepository.gameByAppId(steamAppid).get();
+                if (!user.getOwnedGames().contains(game)) {
+                    user.getWishlist().add(game);
+                }
 
             } catch (NoSuchElementException exception) {
                 log.error("This game is not exist: {}", steamAppid);
             }
-
-
         }
+        userRepository.save(user);
         return null;
     }
 
