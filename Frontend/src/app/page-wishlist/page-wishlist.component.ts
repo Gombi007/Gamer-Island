@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, HostListener, OnInit } from '@angular/core';
+import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { catchError, EMPTY, Subject, switchMap, tap } from 'rxjs';
 import { Game } from '../game.model';
@@ -17,10 +18,18 @@ export class PageWishlistComponent implements OnInit {
   headerHeight: number = STRINGS.HEADER_HEIGHT_FOR_CONTENT+STRINGS.SEARCH_BAR__HEIGHT_FOR_CONTENT;
   isPending = false;
   wishlist:Game[] =[];
+  wishlistGenres = ["Action","Strategy","Indie"];
+  defaultGenre ="All Genres"
+  search = new FormGroup(
+    {
+      name: new FormControl("", [Validators.minLength(3), Validators.maxLength(22)]),
+      genres: new FormControl(""),
+    }
+  );
 
   constructor(private http:HttpClient, private global:GlobalService, private router:Router,private author:AuthorizationService) { }
 
-  ngOnInit(): void {
+  ngOnInit(): void {  
     this.innerHeight = window.innerHeight - this.headerHeight;
     this.getUserWishlistGames$.subscribe();
     //@ts-ignore
@@ -53,6 +62,21 @@ export class PageWishlistComponent implements OnInit {
         return EMPTY;
       })
     );
+
+      //convenience getter for easy access to form fields
+  get searchInputError(): { [key: string]: AbstractControl; } {
+    return this.search.controls;
+  }
+
   
+    getSearchData() {
+      if (this.search.valid) {
+        let name = this.search.get('name')?.value;
+        let genre = this.search.get('genres')?.value;
+        let attributeAndValue = [name, genre];
+        console.log(attributeAndValue);       
+
+      }
+    }
 
 }
