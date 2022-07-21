@@ -28,9 +28,15 @@
     font-size: 2rem;
 }
 
+.search-row {
+    background-color: rgba(29, 29, 29, 0.7);
+}
+
 .search {
+    max-width: 40rem;
+    left: 50%;
+    margin: 0 auto;
     height: 100px;
-    width: 100%;
     background-image: linear-gradient(45deg, rgba(26, 44, 51, 0.9), rgba(36, 75, 94, 0.9));
     display: flex;
     justify-content: center;
@@ -41,7 +47,7 @@
     height: 2rem;
     min-width: 20rem;
     background-color: rgb(67, 98, 114);
-    
+
     border: none;
     font-weight: bold;
 }
