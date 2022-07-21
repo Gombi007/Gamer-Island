@@ -28,8 +28,44 @@
     font-size: 2rem;
 }
 
-.search{
+.search {
     height: 100px;
-    width: 100%;  
-    background-image: linear-gradient(45deg, rgba(26, 44, 51, 0.9), rgba(36, 75, 94,0.9));
+    width: 100%;
+    background-image: linear-gradient(45deg, rgba(26, 44, 51, 0.9), rgba(36, 75, 94, 0.9));
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.input-form {
+    height: 2rem;
+    min-width: 20rem;
+    background-color: rgb(67, 98, 114);
+    
+    border: none;
+    font-weight: bold;
+}
+
+.input-form:focus {
+    outline: none;
+    background-color: rgb(89, 130, 151);
+}
+
+.input-form::placeholder {
+    /* Chrome, Firefox, Opera, Safari 10.1+ */
+    color: rgb(15, 60, 78);
+    opacity: 1;
+    /* Firefox */
+}
+
+.genres {
+    height: 2rem;
+    background-color: rgb(16, 82, 100);
+    border: none;
+}
+
+.buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
