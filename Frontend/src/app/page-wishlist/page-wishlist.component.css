@@ -1,19 +1,29 @@
-.container-fluid{   
-  
-    overflow-y: auto;  
+.content {
+    overflow-y: auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+
+
 }
-.table{  
-    max-width: 70%; 
+
+.table {
+    max-width: 40%;
+    min-width: 20rem;
+    height: 4rem;
+
 }
-.table td{
-    background-color:  rgb(36, 75, 94);
-    color: whitesmoke;    
+
+.table td {
+    background-color: rgb(36, 75, 94);
+    color: whitesmoke;
 }
-.table td img{
+
+.table td img {
     width: 10rem;
 }
 
-.table td i{
+.table td i {
     color: red;
     font-size: 2rem;
 }
