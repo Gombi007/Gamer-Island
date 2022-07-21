@@ -21,5 +21,6 @@ export enum STRINGS {
     STEAM_GE_TO_APP_STORE ='https://store.steampowered.com/app/',
     
     HEADER_HEIGHT_FOR_CONTENT = 54,
+    SEARCH_BAR__HEIGHT_FOR_CONTENT = 100,
     HEADER_HEIGHT_FOR_LEFT_SIDE = 153,
 }

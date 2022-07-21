@@ -14,7 +14,7 @@ import { STRINGS } from '../strings.enum';
 })
 export class PageWishlistComponent implements OnInit {
   innerHeight!: number;
-  headerHeight: number = STRINGS.HEADER_HEIGHT_FOR_CONTENT;
+  headerHeight: number = STRINGS.HEADER_HEIGHT_FOR_CONTENT+STRINGS.SEARCH_BAR__HEIGHT_FOR_CONTENT;
   isPending = false;
   wishlist:Game[] =[];
 
