@@ -21,10 +21,35 @@
     width: 17rem;
 }
 
-.table td i {
-    color: red;
+.table td i {  
     font-size: 2rem;
 }
+.fa-cart-plus{
+    color: whitesmoke;
+}
+.fa-cart-plus:hover{
+    color: green;
+}
+
+.fa-xmark:hover{
+    color: red; 
+}
+
+.price{
+    color: black;
+    background-color:rgb(50, 111, 139);
+    box-shadow: 0px 0px 7px  10px rgb(50, 111, 139);
+    border-radius: 40%;
+    min-width: 5rem;
+    width: max-content;
+}
+
+
+
+
+
+
+
 
 .search-row {
     background-color: rgba(29, 29, 29, 0.7);

@@ -4,6 +4,7 @@ import com.gameisland.exceptions.ResourceAlreadyExistsException;
 import com.gameisland.exceptions.ResourceNotFoundException;
 import com.gameisland.exceptions.UserBalanceNotEnoughEception;
 import com.gameisland.models.dto.GameLibraryDetailsDto;
+import com.gameisland.models.dto.SteamGameDTO;
 import com.gameisland.models.dto.UserDTO;
 import com.gameisland.models.entities.Role;
 import com.gameisland.models.entities.SteamGame;
@@ -238,7 +239,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     public Object getUserWishlist(String uuid) {
         List<Object> result = new ArrayList<>();
-        List<GameLibraryDetailsDto> dtos = new ArrayList<>();
+        List<SteamGameDTO> dtos = new ArrayList<>();
         Set<String> wishlistAllGenres = new TreeSet<>();
         boolean isExistingUer = userRepository.getUserByUUID(uuid).isPresent();
         if (!isExistingUer) {
@@ -254,12 +255,8 @@ public class UserServiceImpl implements UserService, UserDetailsService {
                     wishlistAllGenres.add(tmp[i]);
                 }
             }
-            GameLibraryDetailsDto dto = new GameLibraryDetailsDto();
-            dto.setId(game.getId());
-            dto.setName(game.getName());
-            dto.setAppId(game.getSteamAppId());
-            dto.setHeaderImage(game.getHeaderImage());
-            dtos.add(dto);
+            SteamGameDTO gameDTO = SteamGameDTO.convertToGameDto(game);
+            dtos.add(gameDTO);
         }
         dtos.sort(Comparator.comparing(game -> game.getName().toLowerCase(Locale.ROOT)));
         result.add(dtos);

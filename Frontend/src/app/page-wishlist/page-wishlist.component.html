@@ -34,14 +34,23 @@
         <tbody>
           <tr>
 
-            <td class="w-25 p-0"><img src="{{game.headerImage}}" alt="image"></td>
+            <td class="w-25 p-0"><img src="{{game.header_image}}" alt="image"></td>
 
             <td class="w-50 text-center align-middle p-0">
               <h5 class="table-name">{{game.name}}</h5>
             </td>
 
-            <td class="w-25 text-end align-middle p-0 pe-3">
+            <td class="w-50 text-center align-middle p-0">
+              <h5 class="price" *ngIf="game.price_in_final_formatted >0">{{game. price_in_final_formatted}} €</h5>
+              <h5 class="price" *ngIf="game.price_in_final_formatted === 0">Free</h5>
+            </td>
+
+            <td class="w-25 text-end align-middle p-0 pe-4">
               <i class="fa-solid fa-xmark"></i>
+            </td>
+
+            <td class="w-25 text-end align-middle p-0 pe-3">
+              <i class="fa-solid fa-cart-plus"></i>
             </td>
 
           </tr>

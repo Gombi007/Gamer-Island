@@ -3,6 +3,7 @@ import { Component, HostListener, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { catchError, EMPTY, Subject, switchMap, tap } from 'rxjs';
+import { GameDetails } from '../game-details.model';
 import { Game } from '../game.model';
 import { GlobalService } from '../global.service';
 import { AuthorizationService } from '../login/service/authorization.service';
@@ -17,7 +18,7 @@ export class PageWishlistComponent implements OnInit {
   innerHeight!: number;
   headerHeight: number = STRINGS.HEADER_HEIGHT_FOR_CONTENT + STRINGS.SEARCH_BAR__HEIGHT_FOR_CONTENT;
   isPending = false;
-  wishlist: Game[] = [];
+  wishlist: GameDetails[] = [];
   wishlistGenres = [];
   defaultGenre = "All Genres"
   search = new FormGroup(
