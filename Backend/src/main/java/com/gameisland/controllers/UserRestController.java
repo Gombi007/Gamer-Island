@@ -88,6 +88,7 @@ public class UserRestController {
     @PreAuthorize("hasRole('USER')")
     @DeleteMapping("/wishlist/{uuid}")
     public ResponseEntity<Object> removeGameFromWishlist(@PathVariable String uuid, @RequestBody Long[] steamAppids) {
+        System.out.println(steamAppids[0]);
         userService.removeGameFromWishlist(uuid, steamAppids);
         return ResponseEntity.status(HttpStatus.OK).build();
     }

@@ -1,4 +1,5 @@
-import { HttpClient } from '@angular/common/http';
+import { Options } from '@angular-slider/ngx-slider';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, HostListener, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -22,6 +23,7 @@ export class PageWishlistComponent implements OnInit {
   defaultGenre = "All Genres"
   wishlistPictureChange$: Subscription = new Subscription();
   acutalHeaderImageBeforeChangePicture: string = "";
+  deleteOptions = {};
   search = new FormGroup(
     {
       name: new FormControl("", [Validators.minLength(3), Validators.maxLength(22)]),
@@ -67,6 +69,27 @@ export class PageWishlistComponent implements OnInit {
     })
   );
 
+  removeWislistItremFromUser$ = new Subject().pipe(
+    tap(() => {
+      this.isPending = true;
+    }),
+    switchMap(() =>
+      this.http.delete(STRINGS.API_USER_WISHLIST + this.global.getUUIDFromLocalStore(), this.deleteOptions)
+    ),
+    catchError(error => {
+      console.log(error);
+
+      let message = error.error.error_message;
+      if (message.includes("Token has expired")) {
+        this.global.experiedSession = true;
+        this.router.navigate(['login']);
+      }
+      this.isPending = false;
+      return EMPTY;
+    })
+  );
+
+
   //convenience getter for easy access to form fields
   get searchInputError(): { [key: string]: AbstractControl; } {
     return this.search.controls;
@@ -91,7 +114,7 @@ export class PageWishlistComponent implements OnInit {
       let i = 0
       game = gameOrNot;
       this.acutalHeaderImageBeforeChangePicture = game.header_image;
-      if (i < game.screenshot_urls.length){
+      if (i < game.screenshot_urls.length) {
         game.header_image = game.screenshot_urls[i]
         i++;
       }
@@ -112,6 +135,27 @@ export class PageWishlistComponent implements OnInit {
       game = gameOrNot;
       game.header_image = this.acutalHeaderImageBeforeChangePicture;
     }
+  }
+
+  removeWishlistItem(appId: number) {
+    let removableWishlistItems: number[] = [];
+    removableWishlistItems.push(appId);
+
+    this.deleteOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${this.author.getToken()}`
+      })
+      , body: removableWishlistItems
+    };
+
+    this.removeWislistItremFromUser$.subscribe();
+    //@ts-ignore
+    this.removeWislistItremFromUser$.next();
+
+    let filteredWishlist = this.wishlist.filter((e) => { return e.steam_appid !== appId });
+    this.wishlist = filteredWishlist;
+
   }
 
 
