@@ -2,9 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { Component, HostListener, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { catchError, EMPTY, Subject, switchMap, tap } from 'rxjs';
+import { catchError, EMPTY, interval, Subject, Subscription, switchMap, takeWhile, tap, timeout } from 'rxjs';
 import { GameDetails } from '../game-details.model';
-import { Game } from '../game.model';
 import { GlobalService } from '../global.service';
 import { AuthorizationService } from '../login/service/authorization.service';
 import { STRINGS } from '../strings.enum';
@@ -21,6 +20,8 @@ export class PageWishlistComponent implements OnInit {
   wishlist: GameDetails[] = [];
   wishlistGenres = [];
   defaultGenre = "All Genres"
+  wishlistPictureChange$: Subscription = new Subscription();
+  acutalHeaderImageBeforeChangePicture: string = "";
   search = new FormGroup(
     {
       name: new FormControl("", [Validators.minLength(3), Validators.maxLength(22)]),
@@ -71,15 +72,47 @@ export class PageWishlistComponent implements OnInit {
     return this.search.controls;
   }
 
-
   getSearchData() {
     if (this.search.valid) {
       let name = this.search.get('name')?.value;
       let genre = this.search.get('genres')?.value;
       let attributeAndValue = [name, genre];
       console.log(attributeAndValue);
-
     }
   }
+
+
+  changeGamePicureStart(appId: any) {
+    let gameOrNot = this.wishlist.find(game => game.steam_appid === appId);
+
+    if (gameOrNot !== undefined) {
+      let game: GameDetails;
+      let delayObservable$ = interval(1000);
+      let i = 0
+      game = gameOrNot;
+      this.acutalHeaderImageBeforeChangePicture = game.header_image;
+      if (i < game.screenshot_urls.length){
+        game.header_image = game.screenshot_urls[i]
+        i++;
+      }
+      this.wishlistPictureChange$ = delayObservable$.subscribe(() => {
+        if (i < game.screenshot_urls.length) {
+          game.header_image = game.screenshot_urls[i]
+          i++;
+        }
+      });
+    }
+  }
+
+  changeGamePicureStop(appId: any) {
+    let gameOrNot = this.wishlist.find(game => game.steam_appid === appId);
+    if (gameOrNot !== undefined) {
+      this.wishlistPictureChange$.unsubscribe();
+      let game: GameDetails;
+      game = gameOrNot;
+      game.header_image = this.acutalHeaderImageBeforeChangePicture;
+    }
+  }
+
 
 }

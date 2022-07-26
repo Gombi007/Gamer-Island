@@ -43,16 +43,14 @@
     min-width: 5rem;
     width: max-content;
 }
-
-
-
-
-
-
+.headerIMG{
+    height: 10rem;
+}
 
 
 .search-row {
     background-color: rgba(29, 29, 29, 0.7);
+    margin-bottom: 1rem;
 }
 
 .search {
