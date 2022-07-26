@@ -89,10 +89,8 @@ export class PageProfileComponent implements OnInit {
     switchMap(() =>
       this.http.get(STRINGS.API_USER_UPDATE_USER_BALANCE + this.global.getUUIDFromLocalStore(), this.author.TokenForRequests())),
     tap((data: any) => {
-
       this.balanceUpdateMessage = data;
-      this.isPending = false;
-      console.log(this.balanceUpdateMessage.balanceUpdate)
+      this.isPending = false;   
     }),
     catchError(error => {
       let message = error.error.error_message;

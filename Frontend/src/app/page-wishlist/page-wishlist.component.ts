@@ -5,6 +5,7 @@ import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/fo
 import { Router } from '@angular/router';
 import { catchError, EMPTY, interval, Subject, Subscription, switchMap, takeWhile, tap, timeout } from 'rxjs';
 import { GameDetails } from '../game-details.model';
+import { Game } from '../game.model';
 import { GlobalService } from '../global.service';
 import { AuthorizationService } from '../login/service/authorization.service';
 import { STRINGS } from '../strings.enum';
@@ -19,6 +20,7 @@ export class PageWishlistComponent implements OnInit {
   headerHeight: number = STRINGS.HEADER_HEIGHT_FOR_CONTENT + STRINGS.SEARCH_BAR__HEIGHT_FOR_CONTENT;
   isPending = false;
   wishlist: GameDetails[] = [];
+  wishlistCopy: GameDetails[] = [];
   wishlistGenres = [];
   defaultGenre = "All Genres"
   wishlistPictureChange$: Subscription = new Subscription();
@@ -55,6 +57,7 @@ export class PageWishlistComponent implements OnInit {
     tap((data: any) => {
       this.isPending = false;
       this.wishlist = data[0];
+      this.wishlistCopy = data[0];
       this.wishlistGenres = data[1];
     }),
 
@@ -95,12 +98,23 @@ export class PageWishlistComponent implements OnInit {
     return this.search.controls;
   }
 
-  getSearchData() {
+  filterWishlist() {
     if (this.search.valid) {
+      this.wishlist = this.wishlistCopy;
       let name = this.search.get('name')?.value;
       let genre = this.search.get('genres')?.value;
-      let attributeAndValue = [name, genre];
-      console.log(attributeAndValue);
+      if (name !== '' && genre === '') {
+        let filteredWishlist = this.wishlist.filter((game) => { return game.name.toLowerCase().includes(name.toLowerCase()) });
+        this.wishlist = filteredWishlist;
+      }
+      if (name !== '' && genre !== '') {
+        let filteredWishlist = this.wishlist.filter((game) => { return game.name.toLowerCase().includes(name.toLowerCase()) });
+        this.wishlist = filteredWishlist.filter((game) => { return game.genres.includes(genre) })
+      }
+      if (name === '' && genre !== '') {
+        let filteredWishlist = this.wishlist.filter((game) => { return game.genres.includes(genre) })
+        this.wishlist = filteredWishlist;
+      }
     }
   }
 
