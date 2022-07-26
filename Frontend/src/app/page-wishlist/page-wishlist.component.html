@@ -1,23 +1,59 @@
-<div class="container-fluid" [ngStyle]="{'height.px': innerHeight}" > 
-    <div class="row flex-container justify-content-center pt-3">
-      <ng-container *ngFor="let game of wishlist">
-          <table class="table table-dark table-borderless table-hover">
-          <tbody>
-                <tr>
+<div class="row">
 
-                  <td class="w-25 p-0"><img src="{{game.headerImage}}" alt="image"></td>
 
-                  <td class="w-50 text-center align-middle p-0">
-                    <h5 class="table-name">{{game.name}}</h5>
-                  </td>    
+  <div class="search">
+    <form [formGroup]="search">
+      <div class="input-row">
+        <input type="text" class="input-form" id="search" placeholder="Search on your wishlist" formControlName="name">
 
-                  <td class="w-25 text-end align-middle p-0 pe-3">
-                    <i class="fa-solid fa-xmark"></i>
-                  </td>
+        <select class="genres" id="genre" formControlName="genres">
+          <option value="" selected>{{defaultGenre}}</option>
+          <option *ngFor="let genre of wishlistGenres" [ngValue]="genre">{{ genre }}</option>
+        </select>       
+      </div>
+    </form>
 
-                </tr>
-              </tbody>
-            </table>
-              </ng-container>
+    <div class="validate">
+      <p class="invisible-error" *ngIf="searchInputError['name'].errors === null">Placeholder</p>
+      <p *ngIf="searchInputError['name'].errors !== null">Min 3 and Max 22 length</p>
     </div>
+
+    <div class="buttons">
+      <button type="button" class="btn btn-secondary mt-1 mb-1" (click)="filterWishlist()">Search</button>
+    </div>
+  </div>
+
+
+  <div class="content" [ngStyle]="{'height.px': innerHeight}">
+    <ng-container *ngFor="let game of wishlist">
+      <table class="table table-dark table-borderless table-hover">
+        <tbody>
+          <tr>
+
+            <td class="w-25 p-0"><img class="headerIMG" src="{{game.header_image}}" alt="image"
+                (mouseenter)="changeGamePicureStart(game.steam_appid)"
+                (mouseleave)="changeGamePicureStop(game.steam_appid)"></td>
+
+            <td class="w-50 text-center align-middle p-0">
+              <h5 class="table-name">{{game.name}}</h5>
+            </td>
+
+            <td class="w-50 text-center align-middle p-0">
+              <h5 class="price" *ngIf="game.price_in_final_formatted >0">{{game. price_in_final_formatted}} €</h5>
+              <h5 class="price" *ngIf="game.price_in_final_formatted === 0">Free</h5>
+            </td>
+
+            <td class="w-25 text-end align-middle p-0 pe-4">
+              <i class="fa-solid fa-xmark" (click)="removeWishlistItem(game.steam_appid)"></i>
+            </td>
+
+            <td class="w-25 text-end align-middle p-0 pe-3">
+              <i class="fa-solid fa-cart-plus" (click)="addToCart(game.steam_appid)"></i>
+            </td>
+
+          </tr>
+        </tbody>
+      </table>
+    </ng-container>
+  </div>
 </div>

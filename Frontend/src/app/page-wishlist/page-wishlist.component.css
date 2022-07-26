@@ -1,19 +1,127 @@
-.container-fluid{   
-  
-    overflow-y: auto;  
-}
-.table{  
-    max-width: 70%; 
-}
-.table td{
-    background-color:  rgb(36, 75, 94);
-    color: whitesmoke;    
-}
-.table td img{
-    width: 10rem;
+.content {
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
 }
 
-.table td i{
-    color: red;
+.table {
+    max-width: 60%;
+    min-width: 20rem;
+}
+
+.table td {
+    background-color: rgb(36, 75, 94);
+    color: whitesmoke;
+    cursor: pointer;
+}
+
+.table td img {
+    width: 17rem;
+}
+
+.table td i {
     font-size: 2rem;
+}
+
+.fa-cart-plus {
+    color: whitesmoke;
+}
+
+.fa-cart-plus:hover {
+    color: green;
+}
+
+.fa-xmark:hover {
+    color: red;
+}
+
+.price {
+    color: black;
+    background-color: rgb(50, 111, 139);
+    box-shadow: 0px 0px 7px 10px rgb(50, 111, 139);
+    border-radius: 40%;
+    min-width: 5rem;
+    width: max-content;
+}
+
+.headerIMG {
+    height: 10rem;
+}
+
+
+.search {
+    height: 120px;
+    width: 100%;
+    left: 50%;
+    margin: 0 auto;
+    background-image: linear-gradient(45deg, rgba(26, 44, 51, 0.9), rgba(36, 75, 94, 0.9));
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+.input-row{  
+    width: 100%;
+    display: flex;
+}
+
+.input-form {
+    height: 2rem;
+    min-width: 20rem;
+    background-color: rgb(67, 98, 114);
+
+    border: none;
+    font-weight: bold;
+}
+
+.input-form:focus {
+    outline: none;
+    background-color: rgb(89, 130, 151);
+}
+
+.input-form::placeholder {
+    color: rgb(15, 60, 78);
+    opacity: 1;
+}
+
+.genres {
+    height: 2rem;
+    background-color: rgb(16, 82, 100);
+    border: none;
+}
+
+.clear-filter {
+    margin: 0;
+    height: 2rem;
+    width: 3rem;
+    background-color: rgb(16, 82, 100);
+    border: none;
+}
+
+.buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.validate {
+    padding-top: 0.2rem;
+    display: flex;
+    justify-content: center;
+}
+
+.validate p {
+    width: max-content;
+    background-image: linear-gradient(45deg, rgb(70, 4, 4), rgb(226, 10, 10));
+    padding: 0;
+    margin: 0;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+}
+
+.invisible-error {
+    visibility: hidden;
 }

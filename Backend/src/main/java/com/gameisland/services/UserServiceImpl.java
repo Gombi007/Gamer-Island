@@ -4,6 +4,7 @@ import com.gameisland.exceptions.ResourceAlreadyExistsException;
 import com.gameisland.exceptions.ResourceNotFoundException;
 import com.gameisland.exceptions.UserBalanceNotEnoughEception;
 import com.gameisland.models.dto.GameLibraryDetailsDto;
+import com.gameisland.models.dto.SteamGameDTO;
 import com.gameisland.models.dto.UserDTO;
 import com.gameisland.models.entities.Role;
 import com.gameisland.models.entities.SteamGame;
@@ -141,9 +142,15 @@ public class UserServiceImpl implements UserService, UserDetailsService {
                     throw new ResourceAlreadyExistsException("This game already owned by user: " + gameFromCart.getName());
                 }
             }
+
             user.setBalance(userCurrentlyBalance);
             user.setOwnedGames(userCurrentlyGameSet);
-            userRepository.save(user);
+            if (user.getWishlist().contains(gameFromCart)) {
+                Long[] removableWishlistSteamIds = {gameFromCart.getSteamAppId()};
+                removeGameFromWishlist(user.getUserUUID(), removableWishlistSteamIds);
+            } else {
+                userRepository.save(user);
+            }
         }
     }
 
@@ -237,7 +244,9 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Override
     public Object getUserWishlist(String uuid) {
-        List<GameLibraryDetailsDto> result = new ArrayList<>();
+        List<Object> result = new ArrayList<>();
+        List<SteamGameDTO> dtos = new ArrayList<>();
+        Set<String> wishlistAllGenres = new TreeSet<>();
         boolean isExistingUer = userRepository.getUserByUUID(uuid).isPresent();
         if (!isExistingUer) {
             throw new ResourceNotFoundException("User doesn't exist with this UUID: " + uuid);
@@ -246,16 +255,21 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         Iterator<SteamGame> iterator = user.getWishlist().iterator();
         while (iterator.hasNext()) {
             SteamGame game = iterator.next();
-            GameLibraryDetailsDto dto = new GameLibraryDetailsDto();
-            dto.setId(game.getId());
-            dto.setName(game.getName());
-            dto.setAppId(game.getSteamAppId());
-            dto.setHeaderImage(game.getHeaderImage());
-            result.add(dto);
+            String[] tmp = game.getGenres().split(";");
+            for (int i = 0; i < tmp.length; i++) {
+                if (tmp[i].length() > 1) {
+                    wishlistAllGenres.add(tmp[i]);
+                }
+            }
+            SteamGameDTO gameDTO = SteamGameDTO.convertToGameDto(game);
+            dtos.add(gameDTO);
         }
-        result.sort(Comparator.comparing(game -> game.getName().toLowerCase(Locale.ROOT)));
+        dtos.sort(Comparator.comparing(game -> game.getName().toLowerCase(Locale.ROOT)));
+        result.add(dtos);
+        result.add(wishlistAllGenres);
         return result;
     }
+
 
     @Override
     public Object addGamesToWishlist(String uuid, Long[] steamAppids) {
