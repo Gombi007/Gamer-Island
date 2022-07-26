@@ -25,7 +25,7 @@ public class GameIslandApplication {
         return new WebMvcConfigurerAdapter() {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/**").allowedOrigins("http://localhost:8080/", "http://192.168.1.97:8082/");
+                registry.addMapping("/**").allowedOrigins("http://localhost:8080/", "http://192.168.1.97:8082/").allowedMethods("GET", "POST", "PUT", "DELETE");
 
             }
         };
