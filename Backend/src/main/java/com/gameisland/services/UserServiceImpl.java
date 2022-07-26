@@ -142,9 +142,15 @@ public class UserServiceImpl implements UserService, UserDetailsService {
                     throw new ResourceAlreadyExistsException("This game already owned by user: " + gameFromCart.getName());
                 }
             }
+
             user.setBalance(userCurrentlyBalance);
             user.setOwnedGames(userCurrentlyGameSet);
-            userRepository.save(user);
+            if (user.getWishlist().contains(gameFromCart)) {
+                Long[] removableWishlistSteamIds = {gameFromCart.getSteamAppId()};
+                removeGameFromWishlist(user.getUserUUID(), removableWishlistSteamIds);
+            } else {
+                userRepository.save(user);
+            }
         }
     }
 
