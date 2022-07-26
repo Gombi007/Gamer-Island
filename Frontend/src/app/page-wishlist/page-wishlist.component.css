@@ -1,26 +1,24 @@
 .content {
     overflow-y: auto;
     display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
-
+    flex-direction: column;      
+    align-items: center;
 
 }
 
 .table {
-    max-width: 40%;
+    max-width: 60%;
     min-width: 20rem;
-    height: 4rem;
-
 }
 
 .table td {
     background-color: rgb(36, 75, 94);
     color: whitesmoke;
+    cursor: pointer;
 }
 
 .table td img {
-    width: 10rem;
+    width: 17rem;
 }
 
 .table td i {
@@ -57,11 +55,9 @@
     background-color: rgb(89, 130, 151);
 }
 
-.input-form::placeholder {
-    /* Chrome, Firefox, Opera, Safari 10.1+ */
+.input-form::placeholder {   
     color: rgb(15, 60, 78);
-    opacity: 1;
-    /* Firefox */
+    opacity: 1;    
 }
 
 .genres {

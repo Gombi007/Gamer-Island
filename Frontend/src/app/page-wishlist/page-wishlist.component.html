@@ -8,7 +8,7 @@
             formControlName="name">
 
           <select class="genres" id="genre" formControlName="genres">
-            <option value="" selected>All Genres</option>
+            <option value="" selected>{{defaultGenre}}</option>
             <option *ngFor="let genre of wishlistGenres" [ngValue]="genre">{{ genre }}</option>
           </select>
         </div>

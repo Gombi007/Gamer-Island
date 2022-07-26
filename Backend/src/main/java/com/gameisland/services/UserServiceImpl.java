@@ -237,7 +237,9 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Override
     public Object getUserWishlist(String uuid) {
-        List<GameLibraryDetailsDto> result = new ArrayList<>();
+        List<Object> result = new ArrayList<>();
+        List<GameLibraryDetailsDto> dtos = new ArrayList<>();
+        Set<String> wishlistAllGenres = new TreeSet<>();
         boolean isExistingUer = userRepository.getUserByUUID(uuid).isPresent();
         if (!isExistingUer) {
             throw new ResourceNotFoundException("User doesn't exist with this UUID: " + uuid);
@@ -246,16 +248,25 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         Iterator<SteamGame> iterator = user.getWishlist().iterator();
         while (iterator.hasNext()) {
             SteamGame game = iterator.next();
+            String[] tmp = game.getGenres().split(";");
+            for (int i = 0; i < tmp.length; i++) {
+                if (tmp[i].length() > 1) {
+                    wishlistAllGenres.add(tmp[i]);
+                }
+            }
             GameLibraryDetailsDto dto = new GameLibraryDetailsDto();
             dto.setId(game.getId());
             dto.setName(game.getName());
             dto.setAppId(game.getSteamAppId());
             dto.setHeaderImage(game.getHeaderImage());
-            result.add(dto);
+            dtos.add(dto);
         }
-        result.sort(Comparator.comparing(game -> game.getName().toLowerCase(Locale.ROOT)));
+        dtos.sort(Comparator.comparing(game -> game.getName().toLowerCase(Locale.ROOT)));
+        result.add(dtos);
+        result.add(wishlistAllGenres);
         return result;
     }
+
 
     @Override
     public Object addGamesToWishlist(String uuid, Long[] steamAppids) {

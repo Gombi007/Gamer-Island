@@ -18,7 +18,7 @@ export class PageWishlistComponent implements OnInit {
   headerHeight: number = STRINGS.HEADER_HEIGHT_FOR_CONTENT + STRINGS.SEARCH_BAR__HEIGHT_FOR_CONTENT;
   isPending = false;
   wishlist: Game[] = [];
-  wishlistGenres = ["Action", "Strategy", "Indie"];
+  wishlistGenres = [];
   defaultGenre = "All Genres"
   search = new FormGroup(
     {
@@ -50,8 +50,10 @@ export class PageWishlistComponent implements OnInit {
       this.http.get(STRINGS.API_USER_WISHLIST + this.global.getUUIDFromLocalStore(), this.author.TokenForRequests())),
     tap((data: any) => {
       this.isPending = false;
-      this.wishlist = data;
+      this.wishlist = data[0];
+      this.wishlistGenres = data[1];
     }),
+
     catchError(error => {
       let message = error.error.error_message;
       if (message.includes("Token has expired")) {
@@ -62,29 +64,6 @@ export class PageWishlistComponent implements OnInit {
       return EMPTY;
     })
   );
-//TODO get all genre from user wishlist
-  getUserSearchedGames$ = new Subject().pipe(
-    tap(() => {
-      this.isPending = true;
-    }),
-    switchMap(() =>
-      this.http.get(STRINGS.API_USER_WISHLIST + this.global.getUUIDFromLocalStore(), this.author.TokenForRequests())),
-    tap((data: any) => {
-      this.isPending = false;
-      this.wishlist = data;
-    }),
-    catchError(error => {
-      let message = error.error.error_message;
-      if (message.includes("Token has expired")) {
-        this.global.experiedSession = true;
-        this.router.navigate(['login']);
-      }
-      this.isPending = false;
-      return EMPTY;
-    })
-  );
-
-
 
   //convenience getter for easy access to form fields
   get searchInputError(): { [key: string]: AbstractControl; } {
