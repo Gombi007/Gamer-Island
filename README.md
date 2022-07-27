@@ -8,6 +8,10 @@
 ------
 #### AVAILABLE NOW
 
+Wishlist where you can store that games what you want to buy in the future
+
+Extending the store details page with more game details for example longer description
+
 You can register an account and after this you able to login the page.
 
 You can browse in the store and buy games for fake money.
@@ -26,11 +30,7 @@ On the header you can see your username, avatar, balance and your cart. (if you 
 
 Achievement collecting in your library for example: you will get a badge because you owning this game
 
-Wishlist where you can store that games what you want to buy in the future
-
-Extending the store details page with more game details for example longer description
-
-Creating friendlist where you can add friends and you can chat with them
+Creating friend list where you can add friends and you can chat with them
 
 Community page where you can read other users opinions for a game and you can write other opinion
 
@@ -43,7 +43,7 @@ Community page where you can read other users opinions for a game and you can wr
 - SQL
 
  <p align="center">  
- 
+
   <img width="70%" src="https://github.com/Gombi007/Gamer-Island/blob/development/Resources/gamer-island-000.JPG">
   <img width="70%" src="https://github.com/Gombi007/Gamer-Island/blob/development/Resources/gamer-island-001.JPG"> 
   <img width="70%" src="https://github.com/Gombi007/Gamer-Island/blob/development/Resources/gamer-island-002.JPG">

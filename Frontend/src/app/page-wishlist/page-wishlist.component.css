@@ -3,6 +3,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    padding-top: 1rem;
 
 }
 
@@ -17,12 +18,21 @@
     cursor: pointer;
 }
 
+.table td:first-child{
+    border-radius: 10px 0 0 10px;    
+}
+
+.table td:last-child{
+    border-radius: 0 10px 10px 0;    
+}
+
 .table td img {
     width: 17rem;
+    border-radius: 10px 0 0 10px;
 }
 
 .table td i {
-    font-size: 2rem;
+    font-size: 1.5rem;
 }
 
 .fa-cart-plus {
@@ -52,16 +62,16 @@
 
 
 .search {
-    height: 120px;
+    height: 60px;
     width: 100%;
     left: 50%;
     margin: 0 auto;
-    background-image: linear-gradient(45deg, rgba(26, 44, 51, 0.9), rgba(36, 75, 94, 0.9));
+    background-image: linear-gradient(45deg, rgb(3, 53, 59), rgb(36, 75, 94));
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    margin-bottom: 1rem;
+ 
 }
 .input-row{  
     width: 100%;
@@ -71,26 +81,34 @@
 .input-form {
     height: 2rem;
     min-width: 20rem;
-    background-color: rgb(67, 98, 114);
-
+    background-color: rgb(119, 152, 168);
     border: none;
-    font-weight: bold;
+    font-weight: 400;
+    border-radius: 7px 0 0 7px;
+    padding-left: 0.3rem;
 }
 
 .input-form:focus {
     outline: none;
-    background-color: rgb(89, 130, 151);
+    background-color: rgb(81, 163, 204);
 }
 
 .input-form::placeholder {
-    color: rgb(15, 60, 78);
+    font-weight: 400;
+    color: black;
     opacity: 1;
+    padding-left: 0.3rem;
 }
 
 .genres {
     height: 2rem;
-    background-color: rgb(16, 82, 100);
+    background-color: rgb(71, 141, 177);
     border: none;
+    border-radius: 0 7px 7px 0;
+}
+
+.genres:focus{
+   outline: none;
 }
 
 .clear-filter {
@@ -100,28 +118,7 @@
     background-color: rgb(16, 82, 100);
     border: none;
 }
-
-.buttons {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.validate {
-    padding-top: 0.2rem;
-    display: flex;
-    justify-content: center;
-}
-
-.validate p {
-    width: max-content;
-    background-image: linear-gradient(45deg, rgb(70, 4, 4), rgb(226, 10, 10));
-    padding: 0;
-    margin: 0;
-    padding-left: 0.5rem;
-    padding-right: 0.5rem;
-}
-
-.invisible-error {
-    visibility: hidden;
+.platforms i{
+    padding: 0.5rem;
+  
 }
