@@ -9,36 +9,36 @@
         <select class="genres" id="genre" formControlName="genres">
           <option value="" selected>{{defaultGenre}}</option>
           <option *ngFor="let genre of wishlistGenres" [ngValue]="genre">{{ genre }}</option>
-        </select>       
+        </select>
       </div>
     </form>
-
-    <div class="validate">
-      <p class="invisible-error" *ngIf="searchInputError['name'].errors === null">Placeholder</p>
-      <p *ngIf="searchInputError['name'].errors !== null">Min 3 and Max 22 length</p>
-    </div>
-
-    <div class="buttons">
-      <button type="button" class="btn btn-secondary mt-1 mb-1" (click)="filterWishlist()">Search</button>
-    </div>
   </div>
 
 
   <div class="content" [ngStyle]="{'height.px': innerHeight}">
-    <ng-container *ngFor="let game of wishlist">
+
+    <ng-container *ngFor="let game of wishlistShowedInTemplate">
       <table class="table table-dark table-borderless table-hover">
+
         <tbody>
           <tr>
-
-            <td class="w-25 p-0"><img class="headerIMG" src="{{game.header_image}}" alt="image"
+            <td class="w-25 p-0" (click)="goToGameDeatil(game.steam_appid)">
+              <img class="headerIMG" src="{{game.header_image}}" alt="image"
                 (mouseenter)="changeGamePicureStart(game.steam_appid)"
-                (mouseleave)="changeGamePicureStop(game.steam_appid)"></td>
-
-            <td class="w-50 text-center align-middle p-0">
-              <h5 class="table-name">{{game.name}}</h5>
+                (mouseleave)="changeGamePicureStop(game.steam_appid)">
             </td>
 
-            <td class="w-50 text-center align-middle p-0">
+            <td class="w-50 text-center align-middle p-0"  (click)="goToGameDeatil(game.steam_appid)">
+              <h5 class="table-name">{{game.name}}</h5>
+              <br>
+              <div class="platforms">
+                <i *ngIf="getPlatform(game,'Windows')" class="fa-brands fa-windows"></i>
+                <i *ngIf="getPlatform(game,'Mac')" class="fa-brands fa-apple"></i>
+                <i *ngIf="getPlatform(game,'Linux')" class="fa-brands fa-linux"></i>
+              </div>
+            </td>
+
+            <td class="w-50 text-center align-middle p-0"  (click)="goToGameDeatil(game.steam_appid)">
               <h5 class="price" *ngIf="game.price_in_final_formatted >0">{{game. price_in_final_formatted}} €</h5>
               <h5 class="price" *ngIf="game.price_in_final_formatted === 0">Free</h5>
             </td>
