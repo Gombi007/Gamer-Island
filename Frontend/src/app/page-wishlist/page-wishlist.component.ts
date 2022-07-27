@@ -1,11 +1,9 @@
-import { Options } from '@angular-slider/ngx-slider';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, HostListener, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { catchError, EMPTY, interval, Subject, Subscription, switchMap, takeWhile, tap, timeout } from 'rxjs';
+import { catchError, EMPTY, interval, Subject, Subscription, switchMap, tap, } from 'rxjs';
 import { GameDetails } from '../game-details.model';
-import { Game } from '../game.model';
 import { GlobalService } from '../global.service';
 import { AuthorizationService } from '../login/service/authorization.service';
 import { STRINGS } from '../strings.enum';
@@ -19,8 +17,9 @@ export class PageWishlistComponent implements OnInit {
   innerHeight!: number;
   headerHeight: number = STRINGS.HEADER_HEIGHT_FOR_CONTENT + STRINGS.SEARCH_BAR__HEIGHT_FOR_CONTENT;
   isPending = false;
-  wishlist: GameDetails[] = [];
-  wishlistCopy: GameDetails[] = [];
+  wishlistOriginal: GameDetails[] = [];
+  wishlistFilteredByGenre: GameDetails[] = [];
+  wishlistShowedInTemplate: GameDetails[] = [];
   wishlistGenres = [];
   defaultGenre = "All Genres"
   wishlistPictureChange$: Subscription = new Subscription();
@@ -28,7 +27,7 @@ export class PageWishlistComponent implements OnInit {
   deleteOptions = {};
   search = new FormGroup(
     {
-      name: new FormControl("", [Validators.minLength(3), Validators.maxLength(22)]),
+      name: new FormControl("",),
       genres: new FormControl(""),
     }
   );
@@ -36,6 +35,8 @@ export class PageWishlistComponent implements OnInit {
   constructor(private http: HttpClient, private global: GlobalService, private router: Router, private author: AuthorizationService) { }
 
   ngOnInit(): void {
+    this.filterWishlistGenres();
+    this.filterWishlist();
     this.innerHeight = window.innerHeight - this.headerHeight;
     this.getUserWishlistGames$.subscribe();
     //@ts-ignore
@@ -56,8 +57,8 @@ export class PageWishlistComponent implements OnInit {
       this.http.get(STRINGS.API_USER_WISHLIST + this.global.getUUIDFromLocalStore(), this.author.TokenForRequests())),
     tap((data: any) => {
       this.isPending = false;
-      this.wishlist = data[0];
-      this.wishlistCopy = data[0];
+      this.wishlistOriginal = data[0];
+      this.wishlistShowedInTemplate = data[0];
       this.wishlistGenres = data[1];
     }),
 
@@ -98,29 +99,36 @@ export class PageWishlistComponent implements OnInit {
     return this.search.controls;
   }
 
-  filterWishlist() {
-    if (this.search.valid) {
-      this.wishlist = this.wishlistCopy;
-      let name = this.search.get('name')?.value;
-      let genre = this.search.get('genres')?.value;
-      if (name !== '' && genre === '') {
-        let filteredWishlist = this.wishlist.filter((game) => { return game.name.toLowerCase().includes(name.toLowerCase()) });
-        this.wishlist = filteredWishlist;
+  filterWishlistGenres() {
+    this.search.get('genres')?.valueChanges.subscribe(
+      genre => {
+        this.wishlistShowedInTemplate = this.wishlistOriginal;
+        if (genre !== '') {
+          let filteredWishlist = this.wishlistShowedInTemplate.filter((game) => { return game.genres.includes(genre) })
+          this.wishlistShowedInTemplate = filteredWishlist;
+          this.wishlistFilteredByGenre = filteredWishlist;
+        } else {
+          this.wishlistFilteredByGenre = this.wishlistOriginal;
+        }
       }
-      if (name !== '' && genre !== '') {
-        let filteredWishlist = this.wishlist.filter((game) => { return game.name.toLowerCase().includes(name.toLowerCase()) });
-        this.wishlist = filteredWishlist.filter((game) => { return game.genres.includes(genre) })
-      }
-      if (name === '' && genre !== '') {
-        let filteredWishlist = this.wishlist.filter((game) => { return game.genres.includes(genre) })
-        this.wishlist = filteredWishlist;
-      }
-    }
+    );
   }
 
+  filterWishlist() {
+    this.search.get('name')?.valueChanges.subscribe(
+      name => {
+        if (this.wishlistFilteredByGenre.length === 0) {
+          this.wishlistShowedInTemplate = this.wishlistOriginal;
+        } else {
+          this.wishlistShowedInTemplate = this.wishlistFilteredByGenre;
+        }
+        let filteredWishlist = this.wishlistShowedInTemplate.filter((game) => { return game.name.toLowerCase().includes(name.toLowerCase()) });
+        this.wishlistShowedInTemplate = filteredWishlist;
+      });
+  }
 
   changeGamePicureStart(appId: any) {
-    let gameOrNot = this.wishlist.find(game => game.steam_appid === appId);
+    let gameOrNot = this.wishlistShowedInTemplate.find(game => game.steam_appid === appId);
 
     if (gameOrNot !== undefined) {
       let game: GameDetails;
@@ -142,7 +150,7 @@ export class PageWishlistComponent implements OnInit {
   }
 
   changeGamePicureStop(appId: any) {
-    let gameOrNot = this.wishlist.find(game => game.steam_appid === appId);
+    let gameOrNot = this.wishlistShowedInTemplate.find(game => game.steam_appid === appId);
     if (gameOrNot !== undefined) {
       this.wishlistPictureChange$.unsubscribe();
       let game: GameDetails;
@@ -167,8 +175,8 @@ export class PageWishlistComponent implements OnInit {
     //@ts-ignore
     this.removeWislistItremFromUser$.next();
 
-    let filteredWishlist = this.wishlist.filter((e) => { return e.steam_appid !== appId });
-    this.wishlist = filteredWishlist;
+    let filteredWishlist = this.wishlistShowedInTemplate.filter((e) => { return e.steam_appid !== appId });
+    this.wishlistShowedInTemplate = filteredWishlist;
   }
 
   addToCart(steamAppId: number) {
