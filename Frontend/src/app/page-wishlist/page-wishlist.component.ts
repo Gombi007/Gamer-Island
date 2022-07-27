@@ -183,5 +183,19 @@ export class PageWishlistComponent implements OnInit {
     this.global.addgamesToCart(steamAppId);
   }
 
+  getPlatform(game: GameDetails, platform: string) {
+    if (platform === 'Windows' && game.platforms.includes(platform)) {
+      return platform;
+    }
+    if (platform === 'Mac' && game.platforms.includes(platform)) {
+      return platform;
+    }
+
+    if (platform === 'Linux' && game.platforms.includes(platform)) {
+      return platform;
+    }
+    return '';
+  }
+
 
 }

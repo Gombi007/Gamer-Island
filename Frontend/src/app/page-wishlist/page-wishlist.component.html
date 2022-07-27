@@ -28,6 +28,12 @@
 
             <td class="w-50 text-center align-middle p-0">
               <h5 class="table-name">{{game.name}}</h5>
+              <br>
+              <div class="platforms">
+                <i *ngIf="getPlatform(game,'Windows')" class="fa-brands fa-windows"></i>
+                <i *ngIf="getPlatform(game,'Mac')" class="fa-brands fa-apple"></i>
+                <i *ngIf="getPlatform(game,'Linux')" class="fa-brands fa-linux"></i>
+            </div>
             </td>
 
             <td class="w-50 text-center align-middle p-0">
