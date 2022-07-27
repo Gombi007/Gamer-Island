@@ -18,7 +18,7 @@
   <div class="content" [ngStyle]="{'height.px': innerHeight}">
 
     <ng-container *ngFor="let game of wishlistShowedInTemplate">
-      <table class="table table-dark table-borderless table-hover">
+      <table class="table table-dark table-borderless table-hover" (click)="goToGameDeatil(game.steam_appid)">
         <tbody>
           <tr>
 

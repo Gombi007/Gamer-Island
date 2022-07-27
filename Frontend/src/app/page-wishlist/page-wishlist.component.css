@@ -18,8 +18,17 @@
     cursor: pointer;
 }
 
+.table td:first-child{
+    border-radius: 10px 0 0 10px;    
+}
+
+.table td:last-child{
+    border-radius: 0 10px 10px 0;    
+}
+
 .table td img {
     width: 17rem;
+    border-radius: 10px 0 0 10px;
 }
 
 .table td i {
