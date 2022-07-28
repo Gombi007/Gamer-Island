@@ -1,9 +1,7 @@
-.row {}
-
 .cart {
     overflow-y: auto !important;
     width: 70%;
-    background-image: linear-gradient(45deg, rgb(0, 0, 0), rgb(36, 75, 94));
+    background-image: linear-gradient(45deg, rgba(0, 0, 0,0.7), rgba(36, 75, 94,0.7));
     padding-right: 10rem;
     padding-left: 10rem;
     padding-bottom: 10rem;
@@ -15,6 +13,18 @@ img {
 
 .table {
     cursor: pointer;
+}
+
+.table td:last-child{
+    border-radius: 0 7px 7px 0;   
+}
+
+.table td:first-child{
+    border-radius: 7px 0 0 7px;   
+}
+
+.table td:first-child img{
+    border-radius: 7px 0 0 7px;   
 }
 
 .fa-xmark {

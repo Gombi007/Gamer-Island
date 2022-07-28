@@ -1,5 +1,5 @@
 .game-details-container {
-    overflow-y: scroll;
+    overflow-y: auto;
     overflow-x: hidden;
     background-color: rgba(56, 65, 94, 0.3);
     display: flex;

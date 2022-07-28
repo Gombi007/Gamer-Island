@@ -18,7 +18,7 @@ export enum STRINGS {
     API_GAMES_FILTER_BY_ATTRIBUTE = 'http://localhost:8081/api/games/shop/filter',
     API_GAMES_MIN_MAX_PRICE = 'http://localhost:8081/api/games/shop/min-max-price',  
     
-    HEADER_HEIGHT_FOR_CONTENT = 54,
+    HEADER_HEIGHT_FOR_CONTENT = 51,
+    HEADER_HEIGHT_FOR_LEFT_SIDE = 149,
     SEARCH_BAR__HEIGHT_FOR_CONTENT =61,
-    HEADER_HEIGHT_FOR_LEFT_SIDE = 153,
 }

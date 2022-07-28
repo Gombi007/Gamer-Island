@@ -57,7 +57,7 @@
 }
 
 .headerIMG {
-    height: 10rem;
+    height: 10rem;  
 }
 
 
@@ -121,4 +121,22 @@
 .platforms i{
     padding: 0.5rem;
   
+}
+
+.empty-wishlist{
+    display: flex;
+    justify-content: center;    
+}
+
+.empty-wishlist-text{
+    margin-top: 3rem;
+    padding: 1rem;
+    width: max-content;
+    background-color: rgb(39, 38, 38);
+    border-radius: 10px 10px 10px 10px;    
+}
+.store-link{
+    text-decoration: none;
+    color: blueviolet;
+    cursor: pointer;
 }

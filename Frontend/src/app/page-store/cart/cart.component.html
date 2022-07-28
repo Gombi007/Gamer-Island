@@ -1,10 +1,9 @@
-<div class="row">
   <div class="col-12 d-flex justify-content-center">
     <div class="cart" [ngStyle]="{'height.px': innerHeight}">
       <h3 class="text-center mb-4 mt-4">Your Cart</h3>
-      <ng-container *ngIf="gamesInTheCart.length===0">
+      <ng-container *ngIf="gamesInTheCart.length===0 && !isPending">
         <h4 class="text-center mb-4 mt-4">Your cart is empty yet! Please visit the
-          <a class="link" (click)="goToStore()">store.</a>
+          <a class="link" (click)="goToStore()">store</a> .
         </h4>
 
       </ng-container>
