@@ -178,6 +178,8 @@ export class PageWishlistComponent implements OnInit {
 
     let filteredWishlist = this.wishlistShowedInTemplate.filter((e) => { return e.steam_appid !== appId });
     this.wishlistShowedInTemplate = filteredWishlist;
+ 
+
   }
 
   addToCart(steamAppId: number) {
