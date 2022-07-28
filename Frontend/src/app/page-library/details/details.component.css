@@ -1,4 +1,5 @@
 .content{
+  overflow-y: auto;
   width: 100%; 
   display: flex; 
   flex-wrap: wrap;
@@ -9,7 +10,7 @@
   width: 21rem;
   background-color: rgb(46, 48, 49);
   margin-top: 2rem;
-  box-shadow: 0px 0 5px 2px rgb(61, 101, 124);
+  box-shadow: 0px 0 7px 2px rgb(61, 101, 124);
   border-radius: 10px 10px 10px 10px;
   margin: 1rem;
 }

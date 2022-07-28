@@ -80,6 +80,7 @@ export class PageWishlistComponent implements OnInit {
     switchMap(() =>
       this.http.delete(STRINGS.API_USER_WISHLIST + this.global.getUUIDFromLocalStore(), this.deleteOptions)
     ),
+    tap(() => { this.isPending = false }),
     catchError(error => {
       console.log(error);
 
@@ -197,7 +198,7 @@ export class PageWishlistComponent implements OnInit {
     return '';
   }
 
-  goToGameDeatil(steam_appid: number) {   
+  goToGameDeatil(steam_appid: number) {
     this.router.navigate(["wishlist/", steam_appid])
   }
   goToStore() {
