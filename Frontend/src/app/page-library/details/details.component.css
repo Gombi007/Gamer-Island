@@ -1,75 +1,24 @@
-.details {
-  background-color: rgba(56, 65, 94, 0.3);  
+.content{
+  width: 100%; 
+  display: flex; 
+  flex-wrap: wrap;
+  justify-content: center;
+  
+}
+.game-card{ 
+  width: 21rem;
+  background-color: rgb(46, 48, 49);
+  margin-top: 2rem;
+  box-shadow: 0px 0 5px 2px rgb(61, 101, 124);
+  border-radius: 10px 10px 10px 10px;
+  margin: 1rem;
 }
 
-.gallery-details-panel {
-  background-color: rgba(1, 22, 24, 0.9);
-  padding: 0.6rem;
-
-}
-
-.card {
-  max-width: 1000px;
-  min-width: 600px;
-  background: none;
-  border: none;
-}
-
-.preview-img {
-  max-width: 100%;
-  height: 400px;
-}
-
-.header-img {
+.game-card img{
   width: 100%;
+  border-radius: 10px 10px 0 0;
 }
 
-.card-title {
-  font-size: 1.3rem;
-}
+.game-card p{
 
-.card-text {
-  font-size: 0.9rem;
-  padding: 0.8rem;
-}
-
-.thumbnails {
-  overflow-x: auto;
-  width: 100%;
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-}
-
-.img-slide {
-  padding-bottom: 0.6rem;
-  padding-right: 0.2rem;
-  cursor: pointer;
-}
-
-.img-slide img {
-  width: 115px;
-  height: 65px;
-}
-
-
-.navigation {
-  padding: 0;
-  padding-top: 0.6rem;
-}
-
-.active {
-  border: 1px solid whitesmoke;
-}
-
-.details-header {
-  padding: 0;
-  margin: 0;
-
-  border-bottom: 3px solid black;
-}
-
-.details-header img {
-  width: 100%;
-  height: 300px;
 }

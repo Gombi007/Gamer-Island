@@ -13,35 +13,21 @@ export class DetailsComponent implements OnInit {
   headerHeight: number = STRINGS.HEADER_HEIGHT_FOR_CONTENT;
 
   @Input()
-  game: GameDetails = new GameDetails()
-
-  // <div [innerHTML]="gameAboutTheGame"></div>
-  gameAboutTheGame = ""
-
-  isSelectedGame: boolean = false
-  screenshots:string[] = []
-  firstScreenshot: string="";
-  gameName?: string;
+  libraryGames: Game[] = []
 
   constructor() { }
 
   ngOnInit(): void {
-    this.innerHeight = window.innerHeight - this.headerHeight;
+    this.innerHeight = window.innerHeight - this.headerHeight;  
+    
   }
 
   ngOnChanges(changes: SimpleChanges) {   
-    this.gameName = changes['game'].currentValue.name
-    if (this.gameName !== 'TEST NAME') {
-      this.isSelectedGame = true;
-      this.screenshots = changes['game'].currentValue.screenshot_urls;
-      this.gameAboutTheGame = changes['game'].currentValue.about_the_game;
-
-      if (this.screenshots.length != 0) {
-        this.firstScreenshot = this.screenshots[0];
-      } else {
-        this.isSelectedGame = false;
-      }
-    }
+   if(this.libraryGames.length !== 0){
+  
+    
+   }
+    
   }
 
   // update value when resize
@@ -50,43 +36,8 @@ export class DetailsComponent implements OnInit {
     this.innerHeight = window.innerHeight - this.headerHeight;
   }
 
-  changePic(i: number) {
-    this.firstScreenshot = this.screenshots[i];
+  showLibrarayGames(){
 
-  }
-
-  nextPic() {
-    var screenshotsLength = this.screenshots.length;
-    var selectedPicId = this.screenshots.indexOf(this.firstScreenshot);    
-
-    if (selectedPicId !== undefined) {
-      var id: number = selectedPicId;
-      if (id >= 0 && id < screenshotsLength - 1) {
-        id += 1;
-        this.firstScreenshot = this.screenshots[id]
-        document.getElementById(String(id))?.scrollIntoView({ behavior: "smooth", block: "center", inline: "center" });
-      } else {
-        this.firstScreenshot = this.screenshots[0]
-        document.getElementById(String(0))?.scrollIntoView({ behavior: "smooth", block: "center", inline: "center" });
-      }
-    }
-  }
-
-  prevPic() {
-    var screenshotsLength = this.screenshots.length;
-    var selectedPicId = this.screenshots.indexOf(this.firstScreenshot);    
-
-    if (selectedPicId !== undefined) {
-      var id: number = selectedPicId;
-      if (id > 0 && id < screenshotsLength) {
-        id -= 1;
-        this.firstScreenshot = this.screenshots[id];
-        document.getElementById(String(id))?.scrollIntoView({ behavior: "smooth", block: "center", inline: "center" });
-      } else {
-        this.firstScreenshot = this.screenshots[screenshotsLength - 1];
-        document.getElementById(String(screenshotsLength - 1))?.scrollIntoView({ behavior: "smooth", block: "center", inline: "center" });
-      }
-    }
   }
 
 }

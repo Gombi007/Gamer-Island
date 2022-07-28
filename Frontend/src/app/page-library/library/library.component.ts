@@ -20,10 +20,13 @@ export class LibraryComponent implements OnInit {
   games: Game[] = [];
   gamesClone: Game[] = [];
   isPending: Boolean = false;
-  userUUID ='';
+  userUUID = '';
 
   @Output()
   gameDetailsByAppId = new EventEmitter();
+
+  @Output()
+  libraryGames = new EventEmitter();
 
 
   constructor(private http: HttpClient, private author: AuthorizationService, private route: Router, private global: GlobalService) { }
@@ -42,11 +45,12 @@ export class LibraryComponent implements OnInit {
     tap(() => {
       this.isPending = true;
     }),
-    switchMap(() => this.http.get(STRINGS.API_LIBRARY +this.userUUID, this.author.TokenForRequests())),
+    switchMap(() => this.http.get(STRINGS.API_LIBRARY + this.userUUID, this.author.TokenForRequests())),
     tap((data: any) => {
       this.isPending = false;
       this.games = data;
       this.gamesClone = this.games;
+      this.libraryGames.emit(this.games);
     }),
     catchError(error => {
       let message = error.error.error_message;

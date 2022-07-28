@@ -8,13 +8,13 @@ import { GameDetails } from '../game-details.model';
 })
 export class PageLibraryComponent implements OnInit {
 
-  game = new GameDetails();
+  libraryGames = [];
 
   constructor() { }
   ngOnInit(): void { }
 
-  getGame(gameFromLibrary: any) {
-    this.game = gameFromLibrary;
+  getGame(gamesFromLibrary: any) {
+    this.libraryGames = gamesFromLibrary;
 
   }
 
