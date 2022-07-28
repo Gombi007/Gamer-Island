@@ -197,9 +197,10 @@ export class PageWishlistComponent implements OnInit {
     return '';
   }
 
-  goToGameDeatil(steam_appid: number) {    
-    this.router.navigate(["store/", steam_appid])
+  goToGameDeatil(steam_appid: number) {   
+    this.router.navigate(["wishlist/", steam_appid])
   }
+
 
 
 
