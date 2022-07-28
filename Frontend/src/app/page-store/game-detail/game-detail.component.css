@@ -1,9 +1,6 @@
 .game-details-container {
     overflow-y: scroll;
     overflow-x: hidden;
-}
-
-.detail {
     background-color: rgba(56, 65, 94, 0.3);
     display: flex;
     flex-direction: column;

@@ -15,6 +15,7 @@ const routes: Routes = [
   { path: "store", component: PageStoreComponent, canActivate: [AuthGuard] },
   { path: "library", component: PageLibraryComponent, canActivate: [AuthGuard] },
   { path: "wishlist", component: PageWishlistComponent, canActivate: [AuthGuard] },
+  { path: "wishlist/:steamAppid", component: GameDetailComponent, canActivate: [AuthGuard] },
   { path: "community", component: PageCommunityComponent, canActivate: [AuthGuard] },
   { path: "profile", component: PageProfileComponent, canActivate: [AuthGuard] },
   { path: "store/:steamAppid", component: GameDetailComponent, canActivate: [AuthGuard] },
