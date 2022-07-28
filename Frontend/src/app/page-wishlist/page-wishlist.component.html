@@ -1,31 +1,32 @@
 <div class="row">
-
-
-  <div class="search">
-    <form [formGroup]="search">
-      <div class="input-row">
-        <input type="text" class="input-form" id="search" placeholder="Search on your wishlist" formControlName="name">
-
-        <select class="genres" id="genre" formControlName="genres">
-          <option value="" selected>{{defaultGenre}}</option>
-          <option *ngFor="let genre of wishlistGenres" [ngValue]="genre">{{ genre }}</option>
-        </select>
-      </div>
-    </form>
-  </div>
-
   <ng-container *ngIf="wishlistOriginal.length ===0 && !isPending">
     <div class="empty-wishlist">
-      <div class="empty-wishlist-text">
-        <h5 class="text-center mb-4 mt-4">Your wishlist is empty yet! </h5>
-        <h5 class="text-center mb-4 mt-4">Add games to your wishlist in the
+      <div class="empty-text">
+        <h4>Wishlist</h4>
+        <h5>
+          Your wishlist is empty yet! Add games to your wishlist in the
           <a class="store-link" (click)="goToStore()">store</a> .
         </h5>
       </div>
     </div>
   </ng-container>
 
-  <ng-container *ngIf="wishlistOriginal.length >0">
+
+  <ng-container *ngIf="wishlistOriginal.length >0 && !isPending">
+    <div class="search">
+      <form [formGroup]="search">
+        <div class="input-row">
+          <input type="text" class="input-form" id="search" placeholder="Search on your wishlist"
+            formControlName="name">
+
+          <select class="genres" id="genre" formControlName="genres">
+            <option value="" selected>{{defaultGenre}}</option>
+            <option *ngFor="let genre of wishlistGenres" [ngValue]="genre">{{ genre }}</option>
+          </select>
+        </div>
+      </form>
+    </div>
+
     <div class="content" [ngStyle]="{'height.px': innerHeight}">
 
       <ng-container *ngFor="let game of wishlistShowedInTemplate">
