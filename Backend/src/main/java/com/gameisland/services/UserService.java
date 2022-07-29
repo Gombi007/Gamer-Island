@@ -17,6 +17,8 @@ public interface UserService {
 
     void saveUserLastLoginDate(String username);
 
+    User getUserByUUID(String uuid);
+
     Object getUsernameAndBalanceAndAvatarByUUID(String uuid);
 
     void userCartPurchase(String uuid, Long[] steamAppids);

@@ -66,6 +66,16 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
+    public User getUserByUUID(String uuid) {
+        boolean isExistingUer = userRepository.getUserByUUID(uuid).isPresent();
+        if (!isExistingUer) {
+            throw new ResourceNotFoundException("User doesn't exist with this UUID: " + uuid);
+        }
+        return userRepository.getUserByUUID(uuid).get();
+    }
+
+
+    @Override
     public void saveUserLastLoginDate(String username) {
         boolean isExistingUer = userRepository.findByUserName(username) != null;
         if (!isExistingUer) {
