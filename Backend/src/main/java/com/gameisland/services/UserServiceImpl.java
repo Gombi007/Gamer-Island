@@ -6,9 +6,11 @@ import com.gameisland.exceptions.UserBalanceNotEnoughEception;
 import com.gameisland.models.dto.GameLibraryDetailsDto;
 import com.gameisland.models.dto.SteamGameDTO;
 import com.gameisland.models.dto.UserDTO;
+import com.gameisland.models.entities.GameStat;
 import com.gameisland.models.entities.Role;
 import com.gameisland.models.entities.SteamGame;
 import com.gameisland.models.entities.User;
+import com.gameisland.repositories.GameStatRepository;
 import com.gameisland.repositories.RoleRepository;
 import com.gameisland.repositories.SteamGameRepository;
 import com.gameisland.repositories.UserRepository;
@@ -37,6 +39,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     private final IdGeneratorService idGeneratorService;
     private final BCryptPasswordEncoder passwordEncoder;
     private final RoleRepository roleRepository;
+    private final GameStatRepository gameStatRepository;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -126,6 +129,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
         for (int i = 0; i < steamAppids.length; i++) {
             SteamGame gameFromCart = gameRepository.gameByAppId(steamAppids[i]).get();
+            GameStat gameStat = new GameStat();
 
             if (gameFromCart != null) {
                 boolean isThisGameNotOwnedByUserYet = userCurrentlyGameSet.add(gameFromCart);
@@ -135,6 +139,13 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
                     if (userBalanceBiggerThanThisGamePrice) {
                         userCurrentlyBalance = userCurrentlyBalance - gameFromCart.getPrice();
+                        gameStat.setUser(user);
+                        gameStat.setBadges(null);
+                        gameStat.setLastPlayed(null);
+                        gameStat.setSteamAppId(gameFromCart.getSteamAppId());
+                        gameStat.setSpaceRequired("23GB");
+                        gameStatRepository.save(gameStat);
+
                     } else {
                         throw new UserBalanceNotEnoughEception("Sorry, You don't have enough money on your account to buy these games");
                     }
@@ -148,6 +159,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
             if (user.getWishlist().contains(gameFromCart)) {
                 Long[] removableWishlistSteamIds = {gameFromCart.getSteamAppId()};
                 removeGameFromWishlist(user.getUserUUID(), removableWishlistSteamIds);
+                userRepository.save(user);
             } else {
                 userRepository.save(user);
             }

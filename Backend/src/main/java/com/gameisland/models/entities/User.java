@@ -66,6 +66,8 @@ public class User extends BusinessObject {
     )
     private Set<Role> roles = new HashSet<>();
 
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Set<GameStat> gameStats;
 
 }
 
