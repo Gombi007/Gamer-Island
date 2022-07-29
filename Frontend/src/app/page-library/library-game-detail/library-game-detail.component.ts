@@ -11,5 +11,5 @@ export class LibraryGameDetailComponent implements OnInit {
 
   ngOnInit(): void {
   }
-
+  
 }

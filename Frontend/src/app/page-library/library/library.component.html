@@ -3,7 +3,7 @@
 <div class="library scroller pt-2">
     <div class="library-games" [ngStyle]="{'height.px': innerHeight}">
         <ng-container *ngFor="let game of gamesClone">
-            <div class="game-detail d-flex flex-row gap-3 pt-1 pb-1 mx-2" (click)="getGameNameForShowing(game.appId)">
+            <div class="game-detail d-flex flex-row gap-3 pt-1 pb-1 mx-2" (click)="navigateToGameDetail(game.appId)">
                 <img class="game-object-img" src={{game.headerImage}} alt="">
                 <h6>{{game.name}}</h6>
             </div>
