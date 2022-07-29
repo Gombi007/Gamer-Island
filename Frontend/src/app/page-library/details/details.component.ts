@@ -1,4 +1,5 @@
 import { Component, HostListener, Input, OnInit, OnChanges, SimpleChanges } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { STRINGS } from 'src/app/strings.enum';
 import { GameDetails } from '../../game-details.model';
 import { Game } from '../../game.model';
@@ -14,16 +15,21 @@ export class DetailsComponent implements OnInit {
 
   @Input()
   libraryGames: Game[] = []
+  emptyGames: boolean = true;
+  isMainDetailsView: boolean = true;
+  selectedGameAppId: number = 0;
 
-  constructor() { }
+  constructor(private router:ActivatedRoute) { }
 
   ngOnInit(): void {
-    this.innerHeight = window.innerHeight - this.headerHeight;  
-    
+    this.innerHeight = window.innerHeight - this.headerHeight;      
   }
 
-  ngOnChanges(changes: SimpleChanges) {  
-}
+  ngOnChanges(changes: SimpleChanges) {
+    if (this.libraryGames.length > 0) {
+      this.emptyGames = false;
+    }
+  }
 
   // update value when resize
   @HostListener('window:resize', ['$event'])
@@ -31,7 +37,15 @@ export class DetailsComponent implements OnInit {
     this.innerHeight = window.innerHeight - this.headerHeight;
   }
 
-  showLibrarayGames(){
+  showGameDetails(selectedGameAppId: number) {
+    this.selectedGameAppId = selectedGameAppId;
+    this.isMainDetailsView = !this.isMainDetailsView;  
+
+  }
+
+  getGameStat() {
+    this.isMainDetailsView = !this.isMainDetailsView;
+    let game = this.libraryGames.filter((game) =>{ return game.appId === this.selectedGameAppId});    
 
   }
 

@@ -5,7 +5,7 @@ import { catchError, EMPTY, fromEvent, map, of, Subject, switchMap, tap } from '
 import { GameDetails } from '../../game-details.model';
 import { STRINGS } from 'src/app/strings.enum';
 import { AuthorizationService } from 'src/app/login/service/authorization.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { GlobalService } from 'src/app/global.service';
 
 @Component({
@@ -29,7 +29,7 @@ export class LibraryComponent implements OnInit {
   libraryGames = new EventEmitter();
 
 
-  constructor(private http: HttpClient, private author: AuthorizationService, private route: Router, private global: GlobalService) { }
+  constructor(private http: HttpClient, private author: AuthorizationService, private router: Router, private global: GlobalService,private route: ActivatedRoute) { }
 
   ngOnInit(): void {
     this.innerHeight = window.innerHeight - this.headerHeight;
@@ -38,7 +38,7 @@ export class LibraryComponent implements OnInit {
 
     //@ts-ignore
     this.librayGame$.next();
-
+    this.router.navigate(["games"], {relativeTo:this.route})
   }
 
   librayGame$ = new Subject().pipe(
@@ -56,7 +56,7 @@ export class LibraryComponent implements OnInit {
       let message = error.error.error_message;
       if (message.includes("Token has expired")) {
         this.global.experiedSession = true;
-        this.route.navigate(['login']);
+        this.router.navigate(['login']);
       }
       return EMPTY;
     })
@@ -78,10 +78,12 @@ export class LibraryComponent implements OnInit {
     this.gamesClone = filteredResult;
 
   }
-  getGameNameForShowing(gameAppid: number) {
+  getGameNameForShowing(steamAppid: number) {
+
+    this.router.navigate(["games/"+steamAppid], {relativeTo:this.route})
 
     let gameDetails = new GameDetails();
-    let detail$ = this.http.get(STRINGS.API_GAMES_DETAILS + gameAppid, this.author.TokenForRequests()).pipe(
+    let detail$ = this.http.get(STRINGS.API_GAMES_DETAILS + steamAppid, this.author.TokenForRequests()).pipe(
       tap((data: any) => {
         gameDetails.id = data.id;
         gameDetails.steam_appid = data.steam_appid;
@@ -107,7 +109,7 @@ export class LibraryComponent implements OnInit {
         this.global.experiedSession = true;
         let message = error.error.error_message;
         if (message.includes("Token has expired")) {
-          this.route.navigate(['login']);
+          this.router.navigate(['login']);
         }
         return EMPTY;
       }),
