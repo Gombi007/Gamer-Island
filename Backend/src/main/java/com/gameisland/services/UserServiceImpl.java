@@ -83,6 +83,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         }
         User user = userRepository.findByUserName(username);
         user.setLastLoginDate(Timestamp.valueOf(LocalDateTime.now()));
+        userRepository.save(user);
     }
 
     @Override
