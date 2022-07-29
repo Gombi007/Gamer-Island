@@ -66,6 +66,16 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
+    public void saveUserLastLoginDate(String username) {
+        boolean isExistingUer = userRepository.findByUserName(username) != null;
+        if (!isExistingUer) {
+            throw new ResourceNotFoundException("User doesn't exist with this name: " + username);
+        }
+        User user = userRepository.findByUserName(username);
+        user.setLastLoginDate(Timestamp.valueOf(LocalDateTime.now()));
+    }
+
+    @Override
     public Map<String, String> createUser(User user) {
         User existingUser = userRepository.findByUserName(user.getUserName());
         if (existingUser != null) {

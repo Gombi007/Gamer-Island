@@ -40,6 +40,7 @@ public class User extends BusinessObject {
     private Double balance;
     private String userUUID;
     private Timestamp lastBalanceUpdate;
+    private Timestamp lastLoginDate;
 
 
     @ManyToMany(fetch = FetchType.LAZY)
