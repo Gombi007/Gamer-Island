@@ -3,10 +3,8 @@ import { Component, HostListener, Input, OnInit, OnChanges, SimpleChanges } from
 import { ActivatedRoute, Router } from '@angular/router';
 import { catchError, EMPTY, Subject, switchMap, tap } from 'rxjs';
 import { GlobalService } from 'src/app/global.service';
-import { AuthenticateService } from 'src/app/login/service/authenticate.service';
 import { AuthorizationService } from 'src/app/login/service/authorization.service';
 import { STRINGS } from 'src/app/strings.enum';
-import { GameDetails } from '../../game-details.model';
 import { Game } from '../../game.model';
 
 @Component({
@@ -39,7 +37,8 @@ export class DetailsComponent implements OnInit {
     }),
     switchMap(() => this.http.get(STRINGS.API_LIBRARY + this.global.getUUIDFromLocalStore(), this.author.TokenForRequests())),
     tap((data: any) => {
-      this.libraryGames = data;    
+      this.libraryGames = data;  
+      this.isPending = false;  
     }),
     catchError(error => {
       let message = error.error.error_message;
@@ -59,6 +58,10 @@ export class DetailsComponent implements OnInit {
 
   showGameDetails(selectedGameAppId: number) {  
     this.router.navigate([selectedGameAppId], {relativeTo:this.route})
+  }
+
+  goToStore() {
+    this.router.navigate(['store']);
   }
 
 }

@@ -8,3 +8,15 @@
         </div>
     </ng-container>
 </div>
+
+<div class="content" *ngIf="libraryGames.length===0 && !isPending" [ngStyle]="{'height.px': innerHeight}">
+    <div class="empty-library">
+        <div class="empty-text">
+            <h4>Library</h4>
+            <h5>
+                Your library is empty yet! Please visit the 
+                <a class="store-link" (click)="goToStore()">store</a> .
+            </h5>
+        </div>
+    </div>
+</div>

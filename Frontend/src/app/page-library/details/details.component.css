@@ -1,44 +1,69 @@
-.content{
+.content {
   overflow-y: auto;
-  width: 100%; 
-  display: flex; 
+  width: 100%;
+  display: flex;
   flex-wrap: wrap;
   justify-content: center;
- padding: 0;
- padding-bottom: 2rem;
-  
+  padding: 0;
+  padding-bottom: 2rem;
+
 }
-.game-card{ 
+
+.game-card {
   width: 21rem;
-  background-color: rgb(46, 48, 49); 
+  height: max-content;
+  background-color: rgb(46, 48, 49);
   box-shadow: 0px 0 7px 2px rgb(61, 101, 124);
   border-radius: 5px 5px 5px 5px;
   margin: 1.5rem;
 
 }
 
-.game-card:hover{
+.game-card:hover {
   cursor: pointer;
   width: 22rem;
   margin: 1rem;
   margin-bottom: 1.55rem;
-  
+
 }
 
-.game-card img{
+.game-card img {
   width: 100%;
   border-radius: 5px 5px 0 0;
 }
 
-.game-card-body{  
-  display: flex; 
+.game-card-body {
+  display: flex;
   justify-content: center;
   align-items: center;
-  
+
 }
 
-.game-card-body p{  
+.game-card-body p {
   width: 17rem;
   margin: 1rem;
   text-shadow: 2px 2px 4px #000000;
+}
+
+.empty-library {
+  display: flex;
+  justify-content: center;
+  height: max-content;
+}
+
+.empty-text {
+  text-align: center;
+  margin-top: 3rem;
+  padding: 1rem;
+  padding-left: 5rem;
+  padding-right: 5rem;
+  width: max-content;
+  background-image: linear-gradient(45deg, rgba(0, 0, 0, 0.8), rgba(36, 75, 94, 0.8));
+  border-radius: 10px 10px 10px 10px;
+}
+
+.store-link {
+  text-decoration: none;
+  color: blueviolet;
+  cursor: pointer;
 }
