@@ -90,6 +90,4 @@ public class UserRestController {
     public ResponseEntity<Object> removeGameFromWishlist(@PathVariable String uuid, @RequestBody Long[] steamAppids) {
         return ResponseEntity.status(HttpStatus.OK).body(userService.removeGameFromWishlist(uuid, steamAppids));
     }
-
-
 }
