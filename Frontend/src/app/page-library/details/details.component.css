@@ -4,7 +4,9 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+  align-items: center;
   padding: 0;
+  padding-top: 2rem;
   padding-bottom: 2rem;
 
 }

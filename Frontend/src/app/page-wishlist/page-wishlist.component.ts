@@ -21,6 +21,7 @@ export class PageWishlistComponent implements OnInit {
   wishlistFilteredByGenre: GameDetails[] = [];
   wishlistShowedInTemplate: GameDetails[] = [];
   wishlistGenres = [];
+  removedWishlistItems:number[] = [];
   defaultGenre = "All Genres"
   wishlistPictureChange$: Subscription = new Subscription();
   acutalHeaderImageBeforeChangePicture: string = "";
@@ -80,7 +81,13 @@ export class PageWishlistComponent implements OnInit {
     switchMap(() =>
       this.http.delete(STRINGS.API_USER_WISHLIST + this.global.getUUIDFromLocalStore(), this.deleteOptions)
     ),
-    tap(() => { this.isPending = false }),
+    tap((data:any) => { 
+      this.removedWishlistItems = data; 
+      this.wishlistOriginal = this.wishlistOriginal.filter((game)=>!this.removedWishlistItems.includes(game.steam_appid));   
+      this.wishlistFilteredByGenre = this.wishlistFilteredByGenre.filter((game)=>!this.removedWishlistItems.includes(game.steam_appid));   
+      this.wishlistShowedInTemplate = this.wishlistShowedInTemplate.filter((game)=>!this.removedWishlistItems.includes(game.steam_appid));   
+      this.isPending = false;
+    }),
     catchError(error => {
       console.log(error);
 
