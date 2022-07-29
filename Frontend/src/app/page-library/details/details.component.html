@@ -1,5 +1,4 @@
-<h1>hello</h1>
-<div class="content" *ngIf="isMainDetailsView" [ngStyle]="{'height.px': innerHeight}">
+<div class="content" *ngIf="libraryGames.length>0" [ngStyle]="{'height.px': innerHeight}">
     <ng-container *ngFor="let game of libraryGames">
         <div class="game-card" (click)="showGameDetails(game.appId)">
             <img src="{{game.headerImage}}" alt="image">
@@ -8,11 +7,4 @@
             </div>
         </div>
     </ng-container>
-</div>
-
-<div class="content" *ngIf="!isMainDetailsView" [ngStyle]="{'height.px': innerHeight}">
-    <h1 (click)="getGameStat()">Game details</h1>   
-    <div class="game-detail">
-
-    </div>
 </div>

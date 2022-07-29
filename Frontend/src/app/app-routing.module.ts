@@ -16,12 +16,12 @@ const routes: Routes = [
   { path: "", redirectTo: 'store', pathMatch: 'full' },
   { path: "store", component: PageStoreComponent, canActivate: [AuthGuard] },
   {
-    path: "library", component: PageLibraryComponent, children: [
+    path: "library", component: PageLibraryComponent,canActivate: [AuthGuard], children: [
       {
-        path: "games/:steamAppid", component: LibraryGameDetailComponent,
+        path: "games/:steamAppid", component: LibraryGameDetailComponent,canActivate: [AuthGuard]
       },
       {
-        path: "games", component: DetailsComponent,
+        path: "games", component: DetailsComponent,canActivate: [AuthGuard]
       },
     ]
   },

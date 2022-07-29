@@ -22,13 +22,6 @@ export class LibraryComponent implements OnInit {
   isPending: Boolean = false;
   userUUID = '';
 
-  @Output()
-  gameDetailsByAppId = new EventEmitter();
-
-  @Output()
-  libraryGames = new EventEmitter();
-
-
   constructor(private http: HttpClient, private author: AuthorizationService, private router: Router, private global: GlobalService,private route: ActivatedRoute) { }
 
   ngOnInit(): void {
@@ -49,8 +42,7 @@ export class LibraryComponent implements OnInit {
     tap((data: any) => {
       this.isPending = false;
       this.games = data;
-      this.gamesClone = this.games;
-      this.libraryGames.emit(this.games);
+      this.gamesClone = this.games;  
     }),
     catchError(error => {
       let message = error.error.error_message;
@@ -112,10 +104,8 @@ export class LibraryComponent implements OnInit {
           this.router.navigate(['login']);
         }
         return EMPTY;
-      }),
-      tap(() => { this.gameDetailsByAppId.emit(gameDetails) })
+      })
     ).subscribe();
-
   }
 
 
