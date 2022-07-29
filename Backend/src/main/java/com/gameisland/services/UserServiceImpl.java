@@ -344,7 +344,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
             }
         }
         userRepository.save(user);
-        return null;
+        return steamAppids;
     }
 
     @Override
