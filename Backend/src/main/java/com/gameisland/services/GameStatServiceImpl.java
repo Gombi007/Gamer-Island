@@ -3,12 +3,15 @@ package com.gameisland.services;
 import com.gameisland.models.dto.GameStatDto;
 import com.gameisland.models.dto.SteamGameDTO;
 import com.gameisland.models.entities.GameStat;
+import com.gameisland.models.entities.SteamGame;
 import com.gameisland.models.entities.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
@@ -44,5 +47,17 @@ public class GameStatServiceImpl implements GameStatService {
 
         }
         return gameStatDto;
+    }
+
+    @Override
+    public List<GameStatDto> getUserAllGameStats(String uuid) {
+        User user = userService.getUserByUUID(uuid);
+        Set<SteamGame> gameSet = user.getOwnedGames();
+        List<GameStatDto> result = new ArrayList<>();
+        for (SteamGame game : gameSet) {
+            GameStatDto gameStatDto = getGameStat(user.getUserUUID(), game.getSteamAppId());
+            result.add(gameStatDto);
+        }
+        return result;
     }
 }

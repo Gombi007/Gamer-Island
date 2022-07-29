@@ -30,5 +30,11 @@ public class GameStatRestController {
         return ResponseEntity.status(HttpStatus.OK).body(gameStatService.getGameStat(uuid, steamAppId));
     }
 
+    @PreAuthorize("hasRole('USER')")
+    @GetMapping("/{uuid}")
+    public ResponseEntity<Object> getGameStat(@PathVariable String uuid) {
+        return ResponseEntity.status(HttpStatus.OK).body(gameStatService.getUserAllGameStats(uuid));
+    }
+
 
 }
