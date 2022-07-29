@@ -22,13 +22,8 @@ export class DetailsComponent implements OnInit {
     
   }
 
-  ngOnChanges(changes: SimpleChanges) {   
-   if(this.libraryGames.length !== 0){
-  
-    
-   }
-    
-  }
+  ngOnChanges(changes: SimpleChanges) {  
+}
 
   // update value when resize
   @HostListener('window:resize', ['$event'])
