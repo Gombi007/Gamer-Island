@@ -12,7 +12,7 @@
 }
 
 .table td {
-    background-color: rgb(36, 75, 94);
+    background-color: rgba(32, 66, 83, 0.9);   
     color: whitesmoke;
     cursor: pointer;
 }

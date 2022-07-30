@@ -5,8 +5,8 @@
 .header {
     display: flex;
     justify-content: space-between;
-    align-items: flex-end;
-    border-bottom: 2px solid rgb(78, 76, 76);
+    align-items: flex-end;  
+    border-bottom: 4px solid rgb(90, 87, 87);
     height: 20rem;
 
 }
@@ -18,24 +18,26 @@
 
 .center-header {
     text-align: center;
-    width: 30%; 
+    width: 30%;
 }
 
-.center-header p {  
+.center-header p {
     padding-top: 1rem;
     padding-bottom: 1rem;
-    margin:0;   
+    margin: 0;
     font-size: 1.2vw;
-    color: whitesmoke; 
+    color: whitesmoke;
     background-color: rgb(39, 39, 39);
 }
 
-.center-header img {   
+.center-header img {
     height: 16rem;
     width: 100%;
+    border-left: 1px solid black;
+    border-right: 1px solid black;
 }
 
 .right-header {
     height: 20rem;
-   width: 35%;
+    width: 35%;
 }

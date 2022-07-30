@@ -37,18 +37,19 @@ export class LibraryGameDetailComponent implements OnInit {
     }),
     switchMap(() => this.http.get(STRINGS.API_GET_GAME_STAT_BY_USER + this.global.getUUIDFromLocalStore() + '/' + this.selectedGameAppId, this.author.TokenForRequests())),
     tap((data: any) => {
-      this.actualGameStat = data;   
+      this.actualGameStat = data;
+      this.isPending = false;   
 
     }),
     catchError(error => {
-
+      this.isPending = true;
       let message = error.error.error_message;
       if (message.includes("Token has expired")) {
         this.global.experiedSession = true;
         this.router.navigate(['login']);
       }
       return EMPTY;
-    })
+    })    
   );
 
 }
