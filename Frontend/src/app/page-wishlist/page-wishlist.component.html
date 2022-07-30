@@ -1,59 +1,72 @@
 <div class="row">
-
-
-  <div class="search">
-    <form [formGroup]="search">
-      <div class="input-row">
-        <input type="text" class="input-form" id="search" placeholder="Search on your wishlist" formControlName="name">
-
-        <select class="genres" id="genre" formControlName="genres">
-          <option value="" selected>{{defaultGenre}}</option>
-          <option *ngFor="let genre of wishlistGenres" [ngValue]="genre">{{ genre }}</option>
-        </select>
+  <ng-container *ngIf="wishlistOriginal.length ===0 && !isPending">
+    <div class="empty-wishlist">
+      <div class="empty-text">
+        <h4>Wishlist</h4>
+        <h5>
+          Your wishlist is empty yet! Add games to your wishlist in the
+          <a class="store-link" (click)="goToStore()">store</a> .
+        </h5>
       </div>
-    </form>
-  </div>
+    </div>
+  </ng-container>
 
 
-  <div class="content" [ngStyle]="{'height.px': innerHeight}">
+  <ng-container *ngIf="wishlistOriginal.length >0">
+    <div class="search">
+      <form [formGroup]="search">
+        <div class="input-row">
+          <input type="text" class="input-form" id="search" placeholder="Search on your wishlist"
+            formControlName="name">
 
-    <ng-container *ngFor="let game of wishlistShowedInTemplate">
-      <table class="table table-dark table-borderless table-hover">
-
-        <tbody>
-          <tr>
-            <td class="w-25 p-0" (click)="goToGameDeatil(game.steam_appid)">
-              <img class="headerIMG" src="{{game.header_image}}" alt="image"
+          <select class="genres" id="genre" formControlName="genres">
+            <option value="" selected>{{defaultGenre}}</option>
+            <option *ngFor="let genre of wishlistGenres" [ngValue]="genre">{{ genre }}</option>
+          </select>
+        </div>
+      </form>
+    </div>
+    
+    
+    <div class="content" [ngStyle]="{'height.px': innerHeight}">
+      <ng-container *ngFor="let game of wishlistShowedInTemplate">
+        <table class="table table-dark table-borderless table-hover">
+          
+          <tbody>
+            <tr>
+              <td class="w-25 p-0" (click)="goToGameDeatil(game.steam_appid)">
+                <img class="headerIMG" src="{{game.header_image}}" alt="image"
                 (mouseenter)="changeGamePicureStart(game.steam_appid)"
                 (mouseleave)="changeGamePicureStop(game.steam_appid)">
-            </td>
+              </td>
+              
+              <td class="w-50 text-center align-middle p-0" (click)="goToGameDeatil(game.steam_appid)">
+                <h5 class="table-name">{{game.name}}</h5>
+                <br>
+                <div class="platforms">
+                  <i *ngIf="getPlatform(game,'Windows')" class="fa-brands fa-windows"></i>
+                  <i *ngIf="getPlatform(game,'Mac')" class="fa-brands fa-apple"></i>
+                  <i *ngIf="getPlatform(game,'Linux')" class="fa-brands fa-linux"></i>
+                </div>
+              </td>
+              
+              <td class="w-50 text-center align-middle p-0" (click)="goToGameDeatil(game.steam_appid)">
+                <h5 class="price" *ngIf="game.price_in_final_formatted >0">{{game. price_in_final_formatted}} €</h5>
+                <h5 class="price" *ngIf="game.price_in_final_formatted === 0">Free</h5>
+              </td>
 
-            <td class="w-50 text-center align-middle p-0"  (click)="goToGameDeatil(game.steam_appid)">
-              <h5 class="table-name">{{game.name}}</h5>
-              <br>
-              <div class="platforms">
-                <i *ngIf="getPlatform(game,'Windows')" class="fa-brands fa-windows"></i>
-                <i *ngIf="getPlatform(game,'Mac')" class="fa-brands fa-apple"></i>
-                <i *ngIf="getPlatform(game,'Linux')" class="fa-brands fa-linux"></i>
-              </div>
-            </td>
-
-            <td class="w-50 text-center align-middle p-0"  (click)="goToGameDeatil(game.steam_appid)">
-              <h5 class="price" *ngIf="game.price_in_final_formatted >0">{{game. price_in_final_formatted}} €</h5>
-              <h5 class="price" *ngIf="game.price_in_final_formatted === 0">Free</h5>
-            </td>
-
-            <td class="w-25 text-end align-middle p-0 pe-4">
-              <i class="fa-solid fa-xmark" (click)="removeWishlistItem(game.steam_appid)"></i>
-            </td>
-
-            <td class="w-25 text-end align-middle p-0 pe-3">
-              <i class="fa-solid fa-cart-plus" (click)="addToCart(game.steam_appid)"></i>
-            </td>
-
-          </tr>
-        </tbody>
-      </table>
-    </ng-container>
-  </div>
+              <td class="w-25 text-end align-middle p-0 pe-4">
+                <i class="fa-solid fa-xmark" (click)="removeWishlistItem(game.steam_appid)"></i>
+              </td>
+              
+              <td class="w-25 text-end align-middle p-0 pe-3">
+                <i class="fa-solid fa-cart-plus" (click)="addToCart(game.steam_appid)"></i>
+              </td>
+              
+            </tr>
+          </tbody>
+        </table>
+      </ng-container>     
+    </div>
+  </ng-container>
 </div>

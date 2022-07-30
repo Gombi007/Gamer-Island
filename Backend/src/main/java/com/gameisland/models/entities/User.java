@@ -40,6 +40,7 @@ public class User extends BusinessObject {
     private Double balance;
     private String userUUID;
     private Timestamp lastBalanceUpdate;
+    private Timestamp lastLoginDate;
 
 
     @ManyToMany(fetch = FetchType.LAZY)
@@ -66,6 +67,8 @@ public class User extends BusinessObject {
     )
     private Set<Role> roles = new HashSet<>();
 
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Set<GameStat> gameStats;
 
 }
 

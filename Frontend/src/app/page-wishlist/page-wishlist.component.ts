@@ -21,6 +21,7 @@ export class PageWishlistComponent implements OnInit {
   wishlistFilteredByGenre: GameDetails[] = [];
   wishlistShowedInTemplate: GameDetails[] = [];
   wishlistGenres = [];
+  removedWishlistItems:number[] = [];
   defaultGenre = "All Genres"
   wishlistPictureChange$: Subscription = new Subscription();
   acutalHeaderImageBeforeChangePicture: string = "";
@@ -80,6 +81,13 @@ export class PageWishlistComponent implements OnInit {
     switchMap(() =>
       this.http.delete(STRINGS.API_USER_WISHLIST + this.global.getUUIDFromLocalStore(), this.deleteOptions)
     ),
+    tap((data:any) => { 
+      this.removedWishlistItems = data; 
+      this.wishlistOriginal = this.wishlistOriginal.filter((game)=>!this.removedWishlistItems.includes(game.steam_appid));   
+      this.wishlistFilteredByGenre = this.wishlistFilteredByGenre.filter((game)=>!this.removedWishlistItems.includes(game.steam_appid));   
+      this.wishlistShowedInTemplate = this.wishlistShowedInTemplate.filter((game)=>!this.removedWishlistItems.includes(game.steam_appid));   
+      this.isPending = false;
+    }),
     catchError(error => {
       console.log(error);
 
@@ -177,6 +185,8 @@ export class PageWishlistComponent implements OnInit {
 
     let filteredWishlist = this.wishlistShowedInTemplate.filter((e) => { return e.steam_appid !== appId });
     this.wishlistShowedInTemplate = filteredWishlist;
+ 
+
   }
 
   addToCart(steamAppId: number) {
@@ -197,9 +207,13 @@ export class PageWishlistComponent implements OnInit {
     return '';
   }
 
-  goToGameDeatil(steam_appid: number) {   
+  goToGameDeatil(steam_appid: number) {
     this.router.navigate(["wishlist/", steam_appid])
   }
+  goToStore() {
+    this.router.navigate(['store']);
+  }
+
 
 
 

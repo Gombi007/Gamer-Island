@@ -20,15 +20,17 @@ export class CartComponent implements OnInit {
   isPending = false;
   userUUID: string = ''
   balance = 0;
-  errorMessage ='';
+  errorMessage = '';
 
   constructor(private global: GlobalService, private router: Router, private http: HttpClient, private author: AuthorizationService) { }
 
   ngOnInit(): void {
     this.innerHeight = window.innerHeight - this.headerHeight;
     this.getGameByAppid$.subscribe();
-    //@ts-ignore
-    this.getGameByAppid$.next();
+    if (this.global.isThereAnyItemInTheCart() !== 0) {
+      //@ts-ignore
+      this.getGameByAppid$.next();
+    }
 
   }
   // update value when resize
@@ -69,12 +71,12 @@ export class CartComponent implements OnInit {
       this.global.removeAllItemFromCart();
       this.gamesInTheCart = [];
       alert("Thank you for your purchase! Go to the library..");
-      this.router.navigate(["library"]);    
+      this.router.navigate(["library"]);
     }),
     catchError(error => {
       let message = error.error.error_message;
       if (message === undefined) {
-       this.errorMessage = error.error;
+        this.errorMessage = error.error;
       } else if (message.includes("Token has expired")) {
         this.global.experiedSession = true;
         this.router.navigate(['login']);
@@ -102,8 +104,8 @@ export class CartComponent implements OnInit {
     let filteredcartItemsTable = this.gamesInTheCart.filter((e) => { return e.steam_appid !== steam_appid });
     this.gamesInTheCart = filteredcartItemsTable;
     this.global.isThereAnyItemInTheCart();
-
   }
+
   removeAllItemsFromCart() {
     this.global.removeAllItemFromCart();
     this.gamesInTheCart = [];
@@ -114,14 +116,14 @@ export class CartComponent implements OnInit {
   }
 
   buyAllGamesFromCart() {
-    this.errorMessage ='';
+    this.errorMessage = '';
     this.userUUID = this.global.getUUIDFromLocalStore() || '';
     this.purchase$.subscribe();
     //@ts-ignore
     this.purchase$.next();
     //@ts-ignore
-    this.purchase$.unsubscribe();  
-          
+    this.purchase$.unsubscribe();
+
   }
 
 }

@@ -12,7 +12,7 @@
 }
 
 .store-search {
-    background-image: linear-gradient(45deg, rgb(0, 0, 0), rgb(36, 75, 94));
+    background-image: linear-gradient(45deg, rgb(0, 24, 34), rgb(36, 75, 94));
     padding: 0.6rem;
 }
 
@@ -37,7 +37,7 @@
 }
 
 .genre-title {
-    background-image: linear-gradient(45deg, rgb(0, 0, 0), rgb(36, 75, 94));
+    background-image: linear-gradient(45deg, rgb(0, 24, 34), rgb(36, 75, 94));
     padding: 1rem;
     margin-top: 0.5rem;
 }
@@ -63,7 +63,7 @@
 }
 
 .price-title {
-    background-image: linear-gradient(45deg, rgb(0, 0, 0), rgb(36, 75, 94));
+    background-image: linear-gradient(45deg, rgb(0, 24, 34), rgb(36, 75, 94));
     padding: 1rem;
     margin-top: 0.5rem;
 }
@@ -98,7 +98,7 @@
 
 
 .actual-filter-empty {
-    background-image: linear-gradient(45deg, rgb(0, 0, 0), rgb(36, 75, 94));
+    background-image: linear-gradient(45deg, rgb(0, 24, 34), rgb(36, 75, 94));
 }
 
 .actual-filter-not-empty {

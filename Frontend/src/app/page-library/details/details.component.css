@@ -1,75 +1,73 @@
-.details {
-  background-color: rgba(56, 65, 94, 0.3);  
-}
-
-.gallery-details-panel {
-  background-color: rgba(1, 22, 24, 0.9);
-  padding: 0.6rem;
-
-}
-
-.card {
-  max-width: 1000px;
-  min-width: 600px;
-  background: none;
-  border: none;
-}
-
-.preview-img {
-  max-width: 100%;
-  height: 400px;
-}
-
-.header-img {
-  width: 100%;
-}
-
-.card-title {
-  font-size: 1.3rem;
-}
-
-.card-text {
-  font-size: 0.9rem;
-  padding: 0.8rem;
-}
-
-.thumbnails {
-  overflow-x: auto;
-  width: 100%;
+.content {
+  overflow-y: auto;
   width: 100%;
   display: flex;
-  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+
 }
 
-.img-slide {
-  padding-bottom: 0.6rem;
-  padding-right: 0.2rem;
+.game-card {
+  background-image: linear-gradient(45deg, rgba(0, 24, 34,0.9), rgba(36, 75, 94,0.9));
+  width: 21rem;
+  height: 15rem; 
+  box-shadow: 0px 0 7px 2px rgb(61, 101, 124);
+  border-radius: 5px 5px 5px 5px;
+  margin: 1.5rem;
+  font-size: 1rem; 
+
+}
+
+.game-card:hover {
   cursor: pointer;
+  width: 22rem;
+  height: 16rem;
+  margin: 1rem; 
+  font-size: 1.1rem;
+
 }
 
-.img-slide img {
-  width: 115px;
-  height: 65px;
-}
-
-
-.navigation {
-  padding: 0;
-  padding-top: 0.6rem;
-}
-
-.active {
-  border: 1px solid whitesmoke;
-}
-
-.details-header {
-  padding: 0;
-  margin: 0;
-
-  border-bottom: 3px solid black;
-}
-
-.details-header img {
+.game-card img {
   width: 100%;
-  height: 300px;
+  border-radius: 5px 5px 0 0;
+}
+
+.game-card-body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+}
+
+.game-card-body p { 
+  text-shadow: 2px 2px 4px #000000;
+  font-family: 'Courier New', Courier, monospace;
+  margin:1rem;
+}
+
+.empty-library {
+  display: flex;
+  justify-content: center;
+  height: max-content;
+}
+
+.empty-text {
+  text-align: center;
+  margin-top: 3rem;
+  padding: 1rem;
+  padding-left: 5rem;
+  padding-right: 5rem;
+  width: max-content;
+  background-image: linear-gradient(45deg, rgba(0, 0, 0, 0.8), rgba(36, 75, 94, 0.8));
+  border-radius: 10px 10px 10px 10px;
+}
+
+.store-link {
+  text-decoration: none;
+  color: blueviolet;
+  cursor: pointer;
 }

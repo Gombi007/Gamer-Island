@@ -1,12 +1,17 @@
-.row {}
+.cart{
+    display: flex;  
+    justify-content: center;
+}
 
-.cart {
-    overflow-y: auto !important;
+.content {    
     width: 70%;
-    background-image: linear-gradient(45deg, rgb(0, 0, 0), rgb(36, 75, 94));
-    padding-right: 10rem;
-    padding-left: 10rem;
-    padding-bottom: 10rem;
+    overflow-y: auto; 
+    background-image: linear-gradient(45deg, rgba(0, 24, 34,0.8), rgba(36, 75, 94,0.8));
+    padding-top: 1rem;   
+    padding-bottom: 1rem;   
+    padding-left: 4rem;
+    padding-right: 4rem;
+   
 }
 
 img {
@@ -14,19 +19,25 @@ img {
 }
 
 .table {
-    cursor: pointer;
+    cursor: pointer; 
+}
+
+.table td:last-child{
+    border-radius: 0 7px 7px 0;   
+}
+
+.table td:first-child{
+    border-radius: 7px 0 0 7px;   
+}
+
+.table td:first-child img{
+    border-radius: 7px 0 0 7px;   
 }
 
 .fa-xmark {
     cursor: pointer;
     font-size: 1.5rem;
     color: rgb(146, 7, 7);
-}
-
-.link {
-    cursor: pointer;
-    text-decoration: none;
-    color: blueviolet;
 }
 
 hr {
@@ -52,3 +63,25 @@ hr {
 .alert{
     width: max-content;
 }
+.empty-cart{
+    display: flex;
+    justify-content: center;
+}
+
+.empty-text{
+    text-align: center;
+    margin-top: 3rem;
+    padding: 1rem;
+    padding-left: 5rem;
+    padding-right: 5rem;
+    width: max-content;
+    background-image: linear-gradient(45deg, rgb(0, 24, 34), rgb(36, 75, 94));
+    border-radius: 10px 10px 10px 10px;    
+}
+
+.store-link {
+    cursor: pointer;
+    text-decoration: none;
+    color: blueviolet;
+}
+

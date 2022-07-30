@@ -7,7 +7,7 @@
     flex-direction: column;
     justify-content: center;
     width: 50rem;
-    background-image: linear-gradient(45deg, rgb(0, 0, 0), rgb(36, 75, 94));
+    background-image: linear-gradient(45deg, rgb(0, 24, 34), rgb(36, 75, 94));
 }
 
 .buttons {
