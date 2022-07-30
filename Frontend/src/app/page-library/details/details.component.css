@@ -45,6 +45,7 @@
 
 .game-card-body p { 
   text-shadow: 2px 2px 4px #000000;
+  font-family: 'Courier New', Courier, monospace;
   margin:1rem;
 }
 

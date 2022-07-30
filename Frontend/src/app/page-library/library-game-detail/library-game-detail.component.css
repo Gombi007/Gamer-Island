@@ -6,7 +6,7 @@
     display: flex;
     justify-content: space-between;
     align-items: flex-end;  
-    border-bottom: 4px solid rgb(90, 87, 87);
+    border-bottom: 4px solid rgb(26, 95, 112);
     height: 20rem;
 
 }
@@ -25,9 +25,10 @@
     padding-top: 1rem;
     padding-bottom: 1rem;
     margin: 0;
-    font-size: 1.2vw;
+    font-size: 0.9vw;
     color: whitesmoke;
-    background-color: rgb(39, 39, 39);
+    background-color: rgba(32, 66, 83, 0.7);   
+    font-family: 'Courier New', Courier, monospace;
 }
 
 .center-header img {
