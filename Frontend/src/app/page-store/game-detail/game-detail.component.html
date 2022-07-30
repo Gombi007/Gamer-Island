@@ -1,98 +1,94 @@
-<div class="row">
+<div class="game-details-container" [ngStyle]="{'height.px': innerHeight}">
+    <ng-container *ngIf="!isPending">
 
-    <div class="game-details-container" [ngStyle]="{'height.px': innerHeight}">
-        <ng-container *ngIf="!isPending">
-
-            
-            <h3 class="text-center pt-4 title">{{game.name}}</h3>
-            <div class="details-content">
-                <div class="card card-gallery">
-                    <img src="{{firstScreenshot}}" class="card-img-top" alt="header-image">
-                    <div class="card-body">
-                        <div class="thumbnails">
-                            <ng-container *ngFor="let imgSource of screenshots; let i = index;">
-                                <div class="img-slide">
-                                    <img src={{imgSource}} alt="thumbnail" (click)="changePic(i)" [id]="i"
-                                        [ngClass]="firstScreenshot === imgSource ? 'active':'deactive'">
-                                </div>
-                            </ng-container>
-                        </div>
-                        <div class="navigation">
-                            <i class="fa-solid fa-circle-chevron-left" (click)="prevPic()"></i>
-                            <i class="fa-solid fa-circle-chevron-right" (click)="nextPic()"></i>
-                        </div>
-                        <div class="genres">
-                            <ng-container *ngFor="let gameGenre of game.genres">
-                                <p>{{gameGenre}}</p>
-                            </ng-container>
-                        </div>
-                    </div>
-                </div>
-                <div class="card card-info">
-                    <img src="{{game.header_image}}" class="card-img-top" alt="header-image">
-                    <div class="card-body card-content">
-                        <p class="card-text text-start" [innerHTML]="game.short_description"></p>
-                        <p class="card-text text-start">
-                            <b>Steam ID:</b> {{game.steam_appid}}
-                            <br>
-                            <b>Publishers:</b> {{game.publishers}}
-                            <br>
-                            <b>Developers:</b> {{game.developers}}
-                        </p>
-
-                        <div class="platforms_age">
-                            <p>Required Age: <span>{{game.required_age}}</span></p>
-                            <div class="platforms">
-                                <i *ngIf="getPlatform(game,'Windows')" class="fa-brands fa-windows"></i>
-                                <i *ngIf="getPlatform(game,'Mac')" class="fa-brands fa-apple"></i>
-                                <i *ngIf="getPlatform(game,'Linux')" class="fa-brands fa-linux"></i>
+        <h3 class="text-center pt-4 title">{{game.name}}</h3>
+        <div class="details-content">
+            <div class="card card-gallery">
+                <img src="{{firstScreenshot}}" class="card-img-top" alt="header-image">
+                <div class="card-body">
+                    <div class="thumbnails">
+                        <ng-container *ngFor="let imgSource of screenshots; let i = index;">
+                            <div class="img-slide">
+                                <img src={{imgSource}} alt="thumbnail" (click)="changePic(i)" [id]="i"
+                                    [ngClass]="firstScreenshot === imgSource ? 'active':'deactive'">
                             </div>
-                        </div>
-                        <div class="price">
-                            <h4 class="m-0" *ngIf="getGamePrice(game) === 1">{{game.price_in_final_formatted}} €</h4>
-                            <h4 class="m-0" *ngIf="getGamePrice(game) === 2">Free</h4>
-                            <h4 class="m-0" *ngIf="getGamePrice(game) === 3">N/A</h4>
-                        </div>
+                        </ng-container>
+                    </div>
+                    <div class="navigation">
+                        <i class="fa-solid fa-circle-chevron-left" (click)="prevPic()"></i>
+                        <i class="fa-solid fa-circle-chevron-right" (click)="nextPic()"></i>
+                    </div>
+                    <div class="genres">
+                        <ng-container *ngFor="let gameGenre of game.genres">
+                            <p>{{gameGenre}}</p>
+                        </ng-container>
                     </div>
                 </div>
             </div>
+            <div class="card card-info">
+                <img src="{{game.header_image}}" class="card-img-top" alt="header-image">
+                <div class="card-body card-content">
+                    <p class="card-text text-start" [innerHTML]="game.short_description"></p>
+                    <p class="card-text text-start">
+                        <b>Steam ID:</b> {{game.steam_appid}}
+                        <br>
+                        <b>Publishers:</b> {{game.publishers}}
+                        <br>
+                        <b>Developers:</b> {{game.developers}}
+                    </p>
 
-            <div class="wishlist" *ngIf="getGamePrice(game) !== 3 && !checkUserOwnedTheGameOrOnWishlist.library">
-                <h5 class="m-0">Add to your wishlist <b class="wishlist-game-name">{{game.name}}</b></h5>
-                <i class="fa-solid fa-plus wishlist-icon" (click)="addToWishlist(game.steam_appid)"
-                    *ngIf="!isPendingWishlist && !checkUserOwnedTheGameOrOnWishlist.wishlist"></i>
-                <i class="fa-solid fa-check  owned-game-icon"
-                    *ngIf="!isPendingWishlist && checkUserOwnedTheGameOrOnWishlist.wishlist"></i>
-                <i class="fa fa-hurricane fa-spin spinner wishlist-spinner-icon" *ngIf="isPendingWishlist"></i>
-
-            </div>
-
-            <div class="cart" *ngIf="getGamePrice(game) !== 3">
-                <ng-container *ngIf="!checkUserOwnedTheGameOrOnWishlist.library">
-                    <h5 class="m-0">Buy <b class="buy-game-name">{{game.name}} </b></h5>
-                    <div class="cart-icon">
+                    <div class="platforms_age">
+                        <p>Required Age: <span>{{game.required_age}}</span></p>
+                        <div class="platforms">
+                            <i *ngIf="getPlatform(game,'Windows')" class="fa-brands fa-windows"></i>
+                            <i *ngIf="getPlatform(game,'Mac')" class="fa-brands fa-apple"></i>
+                            <i *ngIf="getPlatform(game,'Linux')" class="fa-brands fa-linux"></i>
+                        </div>
+                    </div>
+                    <div class="price">
                         <h4 class="m-0" *ngIf="getGamePrice(game) === 1">{{game.price_in_final_formatted}} €</h4>
                         <h4 class="m-0" *ngIf="getGamePrice(game) === 2">Free</h4>
                         <h4 class="m-0" *ngIf="getGamePrice(game) === 3">N/A</h4>
-                        <i class="fa-solid fa-cart-plus" (click)="addToCart(game.steam_appid)"></i>
                     </div>
-                </ng-container>
-                <ng-container *ngIf="checkUserOwnedTheGameOrOnWishlist.library">
-                    <h5 class="m-0">You already owned this game <b class="buy-game-name me-2">{{game.name}} </b></h5>
-                    <i class="fa-solid fa-check owned-game-icon" *ngIf="checkUserOwnedTheGameOrOnWishlist.library"></i>
-                </ng-container>
+                </div>
             </div>
+        </div>
 
-            <div class="container-detailed-description">
-                <div class="detailed-description" [innerHTML]="gameDetailedDescHTML"></div>
-            </div>
+        <div class="wishlist" *ngIf="getGamePrice(game) !== 3 && !checkUserOwnedTheGameOrOnWishlist.library">
+            <h5 class="m-0">Add to your wishlist <b class="wishlist-game-name">{{game.name}}</b></h5>
+            <i class="fa-solid fa-plus wishlist-icon" (click)="addToWishlist(game.steam_appid)"
+                *ngIf="!isPendingWishlist && !checkUserOwnedTheGameOrOnWishlist.wishlist"></i>
+            <i class="fa-solid fa-check  owned-game-icon"
+                *ngIf="!isPendingWishlist && checkUserOwnedTheGameOrOnWishlist.wishlist"></i>
+            <i class="fa fa-hurricane fa-spin spinner wishlist-spinner-icon" *ngIf="isPendingWishlist"></i>
 
-        </ng-container>
+        </div>
 
-        <ng-container *ngIf="isPending">
-            <h3 class="pending text-center pt-4" *ngIf="isPending">
-                <i class="fa fa-hurricane fa-spin spinner"></i>
-            </h3>
-        </ng-container>
-    </div>
+        <div class="cart" *ngIf="getGamePrice(game) !== 3">
+            <ng-container *ngIf="!checkUserOwnedTheGameOrOnWishlist.library">
+                <h5 class="m-0">Buy <b class="buy-game-name">{{game.name}} </b></h5>
+                <div class="cart-icon">
+                    <h4 class="m-0" *ngIf="getGamePrice(game) === 1">{{game.price_in_final_formatted}} €</h4>
+                    <h4 class="m-0" *ngIf="getGamePrice(game) === 2">Free</h4>
+                    <h4 class="m-0" *ngIf="getGamePrice(game) === 3">N/A</h4>
+                    <i class="fa-solid fa-cart-plus" (click)="addToCart(game.steam_appid)"></i>
+                </div>
+            </ng-container>
+            <ng-container *ngIf="checkUserOwnedTheGameOrOnWishlist.library">
+                <h5 class="m-0">You already owned this game <b class="buy-game-name me-2">{{game.name}} </b></h5>
+                <i class="fa-solid fa-check owned-game-icon" *ngIf="checkUserOwnedTheGameOrOnWishlist.library"></i>
+            </ng-container>
+        </div>
+
+        <div class="container-detailed-description">
+            <div class="detailed-description" [innerHTML]="gameDetailedDescHTML"></div>
+        </div>
+
+    </ng-container>
+
+    <ng-container *ngIf="isPending">
+        <h3 class="pending text-center pt-4" *ngIf="isPending">
+            <i class="fa fa-hurricane fa-spin spinner"></i>
+        </h3>
+    </ng-container>
 </div>
