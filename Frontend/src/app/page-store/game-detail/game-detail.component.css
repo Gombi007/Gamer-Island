@@ -1,9 +1,8 @@
 .game-details-container {
-    overflow-y: scroll;
+    margin: 0;
+    padding: 0;
+    overflow-y: auto;
     overflow-x: hidden;
-}
-
-.detail {
     background-color: rgba(56, 65, 94, 0.3);
     display: flex;
     flex-direction: column;
@@ -11,6 +10,7 @@
 }
 
 .title {
+    font-size: 2vh;
     color: whitesmoke;
     text-shadow: 5px 5px 5px #000000;
 }
@@ -27,24 +27,28 @@
 .card {
     flex-basis: 100%;
     flex-grow: 0;
-    flex-shrink: 0;   
-    background-image: linear-gradient(45deg, rgb(0, 0, 0), rgb(36, 75, 94));
+    flex-shrink: 0;
+    background-image: linear-gradient(45deg, rgb(0, 24, 34), rgb(36, 75, 94));
     border: none;
     margin: 0.2rem;
 }
 
-.card-deteails{
-   max-width: 90%;
+.card-img-top{
+    max-height: 31rem;
 }
 
-.card-gallery{
-  max-width: 60%;
+.card-deteails {
+    max-width: 90%;  
 }
 
-.card-info{
+.card-gallery {
+    max-width: 60%;   
+}
+
+.card-info {
     max-width: 30%;
-  }
-  
+}
+
 
 .card-content {
     padding-right: 0;
@@ -53,11 +57,11 @@
     justify-content: space-between;
 }
 
-.cart {   
-    margin-top: 1rem;   
+.cart {
+    margin-top: 1rem;
     padding: 1rem;
     border-radius: 5px;
-    background-image: linear-gradient(45deg, rgb(0, 0, 0), rgb(36, 75, 94));
+    background-image: linear-gradient(45deg, rgb(0, 24, 34), rgb(36, 75, 94));
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -81,42 +85,46 @@
 .fa-cart-plus:hover {
     color: greenyellow;
 }
-.buy-game-name{
+
+.buy-game-name {
     color: rgb(211, 172, 124);
 }
 
 
 .wishlist {
-    margin-top: 1rem;   
+    margin-top: 1rem;
     padding: 1rem;
     border-radius: 5px;
-    background-image: linear-gradient(45deg, rgb(0, 0, 0), rgb(36, 75, 94));
+    background-image: linear-gradient(45deg, rgb(0, 24, 34), rgb(36, 75, 94));
     display: flex;
     justify-content: center;
     align-items: center;
-   
+
 }
 
 .wishlist-icon {
     cursor: pointer;
     font-size: 1.6rem;
-    text-shadow: 2px 2px 2px rgb(14, 14, 14);  
+    text-shadow: 2px 2px 2px rgb(14, 14, 14);
 }
-.wishlist-icon:hover{
+
+.wishlist-icon:hover {
     color: greenyellow;
 }
-.wishlist-spinner-icon { 
+
+.wishlist-spinner-icon {
     font-size: 1.6rem;
-    text-shadow: 2px 2px 2px rgb(14, 14, 14);  
+    text-shadow: 2px 2px 2px rgb(14, 14, 14);
 }
-.wishlist-game-name{
+
+.wishlist-game-name {
     padding-right: 2rem;
     color: rgb(211, 172, 124);
 }
 
-.owned-game-icon{
+.owned-game-icon {
     font-size: 1.6rem;
-    text-shadow: 2px 2px 2px rgb(14, 14, 14);  
+    text-shadow: 2px 2px 2px rgb(14, 14, 14);
     color: greenyellow;
 }
 
@@ -197,12 +205,80 @@
     font-size: 1.5rem;
 }
 
-.detailed-description-container {
-    padding: 1rem;
-    text-align: center;
-}
-
-.steam-link{
+.steam-link {
     text-decoration: none;
     color: blueviolet;
+}
+
+.container-detailed-description {
+    margin-top: 1rem;
+    max-width: 1440px;
+    background-image: linear-gradient(45deg, rgb(0, 24, 34), rgb(36, 75, 94));
+    border-radius: 10px 10px 10px 10px;
+
+}
+
+/*InnerHTML styling*/
+.detailed-description {
+    display: flex;
+    flex-direction: column;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    padding-left: 2rem;
+    padding-right: 2rem;
+}
+
+.detailed-description::ng-deep img {
+    display: block;
+    margin: auto;
+    max-width: 100%;
+    width: auto;
+}
+
+.detailed-description::ng-deep a {
+    font-size: 1.3vh;
+    display: block;
+    text-align: center;
+    text-decoration: none;
+    color: whitesmoke;
+}
+
+.detailed-description::ng-deep a:hover {
+    color: burlywood;
+}
+
+.detailed-description::ng-deep h1,
+.detailed-description::ng-deep h2,
+.detailed-description::ng-deep h3,
+.detailed-description::ng-deep h4,
+.detailed-description::ng-deep h5,
+.detailed-description::ng-deep h6 {
+    text-align: center;
+    margin-top: 3rem;
+    margin-bottom: 0.5rem;
+}
+
+@media all and (max-width:1500px) {
+   
+    .details-content {      
+        display: grid;
+    }
+    .card{      
+        margin: 0;
+    }
+
+    .card-gallery {
+        max-width: 100%;
+    }
+
+    .card-info {
+        max-width: 100%;
+        margin-top: 2rem;
+    }
+}
+
+@media all and (max-width:500px) {
+    ::-webkit-scrollbar {
+        display: none;
+    }
 }

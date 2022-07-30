@@ -1,9 +1,12 @@
 <div class="container-fluid header">
-    <a class="item" routerLink="store" routerLinkActive="active">STORE</a>
-    <a class="item" routerLink="library" routerLinkActive="active">LIBRARY</a>
-    <a class="item" routerLink="wishlist" routerLinkActive="active">WISHLIST</a>
-    <a class="item" routerLink="community" routerLinkActive="active">COMMUNITY</a>
-    <a class="item" routerLink="profile" routerLinkActive="active">{{userObject.username}}</a>
+    <div class="left-side">
+        <a class="item" routerLink="store" routerLinkActive="active">STORE</a>
+        <a class="item" routerLink="library" routerLinkActive="active">LIBRARY</a>
+        <a class="item" routerLink="wishlist" routerLinkActive="active">WISHLIST</a>
+        <a class="item" routerLink="community" routerLinkActive="active">COMMUNITY</a>
+        <a class="item" id="user-name" routerLink="profile" routerLinkActive="active">{{userObject.username}}</a>
+    </div>
+
     <div class="right-side" *ngIf="isUserLoggedIn()">
         <div class="avatar" (click)="goToProfile()">
             <img [src]="userObject.avatar" alt="avatar">

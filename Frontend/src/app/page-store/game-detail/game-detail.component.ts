@@ -1,7 +1,8 @@
-import { HttpClient, HttpResponse } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Component, HostListener, OnInit, Input, OnChanges, SimpleChanges, ViewEncapsulation } from '@angular/core';
+import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
-import { catchError, EMPTY, Subject, switchMap, tap, timeout } from 'rxjs';
+import { catchError, EMPTY, Subject, switchMap, tap} from 'rxjs';
 import { GameDetails } from 'src/app/game-details.model';
 import { GlobalService } from 'src/app/global.service';
 import { AuthorizationService } from 'src/app/login/service/authorization.service';
@@ -10,7 +11,7 @@ import { STRINGS } from 'src/app/strings.enum';
 @Component({
   selector: 'app-game-detail',
   templateUrl: './game-detail.component.html',
-  styleUrls: ['./game-detail.component.css']
+  styleUrls: ['./game-detail.component.css'], 
 })
 export class GameDetailComponent implements OnInit {
   innerHeight!: number;
@@ -26,8 +27,9 @@ export class GameDetailComponent implements OnInit {
   screenshots: string[] = []
   firstScreenshot: string = "";
   gameName?: string;
+  gameDetailedDescHTML="";
 
-  constructor(private route: ActivatedRoute, private router: Router, private global: GlobalService, private http: HttpClient, private author: AuthorizationService) { }
+  constructor(private route: ActivatedRoute, private router: Router, private global: GlobalService, private http: HttpClient, private author: AuthorizationService,private _sanitizer: DomSanitizer) { }
 
   ngOnInit(): void {
     this.innerHeight = window.innerHeight - this.headerHeight;
@@ -41,6 +43,7 @@ export class GameDetailComponent implements OnInit {
     this.getGameByAppid$.next();
 
   }
+
 
   // update value when resize
   @HostListener('window:resize', ['$event'])
@@ -58,10 +61,12 @@ export class GameDetailComponent implements OnInit {
     tap((data: any) => {
       //@ts-ignore
       this.checkGameOwnedOrOnWishlist$.next();
-      this.isPending = false;
       this.game = data;
       this.screenshots = data.screenshot_urls
       this.firstScreenshot = this.screenshots[0]
+      this.gameDetailedDescHTML = this.game.detailed_description;
+      this._sanitizer.bypassSecurityTrustHtml(this.gameDetailedDescHTML);
+      this.isPending = false;
     }),
     catchError(error => {
       let message = error.error.error_message;

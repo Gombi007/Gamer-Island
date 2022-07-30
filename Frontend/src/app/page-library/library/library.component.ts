@@ -5,7 +5,7 @@ import { catchError, EMPTY, fromEvent, map, of, Subject, switchMap, tap } from '
 import { GameDetails } from '../../game-details.model';
 import { STRINGS } from 'src/app/strings.enum';
 import { AuthorizationService } from 'src/app/login/service/authorization.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { GlobalService } from 'src/app/global.service';
 
 @Component({
@@ -20,13 +20,9 @@ export class LibraryComponent implements OnInit {
   games: Game[] = [];
   gamesClone: Game[] = [];
   isPending: Boolean = false;
-  userUUID ='';
+  userUUID = '';
 
-  @Output()
-  gameDetailsByAppId = new EventEmitter();
-
-
-  constructor(private http: HttpClient, private author: AuthorizationService, private route: Router, private global: GlobalService) { }
+  constructor(private http: HttpClient, private author: AuthorizationService, private router: Router, private global: GlobalService,private route: ActivatedRoute) { }
 
   ngOnInit(): void {
     this.innerHeight = window.innerHeight - this.headerHeight;
@@ -35,24 +31,24 @@ export class LibraryComponent implements OnInit {
 
     //@ts-ignore
     this.librayGame$.next();
-
+    this.router.navigate(["games"], {relativeTo:this.route})
   }
 
   librayGame$ = new Subject().pipe(
     tap(() => {
       this.isPending = true;
     }),
-    switchMap(() => this.http.get(STRINGS.API_LIBRARY +this.userUUID, this.author.TokenForRequests())),
+    switchMap(() => this.http.get(STRINGS.API_LIBRARY + this.userUUID, this.author.TokenForRequests())),
     tap((data: any) => {
       this.isPending = false;
       this.games = data;
-      this.gamesClone = this.games;
+      this.gamesClone = this.games;  
     }),
     catchError(error => {
       let message = error.error.error_message;
       if (message.includes("Token has expired")) {
         this.global.experiedSession = true;
-        this.route.navigate(['login']);
+        this.router.navigate(['login']);
       }
       return EMPTY;
     })
@@ -72,44 +68,10 @@ export class LibraryComponent implements OnInit {
     });
 
     this.gamesClone = filteredResult;
-
   }
-  getGameNameForShowing(gameAppid: number) {
-
-    let gameDetails = new GameDetails();
-    let detail$ = this.http.get(STRINGS.API_GAMES_DETAILS + gameAppid, this.author.TokenForRequests()).pipe(
-      tap((data: any) => {
-        gameDetails.id = data.id;
-        gameDetails.steam_appid = data.steam_appid;
-        gameDetails.success = data.success;
-        gameDetails.name = data.name;
-        gameDetails.required_age = data.required_age;
-        gameDetails.is_free = data.is_free;
-        gameDetails.detailed_description = data.detailed_description;
-        gameDetails.about_the_game = data.about_the_game;
-        gameDetails.short_description = data.short_description;
-        gameDetails.supported_languages = data.supported_languages;
-        gameDetails.header_image = data.header_image;
-        gameDetails.website = data.website;
-        gameDetails.developers = data.developers;
-        gameDetails.publishers = data.publishers;
-        gameDetails.price_in_final_formatted = data.price_in_final_formatted;
-        gameDetails.platforms = data.platforms;
-        gameDetails.metacritics = data.metacritics;
-        gameDetails.screenshot_urls = data.screenshot_urls;
-        gameDetails.genres = data.genres;
-      }),
-      catchError(error => {
-        this.global.experiedSession = true;
-        let message = error.error.error_message;
-        if (message.includes("Token has expired")) {
-          this.route.navigate(['login']);
-        }
-        return EMPTY;
-      }),
-      tap(() => { this.gameDetailsByAppId.emit(gameDetails) })
-    ).subscribe();
-
+  
+  navigateToGameDetail(steamAppid: number) {
+    this.router.navigate(["games/"+steamAppid], {relativeTo:this.route})
   }
 
 

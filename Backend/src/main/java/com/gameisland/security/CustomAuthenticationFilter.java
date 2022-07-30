@@ -57,6 +57,7 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
         String userUUID = userService.getUserByName(user.getUsername()).getUserUUID();
         token.put("user_id", userUUID);
         token.put("token", access_token);
+        userService.saveUserLastLoginDate(user.getUsername());
         response.setStatus(HttpStatus.OK.value());
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         new ObjectMapper().writeValue(response.getOutputStream(), token);
