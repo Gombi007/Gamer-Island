@@ -28,17 +28,21 @@
     flex-basis: 100%;
     flex-grow: 0;
     flex-shrink: 0;
-    background-image: linear-gradient(45deg, rgb(0, 0, 0), rgb(36, 75, 94));
+    background-image: linear-gradient(45deg, rgb(0, 24, 34), rgb(36, 75, 94));
     border: none;
     margin: 0.2rem;
 }
 
+.card-img-top{
+    max-height: 31rem;
+}
+
 .card-deteails {
-    max-width: 90%;
+    max-width: 90%;  
 }
 
 .card-gallery {
-    max-width: 60%;
+    max-width: 60%;   
 }
 
 .card-info {
@@ -57,7 +61,7 @@
     margin-top: 1rem;
     padding: 1rem;
     border-radius: 5px;
-    background-image: linear-gradient(45deg, rgb(0, 0, 0), rgb(36, 75, 94));
+    background-image: linear-gradient(45deg, rgb(0, 24, 34), rgb(36, 75, 94));
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -91,7 +95,7 @@
     margin-top: 1rem;
     padding: 1rem;
     border-radius: 5px;
-    background-image: linear-gradient(45deg, rgb(0, 0, 0), rgb(36, 75, 94));
+    background-image: linear-gradient(45deg, rgb(0, 24, 34), rgb(36, 75, 94));
     display: flex;
     justify-content: center;
     align-items: center;
@@ -209,7 +213,7 @@
 .container-detailed-description {
     margin-top: 1rem;
     max-width: 1440px;
-    background-image: linear-gradient(45deg, rgb(28, 50, 83), rgb(36, 75, 94));
+    background-image: linear-gradient(45deg, rgb(0, 24, 34), rgb(36, 75, 94));
     border-radius: 10px 10px 10px 10px;
 
 }

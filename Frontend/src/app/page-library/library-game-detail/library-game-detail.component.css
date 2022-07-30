@@ -1,24 +1,30 @@
 .content {
-    background-color: rgba(33, 47, 53, 0.8);
+    background: linear-gradient(0deg, rgba(36,75,94,1) 0%, rgba(0,24,34,1) 100%);
 }
 
 .header {
     display: flex;
     justify-content: space-between;
-    align-items: flex-end;  
-    border-bottom: 4px solid rgb(26, 95, 112);
-    height: 20rem;
+    align-items: flex-end;
+    height: 18rem;
 
 }
 
 .left-header {
-    height: 20rem;
+    height: 18rem;
     width: 35%;
+    border-bottom: 2px solid rgb(10, 143, 177);
 }
 
 .center-header {
     text-align: center;
     width: 30%;
+}
+
+.right-header {
+    height: 18rem;
+    width: 35%;
+    border-bottom: 2px solid rgb(10, 143, 177);
 }
 
 .center-header p {
@@ -27,18 +33,21 @@
     margin: 0;
     font-size: 0.9vw;
     color: whitesmoke;
-    background-color: rgba(32, 66, 83, 0.7);   
     font-family: 'Courier New', Courier, monospace;
+    border-top: 2px solid rgb(10, 143, 177);
+    border-left: 2px solid rgb(10, 143, 177);
+    border-right: 2px solid rgb(10, 143, 177);
 }
 
 .center-header img {
-    height: 16rem;
     width: 100%;
-    border-left: 1px solid black;
-    border-right: 1px solid black;
+    height: 14.2rem;
+
 }
 
-.right-header {
-    height: 20rem;
-    width: 35%;
+.game-stats {
+    height: 80%;
+    padding: 1rem;
+    border-right: 2px solid rgb(10, 143, 177);
+    border-left: 2px solid rgb(10, 143, 177);
 }
