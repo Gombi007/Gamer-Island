@@ -1,1 +1,11 @@
-<p>library-game-detail works!</p>
+<div class="content" [ngStyle]="{'height.px': innerHeight}">
+    <div class="header">
+        <img class="left-header" src="{{actualGameStat.gameScreenshot_urls[0]}}" alt="">
+        <div class="center-header">
+            <p>{{actualGameStat.gameName}}</p>
+            <img src="{{actualGameStat.gameHeaderImage}}" alt="">
+        </div>
+        <img class="right-header" src="{{actualGameStat.gameScreenshot_urls[1]}}" alt="">
+    </div>
+
+</div>

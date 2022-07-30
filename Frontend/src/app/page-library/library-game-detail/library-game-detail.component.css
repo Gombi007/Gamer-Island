@@ -1,0 +1,41 @@
+.content {
+    background-color: rgba(33, 47, 53, 0.8);
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    border-bottom: 2px solid rgb(78, 76, 76);
+    height: 20rem;
+
+}
+
+.left-header {
+    height: 20rem;
+    width: 35%;
+}
+
+.center-header {
+    text-align: center;
+    width: 30%; 
+}
+
+.center-header p {  
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    margin:0;   
+    font-size: 1.2vw;
+    color: whitesmoke; 
+    background-color: rgb(39, 39, 39);
+}
+
+.center-header img {   
+    height: 16rem;
+    width: 100%;
+}
+
+.right-header {
+    height: 20rem;
+   width: 35%;
+}

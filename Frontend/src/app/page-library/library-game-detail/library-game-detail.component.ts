@@ -13,6 +13,8 @@ import { STRINGS } from 'src/app/strings.enum';
   styleUrls: ['./library-game-detail.component.css']
 })
 export class LibraryGameDetailComponent implements OnInit {
+  innerHeight!: number;
+  headerHeight: number = STRINGS.HEADER_HEIGHT_FOR_CONTENT;
   isPending = false;
   selectedGameAppId: any;
   actualGameStat: GameStat = new GameStat();
@@ -20,7 +22,7 @@ export class LibraryGameDetailComponent implements OnInit {
   constructor(private global: GlobalService, private http: HttpClient, private author: AuthorizationService, private router: Router, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
-
+    this.innerHeight = window.innerHeight - this.headerHeight;
     this.getGameStatForThisUser$.subscribe();
     this.route.params.subscribe(steamAppIdChanges => {
       this.selectedGameAppId = steamAppIdChanges['steamAppid'];
