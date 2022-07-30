@@ -3,11 +3,11 @@
     <div class="game-details-container" [ngStyle]="{'height.px': innerHeight}">
         <ng-container *ngIf="!isPending">
 
+            
             <h3 class="text-center pt-4 title">{{game.name}}</h3>
-
             <div class="details-content">
                 <div class="card card-gallery">
-                    <img src="{{firstScreenshot}}" class="card-img-top" alt="header-image" style="height: 400px;">
+                    <img src="{{firstScreenshot}}" class="card-img-top" alt="header-image">
                     <div class="card-body">
                         <div class="thumbnails">
                             <ng-container *ngFor="let imgSource of screenshots; let i = index;">
@@ -81,15 +81,12 @@
                     <h5 class="m-0">You already owned this game <b class="buy-game-name me-2">{{game.name}} </b></h5>
                     <i class="fa-solid fa-check owned-game-icon" *ngIf="checkUserOwnedTheGameOrOnWishlist.library"></i>
                 </ng-container>
-
             </div>
 
-            <div class="details-content">
-                <div class="card card-deteails">  
-                    <div class="detailed-description" [innerHTML]="gameDetailedDescHTML"></div>
-                            
-                </div>
+            <div class="container-detailed-description">
+                <div class="detailed-description" [innerHTML]="gameDetailedDescHTML"></div>
             </div>
+
         </ng-container>
 
         <ng-container *ngIf="isPending">
